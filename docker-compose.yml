@@ -1,0 +1,65 @@
+services:
+  ############################################
+  # Frontend
+  ############################################
+  #   docs:
+  #     build:
+  #       context: .
+  #       target: frontend-base
+  #     depends_on:
+  #       - traefik
+
+  design:
+    build:
+      context: .
+      target: frontend-base
+    depends_on:
+      - traefik
+
+  web:
+    build:
+      context: .
+      target: frontend-base
+    depends_on:
+      - traefik
+      - design
+
+  #   design-storybook:
+  #     build:
+  #       context: .
+  #       target: frontend-base
+  #     depends_on:
+  #       - traefik
+  #       - design
+  ############################################
+  # Backend
+  ############################################
+  backend:
+    build:
+      context: .
+      target: base
+    depends_on:
+      - traefik
+      - redis
+      - mysql
+
+  horizon:
+    build:
+      context: .
+      target: base
+    depends_on:
+      - traefik
+      - redis
+      - mysql
+      - backend
+  ############################################
+  # Infrastructure
+  ############################################
+  traefik:
+    image: traefik:v2.10
+
+  mysql:
+    image: mysql:8.2
+
+  redis:
+    image: redis:7.2

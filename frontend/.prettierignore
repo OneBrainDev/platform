@@ -1,0 +1,10 @@
+dist
+.bin
+e2e
+docs
+node_modules
+*.yml
+*.yaml
+storybook-static
+.storybook
+

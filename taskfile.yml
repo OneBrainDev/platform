@@ -1,0 +1,154 @@
+version: "3"
+
+tasks:
+  back:format:
+    dir: ./backend
+    desc: Format the Laravel backend using pint
+    cmds:
+      - pint
+
+  back:lint:
+    dir: ./backend
+    desc: Run PHPStan
+    cmds:
+      - ./vendor/bin/phpstan analyse
+
+  back:test:
+    dir: ./backend
+    desc: Run all module tests
+    cmds:
+      - echo "hello there"
+
+  back:test-unit:
+    dir: ./backend
+    desc: Run all module unit tests
+    cmds:
+      - echo "hello there"
+
+  back:test-arch:
+    dir: ./backend
+    desc: Run all module architecture tests
+    cmds:
+      - echo "hello there"
+
+  back:test-feature:
+    dir: ./backend
+    desc: Run all module feature tests
+    cmds:
+      - echo "hello there"
+
+  back:update:
+    dir: ./backend
+    desc: Update from composer
+    cmds:
+      - composer update
+
+  back:dump:
+    dir: ./backend
+    desc: Run composer dump
+    cmds:
+      - composer du
+
+  front:install:
+    dir: ./frontend
+    desc: run install over all folders
+    cmds:
+      - pnpm i -r
+
+  front:update:
+    dir: ./frontend
+    desc: run update over all folders
+    cmds:
+      - pnpm up -r --latest
+
+  front:lint:
+    dir: ./frontend
+    desc: run workspace root eslint
+    cmds:
+      - echo "hello there"
+
+  front:test-unit:
+    dir: ./frontend
+    desc: run all the frontend unit tests
+    cmds:
+      - task: web:test-unit
+      - task: design:test-unit
+
+  front:test-types:
+    dir: ./frontend
+    desc: run all the frontend type checkers
+    cmds:
+      - task: web:test-types
+      - task: design:test-types
+
+  front:format:
+    dir: ./frontend
+    desc: run workspace root prettier
+    cmds:
+      - echo "hello there"
+
+  web:dev:
+    dir: ./frontend
+    desc: for the frontend website - run dev locally
+    cmds:
+      - pnpm --filter @platform/web run dev
+
+  web:test-types:
+    dir: ./frontend
+    desc: for the frontend website - run web type checker
+    cmds:
+      - pnpm --filter @platform/web run type-checl
+
+  web:test-unit:
+    dir: ./frontend
+    desc: for the frontend website - run unit tests locally
+    cmds:
+      - pnpm --filter @platform/web run test:unit
+
+  web:test-e2e:
+    dir: ./frontend
+    desc: for the frontend website - run playwright tests
+    cmds:
+      - pnpm --filter @platform/web run test:e2e
+
+  web:build:
+    dir: ./frontend/web
+    desc: for the frontend website - run the build locally
+    cmds:
+      - pnpm --filter @platform/web run build
+
+  design:dev:
+    dir: ./frontend
+    desc: for the ui library - run dev locally
+    cmds:
+      - pnpm --filter @platform/design run dev
+
+  design:test-unit:
+    dir: ./frontend
+    desc: for the ui library - run unit tests
+    cmds:
+      - pnpm --filter @platform/design run test:unit
+
+  design:test-types:
+    dir: ./frontend
+    desc: for the ui library - run the type checker
+    cmds:
+      - pnpm --filter @platform/design run type-check
+
+  design:build:
+    dir: ./frontend/design
+    desc: for the ui library - run the build
+    cmds:
+      - pnpm --filter @platform/design run build
+
+  design:build-storybook:
+    dir: ./frontend/design
+    desc: for the ui library - build storybook
+    cmds:
+      - pnpm --filter @platform/design run build:storybook
+
+  platform:start:
+    dir: ./
+    desc: start docker
+    cmds:
+      - spin up --build --detach
