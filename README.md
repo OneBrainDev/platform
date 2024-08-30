@@ -43,22 +43,9 @@ The high level setup:
 
 ```
 backend (Laravel)
-docs (VitePress)
 frontend
-    design (Vue)
-    web (Vue)
+  docs (VitePress)  
+  design (Vue)
+  web (Vue)
 ```
-
-## Code Structure: Web 
-GET platform.com/photos             --> PhotosIndexPage
-GET platform.com/photos/create      --> PhotosCreatePage
-GET platform.com/photos/{id}        --> PhotosShowPage
-GET platform.com/photos/{id}/edit   --> PhotosEditPage
-
-## Code Structure: API
-GET  api.platform.com/v1/photos         --> GetsPhotosController        --> GetPhotosService        --> PhotoRepository(GetPhotos)
-POST api.platform.com/v1/photos         --> StoresPhotosController      --> StorePhotosService      --> StorePhoto(StorePhotoHandler)
-GET  api.platform.com/v1/photos/{id}                                                                --> PhotoRepository(GetPhotoById)
-POST api.platform.com/v1/photos/{id}    --> UpdatesPhotosController     --> UpdatePhotosService     --> UpdatePhoto(UpdatePhotoHandler)
-DEL  api.platform.com/v1/photos/{id}    --> DestroysPhotosController    --> DestroyPhotoServive     --> DestroyPhoto(DestroyPhotoHandler)
 

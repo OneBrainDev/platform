@@ -7,7 +7,7 @@ export default [
   {
     files: ['**/*.{js,mjs,cjs,ts,vue}'],
   },
-  { ignores: ['**/.vitepress', 'node_modules', '**/e2e', '.bin', '**/dist', 'pnpm-lock.yaml', '.storybook', 'storybook-static', '*.spec.{js,ts}', '*.stories.{js,ts}'] },
+  { ignores: ['**/.vitepress', '**/node_modules', '**/e2e', '**/dist', 'pnpm-lock.yaml', '**/.storybook', '**/storybook-static', '*.spec.{js,ts}', '*.stories.{js,ts}'] },
   {
     languageOptions: {
       globals: globals.browser,

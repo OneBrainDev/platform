@@ -31,6 +31,7 @@ services:
 ############################################
   docs:
     <<: *basefront
+    container_name: platform_docs
     command: "pnpm --filter @platform/docs run docs:dev --port=3010 --host"
     labels:
       - "traefik.enable=true"
@@ -42,10 +43,12 @@ services:
 
   design:
     <<: *basefront
+    container_name: platform_design
     command: "pnpm --filter @platform/design run dev"
 
   design-storybook:
     <<: *basefront
+    container_name: platform_storybook
     command: "pnpm --filter @platform/design run storybook --no-open --disable-telemetry"
     labels:
       - "traefik.enable=true"
@@ -57,6 +60,7 @@ services:
 
   web:
     <<: *basefront
+    container_name: platform_web
     command: "pnpm --filter @platform/web run dev"
     labels:
       - "traefik.enable=true"
@@ -72,6 +76,7 @@ services:
 
   backend:
     <<: *basephp
+    container_name: platform_backend
     environment:
       - PHP_FPM_POOL_NAME="platform-php-pool"
     labels:
@@ -84,6 +89,7 @@ services:
 
   horizon:
     <<: *basephp
+    container_name: platform_horizon
     command: "php artisan horizon"
     environment:
       - PHP_FPM_POOL_NAME="horizon-php-pool"
@@ -99,6 +105,7 @@ services:
 # Infrastructure
 ############################################
   traefik:
+    container_name: platform_proxy
     networks:
       development:
         aliases:
@@ -114,6 +121,7 @@ services:
       - ./.infrastructure/conf/traefik/dev/certificates/:/certificates
 
   mysql:
+    container_name: platform_database
     volumes:
       - ./.infrastructure/conf/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./.infrastructure/volume_data/mysql/database_data/:/var/lib/mysql
@@ -128,6 +136,7 @@ services:
       - development
 
   redis:
+    container_name: platform_redis
     command: "redis-server --appendonly yes"
     volumes:
       - ./.infrastructure/volume_data/redis/data:/data
@@ -137,6 +146,7 @@ services:
       - development
 
   minio:
+    container_name: platform_storage
     image: 'minio/minio:latest'
     ports:
         - '8750:8750'
@@ -155,18 +165,19 @@ services:
     command: minio server /data/minio --console-address ":8750"
 
   mailpit:
-      image: axllent/mailpit
-      networks:
-        - development
-      labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.mailpit.rule=Host(`mail.platform.test`)"
-        - "traefik.http.routers.mailpit.entrypoints=websecure"
-        - "traefik.http.routers.mailpit.tls=true"
-        - "traefik.http.services.mailpit.loadbalancer.server.port=8025"
-        - "traefik.http.services.mailpit.loadbalancer.server.scheme=http"
-      depends_on:
-        - traefik
+    container_name: platform_email
+    image: axllent/mailpit
+    networks:
+      - development
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailpit.rule=Host(`mail.platform.test`)"
+      - "traefik.http.routers.mailpit.entrypoints=websecure"
+      - "traefik.http.routers.mailpit.tls=true"
+      - "traefik.http.services.mailpit.loadbalancer.server.port=8025"
+      - "traefik.http.services.mailpit.loadbalancer.server.scheme=http"
+    depends_on:
+      - traefik
 
 networks:
   development:
