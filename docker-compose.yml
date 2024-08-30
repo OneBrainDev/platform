@@ -2,12 +2,12 @@ services:
   ############################################
   # Frontend
   ############################################
-  #   docs:
-  #     build:
-  #       context: .
-  #       target: frontend-base
-  #     depends_on:
-  #       - traefik
+  docs:
+    build:
+      context: .
+      target: frontend-base
+    depends_on:
+      - traefik
 
   design:
     build:
@@ -21,16 +21,14 @@ services:
       context: .
       target: frontend-base
     depends_on:
-      - traefik
       - design
 
-  #   design-storybook:
-  #     build:
-  #       context: .
-  #       target: frontend-base
-  #     depends_on:
-  #       - traefik
-  #       - design
+  design-storybook:
+    build:
+      context: .
+      target: frontend-base
+    depends_on:
+      - design
   ############################################
   # Backend
   ############################################
@@ -48,9 +46,6 @@ services:
       context: .
       target: base
     depends_on:
-      - traefik
-      - redis
-      - mysql
       - backend
   ############################################
   # Infrastructure

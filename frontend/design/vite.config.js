@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url'
-import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
@@ -23,7 +22,7 @@ export default defineConfig({
     cssCodeSplit: true,
     manifest: true,
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
       fileName: 'platform-ui',
       name: 'platform-ui',
       formats: ['es'],

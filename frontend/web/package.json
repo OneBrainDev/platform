@@ -1,22 +1,22 @@
 {
-    "name": "@platform/web",
-    "version": "0.0.0",
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "dev": "vite dev --host",
-        "build": "run-p type-check \"build-only {@}\" --",
-        "test:unit": "vitest",
-        "test:e2e": "playwright test",
-        "build-only": "vite build",
-        "type-check": "vue-tsc --build --force"
-    },
-    "dependencies": {
-        "pinia": "^2.2.1",
-        "vue-router": "^4.4.3"
-    },
-    "devDependencies": {
-        "@playwright/test": "^1.46.0",
-        "eslint-plugin-playwright": "^1.6.2"
-    }
+  "name": "@platform/web",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --host",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "test:unit": "vitest",
+    "test:e2e": "playwright test",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build --force"
+  },
+  "dependencies": {
+    "pinia": "^2.2.2",
+    "vue-router": "^4.4.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.46.1",
+    "eslint-plugin-playwright": "^1.6.2"
+  }
 }
