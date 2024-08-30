@@ -1,55 +1,55 @@
 {
-    "name": "platform",
-    "version": "0.0.1",
-    "description": "",
-    "main": "index.js",
-    "type": "module",
-    "scripts": {
-        "format": "prettier design/src/ web/src/ --write",
-        "lint": "eslint --fix"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "engines": {
-        "node": ">=20",
-        "pnpm": ">=9.5.0",
-        "npm": "please-use-pnpm",
-        "yarn": "please-use-pnpm"
-    },
-    "pnpm": {
-        "supportedArchitectures": {
-            "os": [
-                "darwin",
-                "linux"
-            ],
-            "cpu": [
-                "x64",
-                "arm64"
-            ]
-        }
-    },
-    "dependencies": {
-        "vue": "^3.4.37"
-    },
-    "devDependencies": {
-        "@tsconfig/node20": "^20.1.4",
-        "@types/jsdom": "^21.1.7",
-        "@types/node": "^22.2.0",
-        "@vitejs/plugin-vue": "^5.1.2",
-        "@vue/test-utils": "^2.4.6",
-        "@vue/tsconfig": "^0.5.1",
-        "eslint": "^9.9.0",
-        "eslint-plugin-vue": "^9.27.0",
-        "globals": "^15.9.0",
-        "jsdom": "^24.1.1",
-        "npm-run-all2": "^6.2.2",
-        "prettier": "^3.3.3",
-        "typescript": "^5.5.4",
-        "typescript-eslint": "^8.0.1",
-        "vite": "^5.4.0",
-        "vitest": "^2.0.5",
-        "vue-tsc": "^2.0.29"
-    },
-    "packageManager": "pnpm@9.7.0+sha512.dc09430156b427f5ecfc79888899e1c39d2d690f004be70e05230b72cb173d96839587545d09429b55ac3c429c801b4dc3c0e002f653830a420fa2dd4e3cf9cf"
+  "name": "platform",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "format": "prettier design/src/ web/src/ --write",
+    "lint": "eslint --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9.5.0",
+    "npm": "please-use-pnpm",
+    "yarn": "please-use-pnpm"
+  },
+  "pnpm": {
+    "supportedArchitectures": {
+      "os": [
+        "darwin",
+        "linux"
+      ],
+      "cpu": [
+        "x64",
+        "arm64"
+      ]
+    }
+  },
+  "dependencies": {
+    "vue": "^3.4.38"
+  },
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^22.5.0",
+    "@vitejs/plugin-vue": "^5.1.2",
+    "@vue/test-utils": "^2.4.6",
+    "@vue/tsconfig": "^0.5.1",
+    "eslint": "^9.9.0",
+    "eslint-plugin-vue": "^9.27.0",
+    "globals": "^15.9.0",
+    "jsdom": "^24.1.1",
+    "npm-run-all2": "^6.2.2",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.2.0",
+    "vite": "^5.4.2",
+    "vitest": "^2.0.5",
+    "vue-tsc": "^2.0.29"
+  },
+  "packageManager": "pnpm@9.7.0+sha512.dc09430156b427f5ecfc79888899e1c39d2d690f004be70e05230b72cb173d96839587545d09429b55ac3c429c801b4dc3c0e002f653830a420fa2dd4e3cf9cf"
 }

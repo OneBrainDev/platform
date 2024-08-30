@@ -1,0 +1,18 @@
+version: "3"
+
+tasks:
+  purge:
+    desc: Stop all docker containers and nuke them
+    cmds:
+      - task: stop
+      - spin prune
+
+  start:
+    desc: Start docker
+    cmds:
+      - spin up {{.CLI_ARGS}}
+
+  stop:
+    desc: Stop the container
+    cmds:
+      - spin down

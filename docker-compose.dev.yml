@@ -3,10 +3,6 @@
 # docs.docker.com/compose/compose-file/10-fragments/
 ############################################
 
-x-frontbuild: &frontbuild
-  build:
-    target: frontend-base
-
 x-basefront: &basefront
   working_dir: /platform/frontend
   volumes:
@@ -33,36 +29,31 @@ services:
 ############################################
 # Frontend
 ############################################
-  # docs:
-  #   <<: *frontbuild
-  #   command: "pnpm docs:dev --port=${DOCS_PORT} --host"
-  #   working_dir: ${DOCS_PATH}
-  #   volumes:
-  #     - ./${DOCS_ROOT}:${DOCS_PATH}:cached
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.docs.rule=Host(`${DOCS_HOST}`)"
-  #     - "traefik.http.routers.docs.entrypoints=websecure"
-  #     - "traefik.http.routers.docs.tls=true"
-  #     - "traefik.http.services.docs.loadbalancer.server.port=${DOCS_PORT}"
-  #     - "traefik.http.services.docs.loadbalancer.server.scheme=http"
-  #   networks:
-  #     - development
+  docs:
+    <<: *basefront
+    command: "pnpm --filter @platform/docs run docs:dev --port=3010 --host"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.docs.rule=Host(`docs.platform.test`)"
+      - "traefik.http.routers.docs.entrypoints=websecure"
+      - "traefik.http.routers.docs.tls=true"
+      - "traefik.http.services.docs.loadbalancer.server.port=3010"
+      - "traefik.http.services.docs.loadbalancer.server.scheme=http"
 
   design:
     <<: *basefront
     command: "pnpm --filter @platform/design run dev"
 
-  # design-storybook:
-  #   <<: *basefront
-  #   command: "pnpm watch:storybook --no-open --disable-telemetry"
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.design-storybook.rule=Host(`${design_HOST}`)"
-  #     - "traefik.http.routers.design-storybook.entrypoints=websecure"
-  #     - "traefik.http.routers.design-storybook.tls=true"
-  #     - "traefik.http.services.design-storybook.loadbalancer.server.port=${STORYBOOK_PORT}"
-  #     - "traefik.http.services.design-storybook.loadbalancer.server.scheme=http"
+  design-storybook:
+    <<: *basefront
+    command: "pnpm --filter @platform/design run storybook --no-open --disable-telemetry"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.design-storybook.rule=Host(`design.platform.test`)"
+      - "traefik.http.routers.design-storybook.entrypoints=websecure"
+      - "traefik.http.routers.design-storybook.tls=true"
+      - "traefik.http.services.design-storybook.loadbalancer.server.port=6006"
+      - "traefik.http.services.design-storybook.loadbalancer.server.scheme=http"
 
   web:
     <<: *basefront
@@ -91,18 +82,18 @@ services:
       - "traefik.http.services.backend.loadbalancer.server.port=8080"
       - "traefik.http.services.backend.loadbalancer.server.scheme=http"
 
-  # horizon:
-  #   <<: *basephp
-  #   command: "php artisan horizon"
-  #   environment:
-  #     - PHP_FPM_POOL_NAME="horizon-php-pool"
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.horizon.rule=Host(`horizon.platform.test`)"
-  #     - "traefik.http.routers.horizon.entrypoints=websecure"
-  #     - "traefik.http.routers.horizon.tls=true"
-  #     - "traefik.http.services.horizon.loadbalancer.server.port=8080}"
-  #     - "traefik.http.services.horizon.loadbalancer.server.scheme=http"
+  horizon:
+    <<: *basephp
+    command: "php artisan horizon"
+    environment:
+      - PHP_FPM_POOL_NAME="horizon-php-pool"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.horizon.rule=Host(`horizon.platform.test`)"
+      - "traefik.http.routers.horizon.entrypoints=websecure"
+      - "traefik.http.routers.horizon.tls=true"
+      - "traefik.http.services.horizon.loadbalancer.server.port=8080"
+      - "traefik.http.services.horizon.loadbalancer.server.scheme=http"
 
 ############################################
 # Infrastructure
@@ -115,6 +106,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
+      - "9003:9003"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./.infrastructure/conf/traefik/dev/traefik.yml:/traefik.yml:ro
@@ -125,6 +117,11 @@ services:
     volumes:
       - ./.infrastructure/conf/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./.infrastructure/volume_data/mysql/database_data/:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootpassword"
+      MYSQL_DATABASE: "platform_backend"
+      MYSQL_USER: "mysqluser"
+      MYSQL_PASSWORD: "mysqlpassword"
     ports:
       - "3306:3306"
     networks:

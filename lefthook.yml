@@ -1,0 +1,32 @@
+source_dir: .infrastructure/lefthook
+
+skip_output:
+  - empty_summary # Skips summary heading when there are no steps to run
+  - execution # Skips printing any execution logs (but prints if the execution failed)
+  - execution_out # Skips printing execution output (but still prints failed commands output)
+  - execution_info # Skips printing `EXECUTE > ...` logging
+
+# if you're not using a bash script you should use the taskfile commands
+# tasks are designed to be run in the right folder under the right
+# context so they save you a lot of issues while keeping this
+# file up-to-date if any particular task needs to change
+commit-msg:
+  scripts:
+    "validate_message.sh":
+      runner: "bash"
+pre-commit:
+  parallel: true
+  scripts:
+    "branch_name.sh":
+      runner: "bash"
+  commands:
+    api-format:
+      run: task api:format
+      stage_fixed: true
+    api-lint:
+      run: task api:lint
+    frontend-format:
+      run: task frontend:format
+      stage_fixed: true
+    frontend-linter:
+      run: task frontend:lint

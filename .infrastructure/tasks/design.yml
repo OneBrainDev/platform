@@ -1,0 +1,8 @@
+version: "3"
+
+tasks:
+  clean:
+    desc: Flush all builds and node_modules
+    cmds:
+      - rm -Rf node_modules
+      - rm -Rf dist

@@ -4,9 +4,15 @@ import tseslint from 'typescript-eslint'
 import pluginVue from 'eslint-plugin-vue'
 
 export default [
-  { files: ['**/*.{js,mjs,cjs,ts,vue}'] },
-  { ignores: ['node_modules', 'e2e', '.bin', 'dist', 'pnpm-lock.yaml', '.storybook', 'storybook-static', '*.spec.{js,ts}', '*.stories.{js,ts}'] },
-  { languageOptions: { globals: globals.browser } },
+  {
+    files: ['**/*.{js,mjs,cjs,ts,vue}'],
+  },
+  { ignores: ['**/.vitepress', 'node_modules', '**/e2e', '.bin', '**/dist', 'pnpm-lock.yaml', '.storybook', 'storybook-static', '*.spec.{js,ts}', '*.stories.{js,ts}'] },
+  {
+    languageOptions: {
+      globals: globals.browser,
+    },
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   ...pluginVue.configs['flat/essential'],
