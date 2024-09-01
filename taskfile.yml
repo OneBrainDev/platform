@@ -35,6 +35,9 @@ tasks:
       - task: api:install
       - task: frontend:install
 
+  config:
+    desc: Rerun the config updater to adjust values for your needs
+
   update:
     desc: Update everything in one swoop
     cmds:
