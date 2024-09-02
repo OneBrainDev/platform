@@ -94,9 +94,7 @@ services:
       - "traefik.http.services.horizon.loadbalancer.server.port=8080"
       - "traefik.http.services.horizon.loadbalancer.server.scheme=http"
 
-############################################
-# Infrastructure
-############################################
+  # Infrastructure ..............................................................
   traefik:
     container_name: platform_proxy
     networks:
