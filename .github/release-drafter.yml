@@ -1,5 +1,8 @@
 categories:
   - labels:
+      - "breaking-change"
+    title: "Important Update or Changes"
+  - labels:
       - "feature"
     title: "New Features"
   - labels:
@@ -8,7 +11,6 @@ categories:
   - labels:
       - "update"
       - "chore"
-      - "build"
       - "refactor"
       - "security"
     title: "General Updates"
