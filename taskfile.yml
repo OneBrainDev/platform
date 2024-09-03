@@ -3,7 +3,7 @@ version: "3"
 includes:
   api:
     taskfile: ./.infrastructure/tasks/api.yml
-    dir: ./backend
+    dir: ./api
 
   design:
     taskfile: ./.infrastructure/tasks/design.yml
@@ -34,9 +34,6 @@ tasks:
     cmds:
       - task: api:install
       - task: frontend:install
-
-  config:
-    desc: Rerun the config updater to adjust values for your needs
 
   update:
     desc: Update everything in one swoop
