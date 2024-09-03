@@ -21,16 +21,18 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      
+
     runs-on: ubuntu-latest
     steps:
       - name: Configure release tag
-        run: echo "release_tag=$(date + date +'v%Y.%m.%d.%H%M%S') >> $GITHUB_ENV"
+        run: echo "release_tag=$(date +'v%Y.%m.%d.%H%M%S') >> $GITHUB_ENV"
 
       - name: Draft the release
         uses: release-drafter/release-drafter@v6
         with:
           tag: ${{env.release_tag}}
           version: ${{ env.release_tag}}
+          disable-autolabeler: true
+          commitish: ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
