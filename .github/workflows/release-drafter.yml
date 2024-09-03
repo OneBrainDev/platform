@@ -25,12 +25,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Configure release tag
-        run: echo "release_tag=$(date +'v%Y.%m.%d.%H%M%S') >> $GITHUB_ENV"
+        run: echo "release_tag=$(date +'v%Y.%m.%d.%H%M%S')" >> $GITHUB_ENV
 
-      - name: Draft the release
+      - name: Draft release ${{env.release_tag}}
         uses: release-drafter/release-drafter@v6
         with:
-          name: ${{env.release_tag}}
+          name: "Platform: ${{env.release_tag}}"
           tag: ${{env.release_tag}}
           version: ${{ env.release_tag}}
           disable-autolabeler: true
