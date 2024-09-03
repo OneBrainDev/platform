@@ -3,4 +3,4 @@
 "fix": fix/*
 "update": ["update/*", "refactor/*"]
 "security": ["sec/*", "dependabot"]
-"chore": ["chore/*", "test/*"]
+"chore": ["chore/*", "test/*, ci/*"]
