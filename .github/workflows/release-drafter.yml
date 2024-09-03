@@ -21,6 +21,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      
     runs-on: ubuntu-latest
     steps:
       - name: Configure release tag
@@ -31,6 +32,5 @@ jobs:
         with:
           tag: ${{env.release_tag}}
           version: ${{ env.release_tag}}
-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
