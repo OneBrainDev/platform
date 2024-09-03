@@ -1,3 +1,18 @@
+categories:
+  - labels:
+      - "feature"
+    title: "New Features"
+  - labels:
+      - "fix"
+    title: "Bug Fixes"
+  - labels:
+      - "update"
+      - "chore"
+      - "build"
+      - "refactor"
+      - "security"
+    title: "General Updates"
+
 change-template: "- #$NUMBER: $TITLE"
 template: |
   ## What's Changed
