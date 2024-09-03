@@ -1,5 +1,17 @@
 # Changelog
 
+## v2024.09.03.174446 - 2024-09-03
+
+### What's Changed
+
+- #10: ci: update PR labels and make sure correct labels exist
+- #9: ci: updates for release drafter templates and env variables
+- #8: ci: updates the release drafter template
+
+### General Updates
+
+- #11: chore: updates all packages
+
 ## v2024.09.02.000000 - 2024-09-03
 
 ### What's Changed
