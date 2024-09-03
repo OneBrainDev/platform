@@ -8,7 +8,7 @@ on:
   # pull_request event is required only for autolabeler
   pull_request:
     # Only following types are handled by the action, but one can default to all as well
-    types: [opened, reopened, synchronize]
+    # types: [opened, reopened, synchronize]
   # pull_request_target event is required for autolabeler to support PRs from forks
   # pull_request_target:
   #   types: [opened, reopened, synchronize]
@@ -21,9 +21,16 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-
+      
     runs-on: ubuntu-latest
     steps:
-      - uses: release-drafter/release-drafter@v6
+      - name: Configure release tag
+        run: echo "release_tag=$(date + date +'v%Y.%m.%d.%H%M%S') >> $GITHUB_ENV"
+
+      - name: Draft the release
+        uses: release-drafter/release-drafter@v6
+        with:
+          tag: ${{env.release_tag}}
+          version: ${{ env.release_tag}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
