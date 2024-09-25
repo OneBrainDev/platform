@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Providers;
+namespace Platform\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Laravel\Horizon\Horizon;

@@ -1,7 +1,9 @@
 includes:
     - ./vendor/larastan/larastan/extension.neon
+    - ./vendor/yamadashy/phpstan-friendly-formatter/extension.neon
 
 parameters:
+    errorFormat: friendly
 
     paths:
         - app/
