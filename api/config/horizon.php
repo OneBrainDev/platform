@@ -119,7 +119,7 @@ return [
     */
 
     'silenced' => [
-        // App\Jobs\ExampleJob::class,
+        // Platform\Jobs\ExampleJob::class,
     ],
 
     /*

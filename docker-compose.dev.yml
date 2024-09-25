@@ -7,15 +7,15 @@ x-env: &env
 
 x-basefront: &basefront
   <<: *env
-  working_dir: ${WORKING_DIR_FRONTEND}
+  working_dir: ${DOCKER_WORKING_DIR_FRONTEND}
   volumes:
-    - ./frontend:${WORKING_DIR_FRONTEND}:cached
+    - ./frontend:${DOCKER_WORKING_DIR_FRONTEND}:cached
   networks:
     - development
 
 x-basephp: &basephp
   <<: *env
-  working_dir: ${WORKING_DIR_API}
+  working_dir: ${DOCKER_WORKING_DIR_API}
   build:
     target: development
     args:
@@ -33,13 +33,13 @@ services:
   docs:
     <<: *basefront
     container_name: platform_docs
-    command: "pnpm --filter @platform/docs run docs:dev --port=3010 --host"
+    command: "pnpm --filter @platform/docs run docs:dev --port=${DOCKER_DOCS_PORT} --host"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.docs.rule=Host(`docs.platform.test`)"
+      - "traefik.http.routers.docs.rule=Host(`${DOCKER_DOCS_URI}`)"
       - "traefik.http.routers.docs.entrypoints=websecure"
       - "traefik.http.routers.docs.tls=true"
-      - "traefik.http.services.docs.loadbalancer.server.port=3010"
+      - "traefik.http.services.docs.loadbalancer.server.port=${DOCKER_DOCS_PORT}"
       - "traefik.http.services.docs.loadbalancer.server.scheme=http"
 
   design:
@@ -53,10 +53,10 @@ services:
     command: "pnpm --filter @platform/design run storybook --no-open --disable-telemetry"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.design-storybook.rule=Host(`design.platform.test`)"
+      - "traefik.http.routers.design-storybook.rule=Host(`${DOCKER_STORYBOOK_URI}`)"
       - "traefik.http.routers.design-storybook.entrypoints=websecure"
       - "traefik.http.routers.design-storybook.tls=true"
-      - "traefik.http.services.design-storybook.loadbalancer.server.port=6006"
+      - "traefik.http.services.design-storybook.loadbalancer.server.port=${DOCKER_STORYBOOK_PORT}"
       - "traefik.http.services.design-storybook.loadbalancer.server.scheme=http"
 
   web:
@@ -65,14 +65,13 @@ services:
     command: "pnpm --filter @platform/web run dev"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`platform.test`)"
+      - "traefik.http.routers.web.rule=Host(`${DOCKER_WEB_URI}`)"
       - "traefik.http.routers.web.entrypoints=websecure"
       - "traefik.http.routers.web.tls=true"
-      - "traefik.http.services.web.loadbalancer.server.port=3000"
+      - "traefik.http.services.web.loadbalancer.server.port=${DOCKER_WEB_PORT}"
       - "traefik.http.services.web.loadbalancer.server.scheme=http"
 
   # API .......................................................................
-
   api:
     <<: *basephp
     container_name: platform_api
@@ -80,10 +79,10 @@ services:
       - PHP_FPM_POOL_NAME="platform-php-pool"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=HostRegexp(`api.platform.test`)"
+      - "traefik.http.routers.backend.rule=HostRegexp(`${DOCKER_API_URI}`)"
       - "traefik.http.routers.backend.entrypoints=websecure"
       - "traefik.http.routers.backend.tls=true"
-      - "traefik.http.services.backend.loadbalancer.server.port=8080"
+      - "traefik.http.services.backend.loadbalancer.server.port=${DOCKER_API_PORT}"
       - "traefik.http.services.backend.loadbalancer.server.scheme=http"
 
   horizon:
@@ -94,11 +93,14 @@ services:
       - PHP_FPM_POOL_NAME="horizon-php-pool"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.horizon.rule=Host(`horizon.platform.test`)"
+      - "traefik.http.routers.horizon.rule=Host(`${DOCKER_HORIZON_URI}`)"
       - "traefik.http.routers.horizon.entrypoints=websecure"
       - "traefik.http.routers.horizon.tls=true"
-      - "traefik.http.services.horizon.loadbalancer.server.port=8080"
+      - "traefik.http.services.horizon.loadbalancer.server.port=${DOCKER_HORIZON_PORT}"
       - "traefik.http.services.horizon.loadbalancer.server.scheme=http"
+    depends_on:
+      - redis
+      - api
 
   # Infrastructure ..............................................................
   traefik:
@@ -106,11 +108,11 @@ services:
     networks:
       development:
         aliases:
-          - platform.test
+          - ${DOCKER_ROOT_URI}
     ports:
       - "80:80"
       - "443:443"
-      - "9003:9003"
+      - "${DOCKER_XDEBUG_PORT}:${DOCKER_XDEBUG_PORT}"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./.infrastructure/conf/traefik/dev/traefik.yml:/traefik.yml:ro
@@ -123,12 +125,12 @@ services:
       - ./.infrastructure/conf/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./.infrastructure/volume_data/mysql/database_data/:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "rootpassword"
-      MYSQL_DATABASE: "platform_backend"
-      MYSQL_USER: "mysqluser"
-      MYSQL_PASSWORD: "mysqlpassword"
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
     ports:
-      - "3306:3306"
+      - "${DOCKER_DB_PORT}:${DOCKER_DB_PORT}"
     networks:
       - development
 
@@ -138,7 +140,7 @@ services:
     volumes:
       - ./.infrastructure/volume_data/redis/data:/data
     ports:
-      - "6379:6379"
+      - "${DOCKER_REDIS_PORT}:${DOCKER_REDIS_PORT}"
     networks:
       - development
 
@@ -146,20 +148,20 @@ services:
     container_name: platform_storage
     image: 'minio/minio:latest'
     ports:
-        - '8750:8750'
-        - '8900:8900'
+        - '${DOCKER_STORAGE_API_PORT}:${DOCKER_STORAGE_API_PORT}'
+        - '${DOCKER_STORAGE_DISPLAY_PORT}:${DOCKER_STORAGE_DISPLAY_PORT}'
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.minio.rule=Host(`minio.platform.test`)"
+      - "traefik.http.routers.minio.rule=Host(`${DOCKER_STORAGE_URI}`)"
       - "traefik.http.routers.minio.entrypoints=websecure"
       - "traefik.http.routers.minio.tls=true"
-      - "traefik.http.services.minio.loadbalancer.server.port=8750"
+      - "traefik.http.services.minio.loadbalancer.server.port=${DOCKER_STORAGE_API_PORT}"
       - "traefik.http.services.minio.loadbalancer.server.scheme=http"
     volumes:
         - ./.infrastructure/volume_data/minio/data:/data
     networks:
         - development
-    command: minio server /data/minio --console-address ":8750"
+    command: minio server /data/minio --console-address ":${DOCKER_STORAGE_API_PORT}"
 
   mailpit:
     container_name: platform_email
@@ -168,10 +170,10 @@ services:
       - development
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mailpit.rule=Host(`mail.platform.test`)"
+      - "traefik.http.routers.mailpit.rule=Host(`${DOCKER_MAIL_URI}`)"
       - "traefik.http.routers.mailpit.entrypoints=websecure"
       - "traefik.http.routers.mailpit.tls=true"
-      - "traefik.http.services.mailpit.loadbalancer.server.port=8025"
+      - "traefik.http.services.mailpit.loadbalancer.server.port=${DOCKER_MAIL_PORT}"
       - "traefik.http.services.mailpit.loadbalancer.server.scheme=http"
     depends_on:
       - traefik

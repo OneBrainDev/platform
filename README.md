@@ -86,33 +86,9 @@ frontend
 
 ## Module Structure
 
+
 ```
-/module
-  /database
-  /resources
-  /src
-    /Application
-      /Broadcasts
-      /Events
-      /Listeners
-      /Services
-    /Domain
-      /Actions
-      /Commands
-      /Data
-      /Handlers
-      /Models
-      /Queries
-      /QueryBuilders
-      /Repositories
-    /Infrastructure
-    /Presentation
-      /Console
-      /Http
-        /Middleware
-        /Controllers
-        /Requests
-  /tests
+
 ```
 
 ### How to create a user
@@ -140,28 +116,7 @@ PUT     (update)  UpdateUser
 DELETE  (destroy) DestroyUser
 
 
-class CreatesUserController {
-  public function __construct(
-    private CreatesUserService $createsUserService
-  ) {}
-  public function __invoke(CreatesUserRequest $request) 
-  {
-    $this->createsUserService(data: $request->validated());
-  }
-}
 
-class CreatesUserService {
-  public function __construct(
-    public CreateUser $createUser
-  ) { }
-  public function handle(array $data) 
-  {
-    $user = UserDTO::make($data);
-    $this->createUser($user);
-  }
-}
-
-class CreateUser {}
 
 UserIndexController   user.index  UserIndexRequest      UserIndexService  UserRepository(GetAllUsers)
 UserCreateController  user.create UserCreateRequest
@@ -171,25 +126,6 @@ UserUpdateController  user.update UserUpdateController
 UserShowController    user.show   UserShowController
 UserDeleteController  user.delete UserDeleteController
 
-module
-  src
-    Application
-      Services
-      Events
-      Listeners
-    Domain
-      Models
-        Module.php
-        ModuleRepository.php
-      Actions
-        Commands
-        Queries
-      Handlers
-      DataObjects
-      ValueObjects
-    Presentation
-      Http
-        Controllers
-        Requests
-        Resources
-        Middleware
+
+
+UserIndex --> UserIndexController --> UserIndexService -->  
