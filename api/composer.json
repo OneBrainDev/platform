@@ -7,7 +7,6 @@
   "require": {
     "php": "^8.2",
     "godruoyi/php-snowflake": "^3.1",
-    "joecianflone/supermodules": "*",
     "laravel/breeze": "^2.0",
     "laravel/framework": "^11.9",
     "laravel/horizon": "^5.27",
@@ -15,8 +14,8 @@
     "laravel/tinker": "^2.9"
   },
   "require-dev": {
+    "composer/composer": "^2.7",
     "fakerphp/faker": "^1.23",
-    "joecianflone/supermodules": "*",
     "larastan/larastan": "^2.9",
     "laravel/pint": "^1.13",
     "mockery/mockery": "^1.6",
@@ -70,10 +69,6 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/JoeCianflone/SuperModules"
-    },
     {
       "type": "path",
       "url": "modules/*",

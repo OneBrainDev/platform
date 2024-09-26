@@ -1,0 +1,28 @@
+<?php declare(strict_types=1);
+
+namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
+
+use Illuminate\Foundation\Console\TestMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
+
+class TestMakeModuleCommand extends TestMakeCommand
+{
+    use OverrideMake;
+
+    protected $name = 'module:test';
+
+    protected function configNamespace()
+    {
+        if ($this->option('unit')) {
+            return 'test_unit';
+        }
+
+        return 'test_feature';
+    }
+
+    protected function useSrcPath()
+    {
+        return false;
+    }
+
+}
