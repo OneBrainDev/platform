@@ -11,7 +11,7 @@ class RuleMakeModuleCommand extends RuleMakeCommand
 
     protected $name = 'module:rule';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'rule';
     }

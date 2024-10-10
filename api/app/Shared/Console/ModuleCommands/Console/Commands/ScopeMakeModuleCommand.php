@@ -11,7 +11,7 @@ class ScopeMakeModuleCommand extends ScopeMakeCommand
 
     protected $name = 'module:scope';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'scope';
     }

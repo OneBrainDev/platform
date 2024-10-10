@@ -11,7 +11,7 @@ class MailMakeModuleCommand extends MailMakeCommand
 
     protected $name = 'module:mail';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'mail';
     }

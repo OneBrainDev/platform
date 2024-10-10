@@ -6,8 +6,9 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
 use Composer\Factory;
 use Composer\Json\JsonFile;
-use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class ModuleMakeCommand extends GeneratorCommand
 {
@@ -25,7 +26,7 @@ class ModuleMakeCommand extends GeneratorCommand
         $this->buildStructure($structure, $path);
 
         $this->line('Writing routes file ');
-        $this->buildRoutes();
+        $this->buildRoutes($path);
 
         $this->line('Writing config file ');
         $this->buildConfig();
@@ -39,15 +40,15 @@ class ModuleMakeCommand extends GeneratorCommand
         $this->line('Updating the main composer.json ');
         $this->updateMainComposer();
         $this->line('Done.');
-        $this->info("you should now run composer update");
+        $this->info('you should now run composer update');
     }
 
-    protected function getStub()
+    protected function getStub(): string
     {
         return '';
     }
 
-    private function buildComposer()
+    private function buildComposer(): void
     {
         $this->call('make:any', [
             'name' => 'composer.json',
@@ -58,13 +59,15 @@ class ModuleMakeCommand extends GeneratorCommand
                 '{{namespace}}' => strtolower(config('module-commands.rootNamespace')),
                 '{{module}}' => $this->module,
                 '{{ModuleRootNamespace}}' => config('module-commands.rootNamespace'),
-                '{{ServiceProviderNamespace}}' => Str::replace('\\', '\\\\', config('module-commands.namespaces.provider')),
-                '{{ModuleName}}' => $this->argument('name'),
+                '{{ServiceProviderNamespace}}' => Str::replace('\\', '\\\\', (string) config('module-commands.namespaces.provider')),
+                '{{ModuleName}}' => Str::ucfirst($this->argument('name')),
+                '{{TestName}}' => '',
+                '{{src}}' => '',
             ],
         ]);
     }
 
-    private function buildConfig()
+    private function buildConfig(): void
     {
         $this->call('make:any', [
             'name' => 'config.php',
@@ -81,23 +84,24 @@ class ModuleMakeCommand extends GeneratorCommand
         $this->files->move("$path/config.php", "$path/$this->module.config.php");
     }
 
-    private function buildRoutes()
+    private function buildRoutes(string $path): void
     {
         $this->call('make:any', [
             'name' => 'routes.php',
             'stub' => 'module.routes.stub',
             'module' => $this->module,
             '--src' => false,
+            'tokens' => [
+                '{{module}}' => $this->module,
+            ],
         ]);
-
-        $path = config('module-commands.moduleFolderName').'/'.$this->module;
 
         $this->files->move("$path/routes.php", "$path/$this->module.routes.php");
     }
 
-    private function buildServiceProvider()
+    private function buildServiceProvider(): void
     {
-        $providerName = $this->argument('name').'ServiceProvider';
+        $providerName = Str::ucfirst($this->argument('name')).'ServiceProvider';
 
         $this->call('make:any', [
             'name' => config('module-commands.namespaces.provider').'\\'.$providerName,
@@ -105,20 +109,23 @@ class ModuleMakeCommand extends GeneratorCommand
             'module' => $this->module,
             '--src' => true,
             'tokens' => [
-                '{{namespace}}' => config('module-commands.rootNamespace')."\\".$this->argument('name').config('module-commands.namespaces.provider'),
+                '{{namespace}}' => config('module-commands.rootNamespace').'\\'.Str::ucfirst($this->argument('name')).'\\'.config('module-commands.namespaces.provider'),
                 '{{class}}' => $providerName,
                 '{{moduleName}}' => $this->module,
-                '{{migrationPath}}' => Str::replace('\\', '/', config('module-commands.namespaces.migration')),
-                '{{routePath}}' => Str::replace('\\', '/', config('module-commands.namespaces.route')),
-                '{{configPath}}' => Str::replace('\\', '/', config('module-commands.namespaces.config')),
+                '{{migrationPath}}' => Str::replace('\\', '/', (string) config('module-commands.namespaces.migration')),
+                '{{routePath}}' => Str::replace('\\', '/', (string) config('module-commands.namespaces.route')),
+                '{{configPath}}' => Str::replace('\\', '/', (string) config('module-commands.namespaces.config')),
             ],
         ]);
     }
 
-    private function buildStructure($structure, $path)
+    /**
+     * @param  array<int|string, mixed>  $structure
+     */
+    private function buildStructure(array $structure, string $path): mixed
     {
-        collect($structure)->each(function ($v, $k) use ($path) {
-            $k = str_replace('{{src}}', config('module-commands.srcFolderName'), $k);
+        return collect($structure)->each(function ($v, $k) use ($path): string|Collection {
+            $k = str_replace('{{src}}', (string) config('module-commands.srcFolderName'), (string) $k);
             $path .= "/$k";
             if (is_array($v) && count($v) > 0) {
                 return $this->buildStructure($v, $path);
@@ -130,9 +137,8 @@ class ModuleMakeCommand extends GeneratorCommand
         });
     }
 
-    private function updateMainComposer()
+    private function updateMainComposer(): void
     {
-        $original_working_dir = getcwd();
         chdir($this->laravel->basePath());
         $json_file = new JsonFile(Factory::getComposerFile());
         $definition = $json_file->read();

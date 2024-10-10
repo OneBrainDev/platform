@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Foundation\Console\ConsoleMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
 class ConsoleMakeModuleCommand extends ConsoleMakeCommand
 {
@@ -11,7 +11,7 @@ class ConsoleMakeModuleCommand extends ConsoleMakeCommand
 
     protected $name = 'module:command';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'command';
     }

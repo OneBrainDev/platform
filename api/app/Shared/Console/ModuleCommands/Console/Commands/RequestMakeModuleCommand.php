@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Foundation\Console\RequestMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
 class RequestMakeModuleCommand extends RequestMakeCommand
 {
@@ -11,7 +11,7 @@ class RequestMakeModuleCommand extends RequestMakeCommand
 
     protected $name = 'module:request';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'request';
     }

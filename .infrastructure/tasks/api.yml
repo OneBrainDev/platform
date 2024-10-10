@@ -24,7 +24,7 @@ tasks:
   lint:
     disc: Runs PHPStan over backend
     cmds:
-      - ./vendor/bin/phpstan analyse
+      - ./vendor/bin/phpstan analyse --memory-limit=2G
 
   migrate:
     desc: Run database migrations

@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Database\Console\Seeds\SeederMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
 class SeederMakeModuleCommand extends SeederMakeCommand
 {
@@ -11,7 +11,7 @@ class SeederMakeModuleCommand extends SeederMakeCommand
 
     protected $name = 'module:seeder';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'seeder';
     }

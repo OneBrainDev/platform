@@ -11,7 +11,7 @@ class EventMakeModuleCommand extends EventMakeCommand
 
     protected $name = 'module:event';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'event';
     }

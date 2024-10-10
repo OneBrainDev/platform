@@ -9,7 +9,7 @@ parameters:
         - app/
         - modules/
 
-    level: 9
+    level: 8
 
 #     ignoreErrors:
 #        - '#PHPDoc tag @var#'

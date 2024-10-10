@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Foundation\Console\ExceptionMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
 class ExceptionMakeModuleCommand extends ExceptionMakeCommand
 {
@@ -11,7 +11,7 @@ class ExceptionMakeModuleCommand extends ExceptionMakeCommand
 
     protected $name = 'module:exception';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'exception';
     }

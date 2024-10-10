@@ -7,8 +7,8 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "{{ModuleRootNamespace}}\\{{ModuleName}}\\": "src/",
-            "{{ModuleRootNamespace}}\\{{ModuleName}}\\Tests\\": "tests/",
+            "{{ModuleRootNamespace}}\\{{ModuleName}}\\": "{{src}}/",
+            "{{ModuleRootNamespace}}\\{{ModuleName}}\\{{TestName}}\\": "tests/",
             "{{ModuleRootNamespace}}\\{{ModuleName}}\\Database\\Factories\\": "database/factories/",
             "{{ModuleRootNamespace}}\\{{ModuleName}}\\Database\\Seeders\\": "database/seeders/"
         }
@@ -17,7 +17,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "{{ModuleRootNamespace}}\\{{ModuleName}}{{ServiceProviderNamespace}}\\{{ModuleName}}ServiceProvider"
+                "{{ModuleRootNamespace}}\\{{ModuleName}}\\{{ServiceProviderNamespace}}\\{{ModuleName}}ServiceProvider"
             ]
         }
     }

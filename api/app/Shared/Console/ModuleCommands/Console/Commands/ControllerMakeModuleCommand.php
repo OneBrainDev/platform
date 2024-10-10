@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Routing\Console\ControllerMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMatchingTest;
 
 class ControllerMakeModuleCommand extends ControllerMakeCommand
@@ -13,7 +13,7 @@ class ControllerMakeModuleCommand extends ControllerMakeCommand
 
     protected $name = 'module:controller';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'controller';
     }

@@ -20,7 +20,7 @@ trait OverrideMatchingTest
 
         return $this->call('module:test', [
             'module' => $this->argument('module'),
-            'name' => Str::of($path)->after($this->laravel['path'])->beforeLast('.php')->append('Test')->replace('\\', '/'),
+            'name' => Str::of($path)->after(base_path())->beforeLast('.php')->append('Test')->replace('\\', '/'),
             '--pest' => $this->option('pest'),
             '--phpunit' => $this->option('phpunit'),
         ]) == 0;
