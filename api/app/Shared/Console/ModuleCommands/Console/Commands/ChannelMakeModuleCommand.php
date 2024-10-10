@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Foundation\Console\ChannelMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
 class ChannelMakeModuleCommand extends ChannelMakeCommand
 {
@@ -11,7 +11,7 @@ class ChannelMakeModuleCommand extends ChannelMakeCommand
 
     protected $name = 'module:channel';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'channel';
     }

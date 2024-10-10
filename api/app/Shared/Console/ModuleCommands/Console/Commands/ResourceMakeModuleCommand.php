@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Foundation\Console\ResourceMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
 class ResourceMakeModuleCommand extends ResourceMakeCommand
 {
@@ -11,7 +11,7 @@ class ResourceMakeModuleCommand extends ResourceMakeCommand
 
     protected $name = 'module:resource';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'resource';
     }

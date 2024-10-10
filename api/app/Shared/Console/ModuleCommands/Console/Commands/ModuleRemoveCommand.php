@@ -6,8 +6,8 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
 use Composer\Factory;
 use Composer\Json\JsonFile;
-use Illuminate\Support\Str;
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Support\Str;
 
 class ModuleRemoveCommand extends GeneratorCommand
 {
@@ -20,7 +20,7 @@ class ModuleRemoveCommand extends GeneratorCommand
         $this->module = strtolower($this->argument('name'));
 
         if ($this->confirm("This will remove {$this->module} files and entries from composer, are you sure?")) {
-            $this->files->deleteDirectory(config("module-commands.moduleFolderName") . '/' . $this->module);
+            $this->files->deleteDirectory(config('module-commands.moduleFolderName').'/'.$this->module);
             $this->updateMainComposer();
         }
     }

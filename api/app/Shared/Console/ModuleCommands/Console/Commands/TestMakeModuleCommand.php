@@ -11,7 +11,7 @@ class TestMakeModuleCommand extends TestMakeCommand
 
     protected $name = 'module:test';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         if ($this->option('unit')) {
             return 'test_unit';
@@ -20,9 +20,8 @@ class TestMakeModuleCommand extends TestMakeCommand
         return 'test_feature';
     }
 
-    protected function useSrcPath()
+    protected function useSrcPath(): bool
     {
         return false;
     }
-
 }

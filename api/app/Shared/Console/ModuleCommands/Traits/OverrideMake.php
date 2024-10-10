@@ -7,11 +7,14 @@ use Symfony\Component\Console\Input\InputArgument;
 
 trait OverrideMake
 {
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return '';
     }
 
+    /**
+     * @return array<int, array<int, mixed>>
+     */
     protected function getArguments()
     {
         return [
@@ -20,11 +23,19 @@ trait OverrideMake
         ];
     }
 
+    /**
+     * @param  string  $rootNamespace
+     * @return string
+     */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . config('module-commands.namespaces.'.$this->configNamespace());
+        return $rootNamespace.config('module-commands.namespaces.'.$this->configNamespace());
     }
 
+    /**
+     * @param  string  $name
+     * @return string
+     */
     protected function getPath($name)
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
@@ -36,28 +47,39 @@ trait OverrideMake
             $name .= '.php';
         }
 
-        return preg_replace("/\/{2,}/", '/', $srcPath.'/'.str_replace('\\', '/', $name));
+        return preg_replace("/\/{2,}/", '/', $srcPath.'/'.str_replace('\\', '/', $name)) ?? '';
     }
 
+    /**
+     * @param  string  $moduleName
+     * @return string
+     */
     protected function getSrcPath($moduleName)
     {
         $srcFolder = $this->useSrcPath()
             ? config('module-commands.srcFolderName')
-            : "";
+            : '';
 
         return config('module-commands.moduleFolderName')."/$moduleName/$srcFolder";
     }
+
+    /**
+     * @return string
+     */
     protected function rootNamespace()
     {
-        return config('module-commands.rootNamespace') . "\\".$this->argument('module');
+        return config('module-commands.rootNamespace').'\\'.$this->argument('module');
     }
 
+    /**
+     * @return string
+     */
     protected function setConfigNamespace()
     {
         return config('module-commands.namespaces.'.$this->configNamespace());
     }
 
-    protected function useSrcPath()
+    protected function useSrcPath(): bool
     {
         return true;
     }

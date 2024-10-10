@@ -11,7 +11,7 @@ class JobMakeModuleCommand extends JobMakeCommand
 
     protected $name = 'module:job';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'job';
     }

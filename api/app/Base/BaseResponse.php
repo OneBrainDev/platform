@@ -3,11 +3,14 @@
 namespace Platform\Base;
 
 use Illuminate\Http\JsonResponse;
-use Platform\Shared\Enums\StatusCode;
 use Platform\Shared\Enums\ResponseStatus;
+use Platform\Shared\Enums\StatusCode;
 
 abstract class BaseResponse extends JsonResponse
 {
+    /**
+     * @param  array<string|int, mixed>  $payload
+     */
     public static function error(
         ResponseStatus $status = ResponseStatus::ERROR,
         StatusCode $code = StatusCode::SERVER_ERROR,
@@ -20,6 +23,9 @@ abstract class BaseResponse extends JsonResponse
         );
     }
 
+    /**
+     * @param  array<string|int, mixed>  $payload
+     */
     public static function success(
         ResponseStatus $status = ResponseStatus::SUCCESS,
         StatusCode $code = StatusCode::SUCCESS,
@@ -32,14 +38,17 @@ abstract class BaseResponse extends JsonResponse
         );
     }
 
-    private static function buildResponse(ResponseStatus $status, StatusCode $code, array $data = [])
+    /**
+     * @param  array<int|string, mixed>  $data
+     */
+    private static function buildResponse(ResponseStatus $status, StatusCode $code, array $data = []): JsonResponse
     {
         return response()->json([
-          'status' => $status->value,
-          'status_code' => $code->value,
-          'data' => count($data) > 0
-            ? $data
-            : null,
+            'status' => $status->value,
+            'status_code' => $code->value,
+            'data' => count($data) > 0
+              ? $data
+              : null,
         ]);
     }
 }

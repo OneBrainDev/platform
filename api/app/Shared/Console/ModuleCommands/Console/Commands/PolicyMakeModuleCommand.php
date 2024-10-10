@@ -11,7 +11,7 @@ class PolicyMakeModuleCommand extends PolicyMakeCommand
 
     protected $name = 'module:policy';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'policy';
     }

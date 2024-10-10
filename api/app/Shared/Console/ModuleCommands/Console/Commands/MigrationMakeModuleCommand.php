@@ -10,7 +10,7 @@ class MigrationMakeModuleCommand extends BaseCommand
         {--create= : The table to be created}
         {--table= : The table to migrate}';
 
-    public function handle()
+    public function handle(): void
     {
         $this->call('make:migration', [
             'name' => $this->argument('name'),

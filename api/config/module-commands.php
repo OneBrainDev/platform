@@ -7,20 +7,20 @@ return [
     'srcFolderName' => 'src',
     'namespaces' => [
         'casts' => '\Domain\Casts',
-        'channel' => 'Application\Services\Broadcasts',
+        'channel' => 'Application\Channels',
         'command' => '\Presentation\Console',
         'config' => '',
         'controller' => '\Presentation\Controllers',
-        'event' => '\Application\Broadcasts\Events',
+        'event' => '\Application\Events',
         'exception' => '\Infrastructure\Exceptions',
         'factory' => 'database\factories',
-        'job' => '\Application\Services\Jobs',
-        'listener' => '\Application\Handlers\EventListeners',
+        'job' => '\Application\Jobs',
+        'listener' => '\Application\Listeners',
         'mail' => 'resources\email',
         'middleware' => '\Presentation\Middleware',
         'migration' => 'database\migrations',
         'model' => '\Domain\Models',
-        'notification' => '\Application\Broadcasts\Notifications',
+        'notification' => '\Application\Notifications',
         'observer' => '\Domain\Observers',
         'policy' => '\Infrastructure\Policies',
         'provider' => '\Infrastructure\Providers',
@@ -28,7 +28,7 @@ return [
         'resource' => '\Infrastructure\Resources',
         'route' => '',
         'rule' => '\Infrastructure\Rules',
-        'scope' => '\Domain\QueryBuilders\Scopes',
+        'scope' => '\Domain\QueryBuilders',
         'seeder' => 'database\Seeders',
         'test_feature' => '\Tests\Feature',
         'test_unit' => '\Tests\Unit',
@@ -54,21 +54,12 @@ return [
         ],
         '{{src}}' => [
             'Application' => [
-                'Broadcasts' => [
-                    'Channels' => [],
-                    'Commands' => [],
-                    'Events' => [],
-                    'Notifications' => []
-                ],
-                'Handlers' => [
-                    'CommandHandlers' => [],
-                    'EventListeners' => [],
-                ],
-                'Services' => [
-                    'Actions' => [],
-                    'Jobs' => [],
-                    'Queries' => [],
-                ],
+                'Actions' => [],
+                'Jobs' => [],
+                'Events' => [],
+                'Listeners' => [],
+                'Channels' => [],
+                'Notification' => [],
             ],
             'Domain' => [
                 'Casts' => [],
@@ -76,10 +67,7 @@ return [
                 'DataObjects' => [],
                 'Models' => [],
                 'Observers' => [],
-                'QueryBuilders' => [
-                    'Scopes' => []
-                ],
-                'Repositories' => [],
+                'QueryBuilders' => [],
                 'ValueObjects' => [],
             ],
             'Infrastructure' => [

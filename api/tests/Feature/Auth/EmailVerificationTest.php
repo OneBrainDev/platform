@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-use Platform\Models\User;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
+use Platform\Models\User;
 
 test('email can be verified', function () {
     $user = User::factory()->unverified()->create();

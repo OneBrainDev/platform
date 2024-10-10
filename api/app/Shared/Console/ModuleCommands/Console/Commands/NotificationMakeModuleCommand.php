@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Foundation\Console\NotificationMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
 class NotificationMakeModuleCommand extends NotificationMakeCommand
 {
@@ -11,7 +11,7 @@ class NotificationMakeModuleCommand extends NotificationMakeCommand
 
     protected $name = 'module:notification';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'notification';
     }

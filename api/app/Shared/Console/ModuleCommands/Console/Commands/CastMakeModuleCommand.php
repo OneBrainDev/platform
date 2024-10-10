@@ -11,7 +11,7 @@ class CastMakeModuleCommand extends CastMakeCommand
 
     protected $name = 'module:cast';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'cast';
     }

@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Foundation\Console\ListenerMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
 class ListenerMakeModuleCommand extends ListenerMakeCommand
 {
@@ -11,7 +11,7 @@ class ListenerMakeModuleCommand extends ListenerMakeCommand
 
     protected $name = 'module:listener';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'listener';
     }

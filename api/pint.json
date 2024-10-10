@@ -1,5 +1,5 @@
 {
-  "preset": "psr12",
+  "preset": "laravel",
   "rules": {
     "single_line_empty_body": true,
     "declare_strict_types": true,

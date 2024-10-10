@@ -13,7 +13,5 @@ class {{class}} extends ServiceProvider
     }
 
     public function register(): void
-    {
-        $this->mergeConfigFrom(__DIR__.'/../../..{{configPath}}/{{moduleName}}.config.php', '{{moduleName}}.config.php');
-    }
+    { }
 }

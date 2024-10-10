@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Illuminate\Support\Str;
 use Illuminate\Foundation\Console\ModelMakeCommand;
+use Illuminate\Support\Str;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMatchingTest;
 

@@ -3,9 +3,9 @@
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class AnyMakeCommand extends GeneratorCommand
 {
@@ -13,11 +13,14 @@ class AnyMakeCommand extends GeneratorCommand
 
     protected $hidden = true;
 
-    protected $name = "make:any";
+    protected $name = 'make:any';
 
-    protected $type = "file";
+    protected $type = 'file';
 
-    public function getArguments()
+    /**
+     * @return array<int, mixed>
+     */
+    public function getArguments(): array
     {
         return array_merge(parent::getArguments(), [
             ['module', InputArgument::REQUIRED, 'The name of the module'],
@@ -34,35 +37,42 @@ class AnyMakeCommand extends GeneratorCommand
 
         return file_exists($customPath)
             ? $customPath
-            : __DIR__."/../../../../../../stubs/".$stub;
+            : __DIR__.'/../../../../../../stubs/'.$stub;
     }
 
     protected function buildClass($name)
     {
+
         $stub = $this->files->get($this->getStub());
-        $stub = $this->replaceTokens($stub, $this->argument('tokens'));
+        $stub = $this->replaceTokens($stub, (array) $this->argument('tokens'));
 
         return $this->replaceNamespace($stub, $name)->replaceClass($stub, $name);
     }
 
-    protected function getOptions()
+    /**
+     * @return array<int, mixed>
+     */
+    protected function getOptions(): array
     {
         return array_merge(parent::getOptions(), [
             ['src', null, InputOption::VALUE_NEGATABLE, 'To src or not to src'],
         ]);
     }
 
-    protected function replaceTokens(string $stub, array $tokens)
+    /**
+     * @param  array<string|int, string>  $tokens
+     */
+    protected function replaceTokens(string $stub, array $tokens): string
     {
         foreach ($tokens as $find => $replace) {
-            $stub = str_replace($find, $replace, $stub);
+            $stub = str_replace((string) $find, $replace, $stub);
         }
 
         return $stub;
     }
 
-    protected function useSrcPath()
+    protected function useSrcPath(): bool
     {
-        return $this->option('src');
+        return (bool) $this->option('src');
     }
 }

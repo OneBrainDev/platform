@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Routing\Console\MiddlewareMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
 class MiddlewareMakeModuleCommand extends MiddlewareMakeCommand
 {
@@ -11,7 +11,7 @@ class MiddlewareMakeModuleCommand extends MiddlewareMakeCommand
 
     protected $name = 'module:middleware';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'middleware';
     }

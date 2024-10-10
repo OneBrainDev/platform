@@ -2,8 +2,8 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Illuminate\Database\Console\Factories\FactoryMakeCommand;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
 class FactoryMakeModuleCommand extends FactoryMakeCommand
 {
@@ -11,14 +11,13 @@ class FactoryMakeModuleCommand extends FactoryMakeCommand
 
     protected $name = 'module:factory';
 
-    protected function configNamespace()
+    protected function configNamespace(): string
     {
         return 'factory';
     }
 
-    protected function useSrcPath()
+    protected function useSrcPath(): bool
     {
         return false;
     }
-
 }
