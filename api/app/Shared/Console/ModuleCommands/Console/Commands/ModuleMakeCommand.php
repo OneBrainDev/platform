@@ -109,7 +109,7 @@ class ModuleMakeCommand extends GeneratorCommand
             'module' => $this->module,
             '--src' => true,
             'tokens' => [
-                '{{namespace}}' => config('module-commands.rootNamespace').'\\'.Str::ucfirst($this->argument('name')).'\\'.config('module-commands.namespaces.provider'),
+                '{{namespace}}' => config('module-commands.rootNamespace').'\\'.Str::ucfirst($this->argument('name')).config('module-commands.namespaces.provider'),
                 '{{class}}' => $providerName,
                 '{{moduleName}}' => $this->module,
                 '{{migrationPath}}' => Str::replace('\\', '/', (string) config('module-commands.namespaces.migration')),
