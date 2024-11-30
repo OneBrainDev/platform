@@ -1,5 +1,24 @@
 # Changelog
 
+## v2024.11.30.163407 - 2024-11-30
+
+### What's Changed
+
+### New Features
+
+- #17: feature: now with inertia js
+- #15: feature: bump phpstan to level 8 and format with pint
+- #14: feature: integrate module commands directly into base application
+- #12: feature: add ability to create modules
+
+### Bug Fixes
+
+- #16: fix: remove the extra double slashes from the service provider
+
+### General Updates
+
+- #13: update: cleanup some code and ready the auth
+
 ## v2024.09.03.174446 - 2024-09-03
 
 ### What's Changed
