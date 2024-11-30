@@ -41,10 +41,10 @@ USER www-data
 
 # Base Frontend Image ..........................................................
 FROM node:20-slim AS frontend
-WORKDIR /platform/application/resources/web
+WORKDIR /platform/frontend/web
 RUN npm install -g pnpm
-COPY application/resources/web/package.json ./
-COPY application/resources/web/pnpm-lock.yaml ./
+COPY frontend/web/package.json ./
+COPY frontend/web/pnpm-lock.yaml ./
 RUN pnpm install
 COPY . .
 

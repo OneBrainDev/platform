@@ -21,7 +21,7 @@ export default defineConfig({
       detectTls: 'platform.test',
       input: 'app.js',
       refresh: true,
-      publicDirectory: '../../public',
+      publicDirectory: '../../application/public',
     }),
     svelte(),
     basicSsl()

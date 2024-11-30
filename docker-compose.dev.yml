@@ -100,6 +100,23 @@ services:
 
   # Infrastructure Containers .................................................
 
+  # horizon:
+  #   <<: *basephp
+  #   container_name: platform_horizon
+  #   command: "php artisan horizon"
+  #   environment:
+  #     - PHP_FPM_POOL_NAME="horizon-php-pool"
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.horizon.rule=Host(`${DOCKER_HORIZON_URI}`)"
+  #     - "traefik.http.routers.horizon.entrypoints=websecure"
+  #     - "traefik.http.routers.horizon.tls=true"
+  #     - "traefik.http.services.horizon.loadbalancer.server.port=${DOCKER_HORIZON_PORT}"
+  #     - "traefik.http.services.horizon.loadbalancer.server.scheme=http"
+  #   depends_on:
+  #     - redis
+  #     - api
+
   # minio:
   #   container_name: platform_storage
   #   image: 'minio/minio:latest'
@@ -134,6 +151,34 @@ services:
   #   depends_on:
   #     - traefik
 
+  # docs:
+  #   <<: *basefront
+  #   container_name: platform_docs
+  #   command: "pnpm --filter @platform/docs run docs:dev --port=${DOCKER_DOCS_PORT} --host"
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.docs.rule=Host(`${DOCKER_DOCS_URL}`)"
+  #     - "traefik.http.routers.docs.entrypoints=websecure"
+  #     - "traefik.http.routers.docs.tls=true"
+  #     - "traefik.http.services.docs.loadbalancer.server.port=${DOCKER_DOCS_PORT}"
+  #     - "traefik.http.services.docs.loadbalancer.server.scheme=http"
+
+  # design:
+  #   <<: *basefront
+  #   container_name: platform_design
+  #   command: "pnpm --filter @platform/design run dev"
+
+  # design-storybook:
+  #   <<: *basefront
+  #   container_name: platform_storybook
+  #   command: "pnpm --filter @platform/design run storybook --no-open --disable-telemetry"
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.design-storybook.rule=Host(`${DOCKER_DESIGN_URL}`)"
+  #     - "traefik.http.routers.design-storybook.entrypoints=websecure"
+  #     - "traefik.http.routers.design-storybook.tls=true"
+  #     - "traefik.http.services.design-storybook.loadbalancer.server.port=${DOCKER_DESIGN_PORT}"
+  #     - "traefik.http.services.design-storybook.loadbalancer.server.scheme=http"
 
 networks:
   development:

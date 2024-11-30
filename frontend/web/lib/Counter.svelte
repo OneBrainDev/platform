@@ -6,5 +6,5 @@
 </script>
 
 <button onclick={increment}>
-  count is {count} jello bellow
+  count is {count}
 </button>
