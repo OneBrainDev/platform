@@ -1,9 +1,9 @@
 version: "3"
 
 includes:
-  api:
-    taskfile: ./.infrastructure/tasks/api.yml
-    dir: ./api
+  backend:
+    taskfile: ./.infrastructure/tasks/backend.yml
+    dir: ./backend
 
   design:
     taskfile: ./.infrastructure/tasks/design.yml
@@ -32,20 +32,20 @@ tasks:
   init:
     desc: Install everything and start docker
     cmds:
-      - task: api:install
+      - task: backend:install
       - task: frontend:install
 
   update:
     desc: Update everything in one swoop
     cmds:
-      - task: api:update
+      - task: backend:update
       - task: frontend:update
 
   clean:
     desc: Delete all dependencies and build folders and start again
     prompt: This will delete all node_modules, dist folders and vendor folders...are you sure you want to do this?
     cmds:
-      - task: api:clean
+      - task: backend:clean
       - task: design:clean
       - task: docs:clean
       - task: web:clean

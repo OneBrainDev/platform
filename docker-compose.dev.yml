@@ -1,182 +1,139 @@
 # Fragments ...................................................................
-# docs.docker.com/compose/compose-file/10-fragments/
-
 x-env: &env
   env_file:
     - .env
 
-x-basefront: &basefront
-  <<: *env
-  working_dir: ${DOCKER_WORKING_DIR_FRONTEND}
-  volumes:
-    - ./frontend:${DOCKER_WORKING_DIR_FRONTEND}:cached
-  networks:
-    - development
+x-services-volume: &services-volume
+  type: bind
+  source: ./
+  target: /platform
 
-x-basephp: &basephp
-  <<: *env
-  working_dir: ${DOCKER_WORKING_DIR_API}
-  build:
-    target: development
-    args:
-      USER_ID: ${SPIN_USER_ID}
-      GROUP_ID: ${SPIN_GROUP_ID}
-  volumes:
-    - ./api:/platform/api
-  environment:
-    - NGINX_WEBROOT=/platform/api/public
-  networks:
-    - development
+
 
 services:
-  # Frontend ..................................................................
-  docs:
-    <<: *basefront
-    container_name: platform_docs
-    command: "pnpm --filter @platform/docs run docs:dev --port=${DOCKER_DOCS_PORT} --host"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.docs.rule=Host(`${DOCKER_DOCS_URI}`)"
-      - "traefik.http.routers.docs.entrypoints=websecure"
-      - "traefik.http.routers.docs.tls=true"
-      - "traefik.http.services.docs.loadbalancer.server.port=${DOCKER_DOCS_PORT}"
-      - "traefik.http.services.docs.loadbalancer.server.scheme=http"
-
-  design:
-    <<: *basefront
-    container_name: platform_design
-    command: "pnpm --filter @platform/design run dev"
-
-  design-storybook:
-    <<: *basefront
-    container_name: platform_storybook
-    command: "pnpm --filter @platform/design run storybook --no-open --disable-telemetry"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.design-storybook.rule=Host(`${DOCKER_STORYBOOK_URI}`)"
-      - "traefik.http.routers.design-storybook.entrypoints=websecure"
-      - "traefik.http.routers.design-storybook.tls=true"
-      - "traefik.http.services.design-storybook.loadbalancer.server.port=${DOCKER_STORYBOOK_PORT}"
-      - "traefik.http.services.design-storybook.loadbalancer.server.scheme=http"
-
-  web:
-    <<: *basefront
-    container_name: platform_web
-    command: "pnpm --filter @platform/web run dev"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`${DOCKER_WEB_URI}`)"
-      - "traefik.http.routers.web.entrypoints=websecure"
-      - "traefik.http.routers.web.tls=true"
-      - "traefik.http.services.web.loadbalancer.server.port=${DOCKER_WEB_PORT}"
-      - "traefik.http.services.web.loadbalancer.server.scheme=http"
-
-  # API .......................................................................
-  api:
-    <<: *basephp
-    container_name: platform_api
-    environment:
-      - PHP_FPM_POOL_NAME="platform-php-pool"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.backend.rule=HostRegexp(`${DOCKER_API_URI}`)"
-      - "traefik.http.routers.backend.entrypoints=websecure"
-      - "traefik.http.routers.backend.tls=true"
-      - "traefik.http.services.backend.loadbalancer.server.port=${DOCKER_API_PORT}"
-      - "traefik.http.services.backend.loadbalancer.server.scheme=http"
-
-  horizon:
-    <<: *basephp
-    container_name: platform_horizon
-    command: "php artisan horizon"
-    environment:
-      - PHP_FPM_POOL_NAME="horizon-php-pool"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.horizon.rule=Host(`${DOCKER_HORIZON_URI}`)"
-      - "traefik.http.routers.horizon.entrypoints=websecure"
-      - "traefik.http.routers.horizon.tls=true"
-      - "traefik.http.services.horizon.loadbalancer.server.port=${DOCKER_HORIZON_PORT}"
-      - "traefik.http.services.horizon.loadbalancer.server.scheme=http"
-    depends_on:
-      - redis
-      - api
-
-  # Infrastructure ..............................................................
+  # Application Containers ....................................................
   traefik:
     container_name: platform_proxy
+    <<: *env
     networks:
       development:
         aliases:
-          - ${DOCKER_ROOT_URI}
+          - ${DOCKER_URL}
     ports:
       - "80:80"
       - "443:443"
-      - "${DOCKER_XDEBUG_PORT}:${DOCKER_XDEBUG_PORT}"
     volumes:
+      - <<: *services-volume
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./.infrastructure/conf/traefik/dev/traefik.yml:/traefik.yml:ro
       - ./.infrastructure/conf/traefik/dev/traefik-certs.yml:/traefik-certs.yml
       - ./.infrastructure/conf/traefik/dev/certificates/:/certificates
 
+  application:
+    container_name: platform_application
+    <<: *env
+    build:
+      target: development
+      args:
+        USER_ID: ${SPIN_USER_ID}
+        GROUP_ID: ${SPIN_GROUP_ID}
+    depends_on:
+      - traefik
+    environment:
+      - NGINX_WEBROOT="${DOCKER_PATH_WEBROOT}"
+      - PHP_FPM_POOL_NAME="application-php-pool"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.application.rule=HostRegexp(`${DOCKER_URL}`)"
+      - "traefik.http.routers.application.entrypoints=websecure"
+      - "traefik.http.routers.application.tls=true"
+      - "traefik.http.services.application.loadbalancer.server.port=${DOCKER_PORT_APP}"
+      - "traefik.http.services.application.loadbalancer.server.scheme=http"
+    networks:
+      - development
+    ports:
+      - "${DOCKER_PORT_APP}:80"
+    volumes:
+      - <<: *services-volume
+    working_dir: ${DOCKER_PATH_APP}
+
+  web:
+    container_name: platform_frontend
+    <<: *env
+    build:
+      context: .
+      target: frontend
+    command: ["pnpm", "build", "--emptyOutDir", "--watch"]
+    depends_on:
+      - traefik
+    environment:
+      NODE_ENV: development
+    volumes:
+      - <<: *services-volume
+
+  # Database Containers .......................................................
   mysql:
     container_name: platform_database
+    <<: *env
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DOCKER_DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DOCKER_DB_DATABASE}"
+      MYSQL_USER: "${DOCKER_DB_PASSWORD}"
+      MYSQL_PASSWORD: "${DOCKER_DB_PASSWORD}"
+    networks:
+      - development
+    ports:
+      - "${DOCKER_PORT_MYSQL}:3306"
     volumes:
       - ./.infrastructure/conf/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./.infrastructure/volume_data/mysql/database_data/:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${DB_DATABASE}"
-      MYSQL_USER: "${DB_USER}"
-      MYSQL_PASSWORD: "${DB_PASSWORD}"
-    ports:
-      - "${DOCKER_DB_PORT}:${DOCKER_DB_PORT}"
-    networks:
-      - development
 
   redis:
     container_name: platform_redis
     command: "redis-server --appendonly yes"
+    networks:
+      - development
+    ports:
+      - "${DOCKER_PORT_REDIS}:6379"
     volumes:
       - ./.infrastructure/volume_data/redis/data:/data
-    ports:
-      - "${DOCKER_REDIS_PORT}:${DOCKER_REDIS_PORT}"
-    networks:
-      - development
 
-  minio:
-    container_name: platform_storage
-    image: 'minio/minio:latest'
-    ports:
-        - '${DOCKER_STORAGE_API_PORT}:${DOCKER_STORAGE_API_PORT}'
-        - '${DOCKER_STORAGE_DISPLAY_PORT}:${DOCKER_STORAGE_DISPLAY_PORT}'
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.minio.rule=Host(`${DOCKER_STORAGE_URI}`)"
-      - "traefik.http.routers.minio.entrypoints=websecure"
-      - "traefik.http.routers.minio.tls=true"
-      - "traefik.http.services.minio.loadbalancer.server.port=${DOCKER_STORAGE_API_PORT}"
-      - "traefik.http.services.minio.loadbalancer.server.scheme=http"
-    volumes:
-        - ./.infrastructure/volume_data/minio/data:/data
-    networks:
-        - development
-    command: minio server /data/minio --console-address ":${DOCKER_STORAGE_API_PORT}"
+  # Infrastructure Containers .................................................
 
-  mailpit:
-    container_name: platform_email
-    image: axllent/mailpit
-    networks:
-      - development
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.mailpit.rule=Host(`${DOCKER_MAIL_URI}`)"
-      - "traefik.http.routers.mailpit.entrypoints=websecure"
-      - "traefik.http.routers.mailpit.tls=true"
-      - "traefik.http.services.mailpit.loadbalancer.server.port=${DOCKER_MAIL_PORT}"
-      - "traefik.http.services.mailpit.loadbalancer.server.scheme=http"
-    depends_on:
-      - traefik
+  # minio:
+  #   container_name: platform_storage
+  #   image: 'minio/minio:latest'
+  #   ports:
+  #       - '${DOCKER_STORAGE_API_PORT}:${DOCKER_STORAGE_API_PORT}'
+  #       - '${DOCKER_STORAGE_DISPLAY_PORT}:${DOCKER_STORAGE_DISPLAY_PORT}'
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.minio.rule=Host(`${DOCKER_STORAGE_URI}`)"
+  #     - "traefik.http.routers.minio.entrypoints=websecure"
+  #     - "traefik.http.routers.minio.tls=true"
+  #     - "traefik.http.services.minio.loadbalancer.server.port=${DOCKER_STORAGE_API_PORT}"
+  #     - "traefik.http.services.minio.loadbalancer.server.scheme=http"
+  #   volumes:
+  #       - ./.infrastructure/volume_data/minio/data:/data
+  #   networks:
+  #       - development
+  #   command: minio server /data/minio --console-address ":${DOCKER_STORAGE_API_PORT}"
+
+  # mailpit:
+  #   container_name: platform_email
+  #   image: axllent/mailpit
+  #   networks:
+  #     - development
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.mailpit.rule=Host(`${DOCKER_MAIL_URI}`)"
+  #     - "traefik.http.routers.mailpit.entrypoints=websecure"
+  #     - "traefik.http.routers.mailpit.tls=true"
+  #     - "traefik.http.services.mailpit.loadbalancer.server.port=${DOCKER_MAIL_PORT}"
+  #     - "traefik.http.services.mailpit.loadbalancer.server.scheme=http"
+  #   depends_on:
+  #     - traefik
+
 
 networks:
   development:
