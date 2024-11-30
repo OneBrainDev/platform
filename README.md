@@ -71,3 +71,54 @@ The platform has several `.env` files in it: the main one is located in the root
 - Docker
 - Vitepress for system documentation
 - Taskfile
+
+# Module Structure and Setup
+
+Platform is a laravel application, but uses modules to separate the code into logical groups. Here's the general code structure:
+
+```
+/modules
+  /ModuleName
+    composer.json
+    {{module}}.routes.php
+    {{module}}.config.php
+    /database
+      /factories
+      /migrations
+      /seeders
+    /resources
+      /mail
+      /views
+    /src
+      /Application
+        /Actions
+        /Channels
+        /Contracts
+        /Events
+        /Exceptions
+        /Listeners
+        /Notifications
+        /Policies
+        /Providers
+        /Rules
+        /Services
+      /Presentation
+        /Console
+        /Controllers
+        /Middleware
+        /Requests
+      /Domain
+        /Builders
+        /Casts
+        /Collections
+        /Contracts
+        /DataObjects
+        /Models
+        /Observers
+        /ValueObjects
+    /tests
+      /Feature
+      /Unit
+```
+
+You can adjust this, in the `module-command.php` config file if you'd like.

@@ -1,8 +1,0 @@
-packages:
-  - design
-  - docs
-  - packages/*
-  - web
-
-catalog:
-  vite-plugin-dts: '^3.8.3'

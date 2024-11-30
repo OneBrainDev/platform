@@ -10,7 +10,7 @@ tasks:
   start:
     desc: Start docker
     cmds:
-      - spin up {{.CLI_ARGS}}
+      - spin up --build
 
   stop:
     desc: Stop the container

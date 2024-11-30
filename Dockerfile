@@ -3,56 +3,51 @@
 
 # Base Image ...................................................................
 
+ARG with_xdebug=nodebug
+
 FROM serversideup/php:8.3-fpm-nginx AS base
 
 ## Uncomment if you need to install additional PHP extensions
 
 # USER root
-# RUN install-php-extensions bcmath gd
+# RUN install-php-extensions gd imagick
 
 ## XDEBUG ......................................................................
-# RUN install-php-extensions xdebug
-# ENV PHP_INI_DIR=/usr/local/etc/php
-# ADD https://raw.githubusercontent.com/docker-library/php/master/docker-php-ext-enable /usr/bin/docker-php-ext-enable
-# RUN chmod u+x /usr/bin/docker-php-ext-enable
-# RUN docker-php-ext-enable xdebug
-# COPY .infrastructure/conf/xdebug/docker-php-ext-xdebug.ini  ${PHP_INI_DIR}/conf.d/
-# EXPOSE 9003
+FROM base AS base-xdebug
+RUN echo "Build will use XDEBUG"
+RUN install-php-extensions xdebug
+ENV PHP_INI_DIR=/usr/local/etc/php
+ADD https://raw.githubusercontent.com/docker-library/php/master/docker-php-ext-enable /usr/bin/docker-php-ext-enable
+RUN chmod u+x /usr/bin/docker-php-ext-enable
+RUN docker-php-ext-enable xdebug
+COPY .infrastructure/conf/php/docker-php-ext-xdebug.ini  ${PHP_INI_DIR}/conf.d/
+EXPOSE 9003
 
-# Development Image ............................................................
-FROM base AS development
+## NO-XDEBUG ...................................................................
+FROM base AS base-nodebug
+RUN echo "Build will NOT use XDEBUG"
 
-# We can pass USER_ID and GROUP_ID as build arguments
-# to ensure the www-data user has the same UID and GID
-# as the user running Docker.
+## DEVELOPMENT .................................................................
+FROM base-${with_xdebug} AS development
+
 ARG USER_ID
 ARG GROUP_ID
 
-# Switch to root so we can set the user ID and group ID
 USER root
 RUN docker-php-serversideup-set-id www-data $USER_ID:$GROUP_ID  && \
-    docker-php-serversideup-set-file-permissions --owner $USER_ID:$GROUP_ID --service nginx
-USER www-data
+  docker-php-serversideup-set-file-permissions --owner $USER_ID:$GROUP_ID --service nginx
 
-# CI image .....................................................................
-FROM base AS ci
-
-# Sometimes CI images need to run as root
-# so we set the ROOT user and configure
-# the PHP-FPM pool to run as www-data
-USER root
-RUN echo "user = www-data" >> /usr/local/etc/php-fpm.d/docker-php-serversideup-pool.conf && \
-    echo "group = www-data" >> /usr/local/etc/php-fpm.d/docker-php-serversideup-pool.conf
-
-# Production Image .............................................................
-FROM base AS deploy
-COPY --chown=www-data:www-data . /var/www/html
 USER www-data
 
 # Base Frontend Image ..........................................................
-USER www-data
+FROM node:20-slim AS frontend
+WORKDIR /platform/frontend/web
+RUN npm install -g pnpm
+COPY frontend/web/package.json ./
+COPY frontend/web/pnpm-lock.yaml ./
+RUN pnpm install
+COPY . .
 
-FROM node:20-slim AS frontend-base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+# Ensure PHP-FPM gracefully stops
+STOPSIGNAL SIGQUIT
+USER www-data

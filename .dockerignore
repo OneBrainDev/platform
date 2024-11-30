@@ -1,3 +1,12 @@
 .infrastructure
 .github
 .gitlab-ci.yml
+vscode
+CHANGELOG.md
+lefthook.yml
+README.md
+taskfile.yml
+.gitattributes
+.gitignore
+stubs
+.editorconfig

@@ -1,52 +1,44 @@
 services:
-  docs:
-    build:
-      context: .
-      target: frontend-base
-    depends_on:
-      - traefik
-
-  design:
-    build:
-      context: .
-      target: frontend-base
-    depends_on:
-      - traefik
+  traefik:
+    image: traefik:v3.1
+  # docs:
+  #   build:
+  #     context: .
+  #     target: frontend-base
+  #   depends_on:
+  #     - traefik
 
   web:
     build:
       context: .
-      target: frontend-base
-    depends_on:
-      - design
+      target: frontend
+    # depends_on:
+    #   - traefik
 
-  design-storybook:
+  # design-storybook:
+  #   build:
+  #     context: .
+  #     target: frontend-base
+  #   depends_on:
+  #     - design
+
+  application:
     build:
       context: .
-      target: frontend-base
-    depends_on:
-      - design
+      target: development
+    # depends_on:
+      # - traefik
+      # - redis
+      # - mysql
 
-  # API .......................................................................
-  api:
-    build:
-      context: .
-      target: base
-    depends_on:
-      - traefik
-      - redis
-      - mysql
-
-  horizon:
-    build:
-      context: .
-      target: base
-    depends_on:
-      - api
+  # horizon:
+  #   build:
+  #     context: .
+  #     target: base
+  #   depends_on:
+  #     - app
 
   # Infrastructure ............................................................
-  traefik:
-    image: traefik:v2.10
 
   mysql:
     image: mysql:8.2
