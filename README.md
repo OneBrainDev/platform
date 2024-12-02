@@ -1,6 +1,6 @@
 # Welcome to The Platform
 
-This is my full stack Laravel/Vue platform. It takes all the best practices, architecture principles, and battle tested concepts that I've been using for 20 years and puts them into one neat package.
+This is my full stack Laravel/Svelte platform. It takes all the best practices, architecture principles, and battle tested concepts that I've been using for 20 years and puts them into one neat package.
 
 You can use this to build nearly anything you want. It gives you a firm base and you're able to adjust and change it as you see fit. It is important to note that I've structured this for what I consider to be a large project and a project that you, or someone else, is going to want/need to maintain for years to come. To that end, if you're looking to play around go for it, but if you've got a sort of throwaway idea you'll find that this adds a lot of weight to your application and it might not be necessary for you.
 
@@ -30,7 +30,6 @@ Add the following to your host file:
 
 ```bash
 127.0.0.1 platform.test               # the main website
-127.0.0.1 api.platform.test           # the API
 127.0.0.1 docs.platform.test          # VitePress documentation site
 127.0.0.1 design.platform.test        # Storybook setup for a design system
 127.0.0.1 storage.platform.test       # MinIO setup for local S3 storage
@@ -49,7 +48,7 @@ $ task init
 This will pull down all the dependencies for the backend and frontend. It's a nice wrapper over over `composer install` and all the various `pnpm` commands.
 
 ```bash
-$ task platform:start -- --build --detach
+$ task platform:start
 ```
 
 Once you've got all the dependencies installed you'll be able to start docker up and check everything out. The `--build` is only needed when you want to rebuild your containers so on subsequent starts you don't need it. The `--detach` is so that way you can continue to use your current terminal window. If you'd rather all the output be dumped into your current terminal session you can remove `--detach` too.
