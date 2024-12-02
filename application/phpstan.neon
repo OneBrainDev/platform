@@ -11,8 +11,8 @@ parameters:
 
     level: 8
 
-#     ignoreErrors:
-#        - '#PHPDoc tag @var#'
+    ignoreErrors:
+      - identifier: trait.unused
 
     excludePaths:
         - ./app/tests/*
