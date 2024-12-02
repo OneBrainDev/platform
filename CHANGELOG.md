@@ -1,5 +1,13 @@
 # Changelog
 
+## v2024.12.02.022924 - 2024-12-02
+
+### What's Changed
+
+### Bug Fixes
+
+- #18: refactor: taskfiles and moving to a monorepo
+
 ## v2024.11.30.163407 - 2024-11-30
 
 ### What's Changed
