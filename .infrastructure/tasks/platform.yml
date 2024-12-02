@@ -10,9 +10,16 @@ tasks:
   start:
     desc: Start docker
     cmds:
-      - spin up --build
+      - spin up --build --detach
 
   stop:
     desc: Stop the container
     cmds:
       - spin down
+
+  env:
+    desc: Generate an updated .env file
+    cmds:
+      - rm -rf application/.env .env
+      - cat docker.env >> ../.env
+      - cat docker.env app.env >> .env

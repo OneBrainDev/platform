@@ -40,7 +40,7 @@ RUN docker-php-serversideup-set-id www-data $USER_ID:$GROUP_ID  && \
 USER www-data
 
 # Base Frontend Image ..........................................................
-FROM node:20-slim AS frontend
+FROM node:21-slim AS frontend
 WORKDIR /platform/frontend/web
 RUN npm install -g pnpm
 COPY frontend/web/package.json ./

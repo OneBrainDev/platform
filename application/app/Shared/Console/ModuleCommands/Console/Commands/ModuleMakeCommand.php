@@ -41,6 +41,8 @@ class ModuleMakeCommand extends GeneratorCommand
         $this->updateMainComposer();
         $this->line('Done.');
         $this->info('you should now run composer update');
+
+        return true;
     }
 
     protected function getStub(): string

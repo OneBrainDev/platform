@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Platform\Http\Middleware;
 
@@ -17,16 +17,6 @@ class HandleInertiaRequests extends Middleware
     protected $rootView = 'app';
 
     /**
-     * Determines the current asset version.
-     *
-     * @see https://inertiajs.com/asset-versioning
-     */
-    public function version(Request $request): ?string
-    {
-        return parent::version($request);
-    }
-
-    /**
      * Define the props that are shared by default.
      *
      * @see https://inertiajs.com/shared-data
@@ -38,5 +28,15 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             //
         ]);
+    }
+
+    /**
+     * Determines the current asset version.
+     *
+     * @see https://inertiajs.com/asset-versioning
+     */
+    public function version(Request $request): ?string
+    {
+        return parent::version($request);
     }
 }

@@ -1,0 +1,32 @@
+version: "3"
+
+tasks:
+  install:
+    desc: Install frontend packages
+    cmds:
+      - pnpm i -r
+
+  clean:
+    desc: Flush all builds and node_modules
+    cmds:
+      - rm -Rf node_modules
+
+  update:
+    desc: Update all dependencies
+    cmds:
+      - pnpm up -r --latest
+
+  format:
+    desc: Runs prettier
+    cmds:
+      - pnpm run format
+
+  test:
+    desc: Runs tests
+    cmds:
+      - echo "run front test"
+
+  lint:
+    desc: Runs ESLint
+    cmds:
+      - pnpm run lint
