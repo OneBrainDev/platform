@@ -23,6 +23,8 @@ class ModuleRemoveCommand extends GeneratorCommand
             $this->files->deleteDirectory(config('module-commands.moduleFolderName').'/'.$this->module);
             $this->updateMainComposer();
         }
+
+        return true;
     }
 
     protected function getStub(): string

@@ -2,7 +2,7 @@ version: "3"
 
 tasks:
   web:
-    dir: ./frontend
+    dir: ./frontend/web
     desc: for the frontend website - run dev locally
     cmds:
       - pnpm --filter @platform/web run dev

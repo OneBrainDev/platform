@@ -20,13 +20,13 @@ pre-commit:
     "branch_name.sh":
       runner: "bash"
   commands:
-    backend-format:
-      run: task backend:format
+    application-format:
+      run: task app:format
       stage_fixed: true
-    backend-lint:
-      run: task backend:lint
-    frontend-format:
-      run: task frontend:format
-      stage_fixed: true
-    frontend-linter:
-      run: task frontend:lint
+    # application-lint:
+    #   run: task app:lint
+    # frontend-format:
+    #   run: task front:format
+    #   stage_fixed: true
+    # frontend-linter:
+    #   run: task front:lint

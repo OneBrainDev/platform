@@ -1,12 +1,8 @@
 {
   "app.js": {
-    "file": "assets/app-B2w4BSSq.js",
+    "file": "assets/app-iJYBZbB5.js",
     "name": "app",
     "src": "app.js",
     "isEntry": true
-  },
-  "assets/svelte.svg": {
-    "file": "assets/svelte--etMPifh.svg",
-    "src": "assets/svelte.svg"
   }
 }

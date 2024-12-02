@@ -1,8 +1,7 @@
 !.vscode/extensions.json
 .DS_Store
 .env
-.env.backup
-.env.production
+.env.*
 .fleet
 .idea
 .phpactor.json
@@ -28,7 +27,8 @@ cypress/screenshots/
 cypress/videos/
 dist
 dist-ssr
-frontend/docs/.vitepress/cache
+docs/.vitepress/cache
+docs/.vitepress/dist
 Homestead.json
 Homestead.yaml
 lerna-debug.log*
@@ -47,3 +47,6 @@ vendor
 yarn-debug.log*
 yarn-error.log
 yarn-error.log*
+.infrastruture/volume_data/
+.infrastruture/traefik/
+

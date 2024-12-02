@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('snowflake', function (Application $app) {
-            return (new Snowflake)
+            return (new Snowflake())
                 ->setStartTimeStamp(strtotime(self::SNOWFLAKE_BASE_TIMESTAMP) * 1000)
                 ->setSequenceResolver(new LaravelSequenceResolver($app->get('cache.store')));
         });
