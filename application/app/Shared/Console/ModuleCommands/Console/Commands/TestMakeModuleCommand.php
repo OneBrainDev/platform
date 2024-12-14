@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Foundation\Console\TestMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class TestMakeModuleCommand extends TestMakeCommand
+final class TestMakeModuleCommand extends TestMakeCommand
 {
     use OverrideMake;
 

@@ -71,53 +71,27 @@ The platform has several `.env` files in it: the main one is located in the root
 - Vitepress for system documentation
 - Taskfile
 
-# Module Structure and Setup
+# Laravel Workflow
 
-Platform is a laravel application, but uses modules to separate the code into logical groups. Here's the general code structure:
+Generally speaking you can do whatever you want, but upon setup of a new module, you'll have an `Actions` and `Services` folder. This matches the workflow that I use which looks like this:
 
 ```
-/modules
-  /ModuleName
-    composer.json
-    {{module}}.routes.php
-    {{module}}.config.php
-    /database
-      /factories
-      /migrations
-      /seeders
-    /resources
-      /mail
-      /views
-    /src
-      /Application
-        /Actions
-        /Channels
-        /Contracts
-        /Events
-        /Exceptions
-        /Listeners
-        /Notifications
-        /Policies
-        /Providers
-        /Rules
-        /Services
-      /Presentation
-        /Console
-        /Controllers
-        /Middleware
-        /Requests
-      /Domain
-        /Builders
-        /Casts
-        /Collections
-        /Contracts
-        /DataObjects
-        /Models
-        /Observers
-        /ValueObjects
-    /tests
-      /Feature
-      /Unit
+Request -> Controller (Request) -> Service (DTO) -> Action (DTO)
+View <- (Array) Controller <- (Collection<DTO>|DTO) Service <- (Collection<DTO>|DTO) Action 
 ```
 
-You can adjust this, in the `module-command.php` config file if you'd like.
+1. A request comes into a controller, the request does all the validation of the data (if any) and checks if the user can make the request
+2. The Controller will take the validated request and turn it into a DataObject and dispatch that to Service. 
+3. The Service will call an Action
+4. An Action communicates with the Model to persist or get data
+
+On the way back with data...
+
+5. The action will return either a Collection or a DTO
+6. Service will return either a Collection or a DTO
+7. Controller will convert the Collection or DTO into an Array and return to the view
+8. View will do whatever to the data
+
+## Actions and Services
+
+In this context a `Service` is really what laravel calls a Job. The service can either `dispatch` or `handle` or `defer` the service. Handle means it will execute now dispatch will add to a queue, and defer will handle after the request goes to the browser but in the same context.

@@ -6,10 +6,10 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
 use Composer\Factory;
 use Composer\Json\JsonFile;
-use Illuminate\Console\GeneratorCommand;
 use Illuminate\Support\Str;
+use Illuminate\Console\GeneratorCommand;
 
-class ModuleRemoveCommand extends GeneratorCommand
+final class ModuleRemoveCommand extends GeneratorCommand
 {
     protected $name = 'module:remove';
 

@@ -2,10 +2,10 @@
 
 namespace Platform\Http\Middleware;
 
-use Illuminate\Http\Request;
 use Inertia\Middleware;
+use Illuminate\Http\Request;
 
-class HandleInertiaRequests extends Middleware
+final class HandleInertiaRequests extends Middleware
 {
     /**
      * The root template that's loaded on the first page visit.

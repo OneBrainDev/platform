@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Foundation\Console\NotificationMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class NotificationMakeModuleCommand extends NotificationMakeCommand
+final class NotificationMakeModuleCommand extends NotificationMakeCommand
 {
     use OverrideMake;
 

@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Foundation\Console\ResourceMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class ResourceMakeModuleCommand extends ResourceMakeCommand
+final class ResourceMakeModuleCommand extends ResourceMakeCommand
 {
     use OverrideMake;
 

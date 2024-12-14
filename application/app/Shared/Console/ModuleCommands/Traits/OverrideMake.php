@@ -76,7 +76,7 @@ trait OverrideMake
      */
     protected function setConfigNamespace()
     {
-        return  config('module-commands.namespaces.'.$this->configNamespace());
+        return config('module-commands.namespaces.'.$this->configNamespace());
     }
 
     protected function useSrcPath(): bool

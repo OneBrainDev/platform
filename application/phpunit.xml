@@ -5,18 +5,22 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="Unit">
-            <directory>tests/Unit</directory>
+        <testsuite name="Platform Shared Tests">
+            <directory>tests/Architecture</directory>
+            <directory>tests/Integration</directory>
         </testsuite>
-        <testsuite name="Feature">
-            <directory>tests/Feature</directory>
+        <testsuite name="Module Unit Tests">
+            <directory>modules/**/tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Module Feature Tests">
+            <directory>modules/**/tests/Feature</directory>
         </testsuite>
     </testsuites>
-    <source>
+    <!-- <source>
         <include>
             <directory>app</directory>
         </include>
-    </source>
+    </source> -->
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>

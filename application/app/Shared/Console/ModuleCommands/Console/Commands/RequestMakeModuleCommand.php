@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Foundation\Console\RequestMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class RequestMakeModuleCommand extends RequestMakeCommand
+final class RequestMakeModuleCommand extends RequestMakeCommand
 {
     use OverrideMake;
 

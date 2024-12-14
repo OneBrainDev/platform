@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Foundation\Console\ObserverMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class ObserverMakeModuleCommand extends ObserverMakeCommand
+final class ObserverMakeModuleCommand extends ObserverMakeCommand
 {
     use OverrideMake;
 
