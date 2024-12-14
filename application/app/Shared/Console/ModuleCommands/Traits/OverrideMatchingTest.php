@@ -23,6 +23,6 @@ trait OverrideMatchingTest
             'name' => Str::of($path)->after(base_path())->beforeLast('.php')->append('Test')->replace('\\', '/'),
             '--pest' => $this->option('pest'),
             '--phpunit' => $this->option('phpunit'),
-        ]) == 0;
+        ]) === 0;
     }
 }

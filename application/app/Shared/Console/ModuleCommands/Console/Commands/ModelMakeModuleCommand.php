@@ -2,12 +2,12 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
-use Illuminate\Foundation\Console\ModelMakeCommand;
 use Illuminate\Support\Str;
+use Illuminate\Foundation\Console\ModelMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMatchingTest;
 
-class ModelMakeModuleCommand extends ModelMakeCommand
+final class ModelMakeModuleCommand extends ModelMakeCommand
 {
     use OverrideMake;
     use OverrideMatchingTest;
@@ -17,6 +17,7 @@ class ModelMakeModuleCommand extends ModelMakeCommand
     protected $name = 'module:model';
 
     protected bool $useSrcFolder = true;
+
 
     protected function createController()
     {
@@ -80,5 +81,10 @@ class ModelMakeModuleCommand extends ModelMakeCommand
             'module' => $this->argument('module'),
             'name' => "{$seeder}Seeder",
         ]);
+    }
+
+    protected function getNameInput()
+    {
+        return config('module-commands.namespaces.model') ."\\". $this->argument('name');
     }
 }

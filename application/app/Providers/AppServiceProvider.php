@@ -2,12 +2,12 @@
 
 namespace Platform\Providers;
 
-use Godruoyi\Snowflake\LaravelSequenceResolver;
 use Godruoyi\Snowflake\Snowflake;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Godruoyi\Snowflake\LaravelSequenceResolver;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     /** @var string */
     private const SNOWFLAKE_BASE_TIMESTAMP = '1981-07-11';

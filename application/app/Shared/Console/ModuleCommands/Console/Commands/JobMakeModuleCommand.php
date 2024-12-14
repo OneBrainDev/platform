@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Foundation\Console\JobMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class JobMakeModuleCommand extends JobMakeCommand
+final class JobMakeModuleCommand extends JobMakeCommand
 {
     use OverrideMake;
 

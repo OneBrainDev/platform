@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Database\Console\Seeds\SeederMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class SeederMakeModuleCommand extends SeederMakeCommand
+final class SeederMakeModuleCommand extends SeederMakeCommand
 {
     use OverrideMake;
 

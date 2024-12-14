@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Foundation\Console\ChannelMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class ChannelMakeModuleCommand extends ChannelMakeCommand
+final class ChannelMakeModuleCommand extends ChannelMakeCommand
 {
     use OverrideMake;
 

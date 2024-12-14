@@ -3,11 +3,11 @@
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
-use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
+use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class AnyMakeCommand extends GeneratorCommand
+final class AnyMakeCommand extends GeneratorCommand
 {
     use OverrideMake;
 

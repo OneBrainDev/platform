@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Foundation\Console\ExceptionMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class ExceptionMakeModuleCommand extends ExceptionMakeCommand
+final class ExceptionMakeModuleCommand extends ExceptionMakeCommand
 {
     use OverrideMake;
 

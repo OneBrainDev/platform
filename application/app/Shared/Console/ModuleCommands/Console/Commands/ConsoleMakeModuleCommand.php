@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Foundation\Console\ConsoleMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class ConsoleMakeModuleCommand extends ConsoleMakeCommand
+final class ConsoleMakeModuleCommand extends ConsoleMakeCommand
 {
     use OverrideMake;
 

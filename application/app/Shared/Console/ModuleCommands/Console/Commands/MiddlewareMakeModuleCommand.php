@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Routing\Console\MiddlewareMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class MiddlewareMakeModuleCommand extends MiddlewareMakeCommand
+final class MiddlewareMakeModuleCommand extends MiddlewareMakeCommand
 {
     use OverrideMake;
 

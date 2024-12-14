@@ -1,19 +1,18 @@
 services:
   traefik:
     image: traefik:v3.1
-  # docs:
-  #   build:
-  #     context: .
-  #     target: frontend-base
-  #   depends_on:
-  #     - traefik
+
+  docs:
+    build:
+      context: .
+      target: frontend-base
+    depends_on:
+      - traefik
 
   web:
     build:
       context: .
       target: frontend
-    # depends_on:
-    #   - traefik
 
   # design-storybook:
   #   build:

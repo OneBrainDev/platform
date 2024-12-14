@@ -6,11 +6,11 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
 use Composer\Factory;
 use Composer\Json\JsonFile;
-use Illuminate\Console\GeneratorCommand;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Collection;
+use Illuminate\Console\GeneratorCommand;
 
-class ModuleMakeCommand extends GeneratorCommand
+final class ModuleMakeCommand extends GeneratorCommand
 {
     protected $name = 'make:module';
 

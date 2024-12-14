@@ -6,7 +6,7 @@ use Illuminate\Routing\Console\ControllerMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMatchingTest;
 
-class ControllerMakeModuleCommand extends ControllerMakeCommand
+final class ControllerMakeModuleCommand extends ControllerMakeCommand
 {
     use OverrideMake;
     use OverrideMatchingTest;

@@ -1,6 +1,10 @@
 version: "3"
 
 tasks:
+  run:
+    cmds:
+      - php artisan {{.CLI_ARGS}}
+
   install:
     desc: Install all the packages for the application
     cmds:
@@ -39,24 +43,7 @@ tasks:
   test:
     desc: Run all the tests
     cmds:
-      - task: test-unit
-      - task: test-feature
-      - task: test-architecture
-
-  test-unit:
-    desc: Run all the unit tests
-    cmds:
-      - echo "Unit Tests"
-
-  test-feature:
-    desc: Run all the feature tests
-    cmds:
-      - echo "Feature Tests"
-
-  test-architecture:
-    desc: Run all the architecture tests
-    cmds:
-      - echo "Architecture Tests"
+      - php artisan test --parallel
 
   update:
     desc: Update laravel dependencies

@@ -5,7 +5,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Illuminate\Database\Console\Factories\FactoryMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 
-class FactoryMakeModuleCommand extends FactoryMakeCommand
+final class FactoryMakeModuleCommand extends FactoryMakeCommand
 {
     use OverrideMake;
 

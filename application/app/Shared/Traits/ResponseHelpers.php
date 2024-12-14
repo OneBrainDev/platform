@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Platform\Base;
+namespace Platform\Shared\Traits;
 
 use Illuminate\Http\JsonResponse;
-use Platform\Shared\Enums\ResponseStatus;
 use Platform\Shared\Enums\StatusCode;
+use Platform\Shared\Enums\ResponseStatus;
 
-abstract class BaseResponse extends JsonResponse
+trait ResponseHelpers
 {
     /**
      * @param  array<string|int, mixed>  $payload

@@ -4,7 +4,7 @@ namespace Platform\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class ModuleCommandServiceProvider extends ServiceProvider
+final class ModuleCommandServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
