@@ -23,8 +23,10 @@ pre-commit:
     application-format:
       run: task app:format
       stage_fixed: true
-    # application-lint:
-    #   run: task app:lint
+    application-lint:
+      run: task app:lint
+    application-test:
+      run: task app:test
     # frontend-format:
     #   run: task front:format
     #   stage_fixed: true
