@@ -1,7 +1,23 @@
 version: "3"
 
 tasks:
+  build:
+    desc: Build the web frontend
+    cmds:
+
   clean:
     desc: Flush all builds and node_modules
     cmds:
       - rm -Rf node_modules
+
+  start:
+    desc: Start the web frontend
+    cmds:
+
+  test:
+    desc: Start the web frontend
+    cmds:
+
+  test-e2e:
+    desc: Start the web frontend
+    cmds:

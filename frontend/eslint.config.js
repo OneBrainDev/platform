@@ -28,6 +28,6 @@ export default ts.config(
 		}
 	},
 	{
-		ignores: ['build/', '.svelte-kit/', 'dist/']
+		ignores: ['ds/build/', 'ds/.svelte-kit/', 'ds/dist/', 'web/build/', 'web/dist/']
 	}
 );

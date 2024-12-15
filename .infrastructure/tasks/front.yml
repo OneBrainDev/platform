@@ -1,32 +1,48 @@
 version: "3"
 
+ds:
+  taskfile: ds.yml
+  dir: ./frontend/ds
+
+web:
+  taskfile: web.yml
+  dir: ./frontend/web
+
 tasks:
-  install:
-    desc: Install frontend packages
+  check:
+    desc: Run Svelte Check TS
     cmds:
-      - pnpm i -r
+      - pnpm --filter=@platform/web run check
+      - pnpm --filter=@platform/ds run check
 
   clean:
-    desc: Flush all builds and node_modules
+    desc: Clean all the frontend projects
     cmds:
       - rm -Rf node_modules
-
-  update:
-    desc: Update all dependencies
-    cmds:
-      - pnpm up -r --latest
+      - ds:clean
+      - web:clean
 
   format:
     desc: Runs prettier
     cmds:
       - pnpm run format
 
-  test:
-    desc: Runs tests
+  install:
+    desc: Install frontend packages
     cmds:
-      - echo "run front test"
+      - pnpm i -r
 
   lint:
     desc: Runs ESLint
     cmds:
       - pnpm run lint
+
+  test:
+    desc: Runs tests
+    cmds:
+      - echo "run front test"
+
+  update:
+    desc: Update all dependencies
+    cmds:
+      - pnpm up -r --latest

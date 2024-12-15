@@ -5,17 +5,17 @@ includes:
     taskfile: ./.infrastructure/tasks/app.yml
     dir: ./application
 
-  ds:
-    taskfile: ./.infrastructure/tasks/ds.yml
-    dir: ./front/ds
-
   docs:
     taskfile: ./.infrastructure/tasks/docs.yml
     dir: ./docs
 
+  ds:
+    taskfile: ./.infrastructure/tasks/ds.yml
+    dir: ./frontend/ds
+
   front:
     taskfile: ./.infrastructure/tasks/front.yml
-    dir: ./front
+    dir: ./frontend
 
   platform:
     taskfile: ./.infrastructure/tasks/platform.yml
@@ -23,9 +23,20 @@ includes:
 
   web:
     taskfile: ./.infrastructure/tasks/web.yml
-    dir: ./front
+    dir: ./frontend/web
 
 tasks:
+  clean:
+    desc: Delete all dependencies and build folders and start again
+    prompt: This will delete all node_modules, dist folders and vendor folders...are you sure you want to do this?
+    cmds:
+      - task: app:clean
+      - task: app:env
+      - task: ds:clean
+      - task: docs:clean
+      - task: web:clean
+      - task: front:clean
+
   init:
     desc: Install everything and start docker
     cmds:
@@ -37,14 +48,3 @@ tasks:
     cmds:
       - task: app:update
       - task: front:update
-
-  clean:
-    desc: Delete all dependencies and build folders and start again
-    prompt: This will delete all node_modules, dist folders and vendor folders...are you sure you want to do this?
-    cmds:
-      - task: app:clean
-      - task: app:env
-      - task: design:clean
-      - task: docs:clean
-      - task: web:clean
-      - task: front:clean
