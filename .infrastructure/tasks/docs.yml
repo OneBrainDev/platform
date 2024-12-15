@@ -1,8 +1,18 @@
 version: "3"
 
 tasks:
+  build:
+    desc: Build the docs site
+    cmds:
+      - pnpm --filter=@platform/docs run docs:build
+
   clean:
     desc: Flush all builds and node_modules
     cmds:
       - rm -Rf node_modules
       - rm -Rf .vitepress/cache
+
+  start:
+    desc: Start the watcher for docs
+    cmds:
+      - pnpm --filter=@platform/docs run docs:dev

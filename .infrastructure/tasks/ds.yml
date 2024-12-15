@@ -1,8 +1,32 @@
 version: "3"
 
 tasks:
+  build:
+    desc:
+    cmds:
+      - pnpm --filter=@platform/ds run build
+
+  build-storybook:
+    desc:
+    cmds:
+      - pnpm --filter=@platform/ds run build-storybook
+
   clean:
     desc: Flush all builds and node_modules
     cmds:
       - rm -Rf node_modules
       - rm -Rf dist
+
+  start:
+    desc: Flush all builds and node_modules
+    cmds:
+      - pnpm --filter=@platform/ds run dev
+
+  start-storybook:
+    desc: Flush all builds and node_modules
+    cmds:
+      - pnpm --filter=@platform/ds run build-storybook
+
+  test:
+    desc: Flush all builds and node_modules
+    cmds:

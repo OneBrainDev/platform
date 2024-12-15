@@ -1,15 +1,6 @@
 version: "3"
 
 tasks:
-  run:
-    cmds:
-      - php artisan {{.CLI_ARGS}}
-
-  install:
-    desc: Install all the packages for the application
-    cmds:
-      - composer install
-
   clean:
     desc: Flush all the dependencies
     cmds:
@@ -25,6 +16,11 @@ tasks:
     cmds:
       - pint
 
+  install:
+    desc: Install all the packages for the application
+    cmds:
+      - composer install
+
   lint:
     disc: Runs PHPStan over backend
     cmds:
@@ -34,6 +30,10 @@ tasks:
     desc: Run database migrations
     cmds:
       - php artisan migrate
+
+  run:
+    cmds:
+      - php artisan {{.CLI_ARGS}}
 
   seed:
     desc: Run database seeders
