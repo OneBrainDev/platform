@@ -1,0 +1,24 @@
+{
+    "name": "platform/workspaces",
+    "description": "",
+    "type": "library",
+    "version": "1.0",
+    "license": "proprietary",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Platform\\Workspaces\\": "src/",
+            "Platform\\Workspaces\\tests\\": "tests/",
+            "Platform\\Workspaces\\Database\\Factories\\": "database/factories/",
+            "Platform\\Workspaces\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Platform\\Workspaces\\Providers\\WorkspacesServiceProvider"
+            ]
+        }
+    }
+}
