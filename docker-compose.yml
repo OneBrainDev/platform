@@ -2,10 +2,19 @@ services:
   traefik:
     image: traefik:v3.1
 
+  mysql:
+    image: mysql:8.2
+
+  redis:
+    image: redis:7.2
+
   docs:
     build:
       context: .
-      target: frontend-base
+      target: frontend
+      args:
+        - WORKDIR=/platform/docs
+        - PACKAGES=docs
     depends_on:
       - traefik
 
@@ -13,34 +22,33 @@ services:
     build:
       context: .
       target: frontend
-
-  # design-storybook:
-  #   build:
-  #     context: .
-  #     target: frontend-base
-  #   depends_on:
-  #     - design
+      args:
+        - WORKDIR=/platform/frontend
+        - PACKAGES=frontend
 
   application:
     build:
       context: .
       target: development
-    # depends_on:
-      # - traefik
-      # - redis
-      # - mysql
+    depends_on:
+      - traefik
+      - redis
+      - mysql
 
-  # horizon:
-  #   build:
-  #     context: .
-  #     target: base
-  #   depends_on:
-  #     - app
+  # # horizon:
+  # #   build:
+  # #     context: .
+  # #     target: base
+  # #   depends_on:
+  # #     - app
 
-  # Infrastructure ............................................................
 
-  mysql:
-    image: mysql:8.2
 
-  redis:
-    image: redis:7.2
+
+
+
+
+
+
+
+

@@ -9,7 +9,6 @@ x-services-volume: &services-volume
   target: /platform
 
 services:
-  # Application Containers ....................................................
   traefik:
     container_name: platform_proxy
     <<: *env
@@ -27,49 +26,6 @@ services:
       - ./.infrastructure/conf/traefik/dev/traefik-certs.yml:/traefik-certs.yml
       - ./.infrastructure/conf/traefik/dev/certificates/:/certificates
 
-  application:
-    container_name: platform_application
-    <<: *env
-    build:
-      target: development
-      args:
-        USER_ID: ${SPIN_USER_ID}
-        GROUP_ID: ${SPIN_GROUP_ID}
-    depends_on:
-      - traefik
-    environment:
-      - NGINX_WEBROOT="${DOCKER_PATH_WEBROOT}"
-      - PHP_FPM_POOL_NAME="application-php-pool"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.application.rule=HostRegexp(`${DOCKER_URL}`)"
-      - "traefik.http.routers.application.entrypoints=websecure"
-      - "traefik.http.routers.application.tls=true"
-      - "traefik.http.services.application.loadbalancer.server.port=${DOCKER_PORT_APP}"
-      - "traefik.http.services.application.loadbalancer.server.scheme=http"
-    networks:
-      - development
-    ports:
-      - "${DOCKER_PORT_APP}:80"
-    volumes:
-      - <<: *services-volume
-    working_dir: ${DOCKER_PATH_APP}
-
-  web:
-    container_name: platform_frontend
-    <<: *env
-    build:
-      context: .
-      target: frontend
-    command: ["pnpm", "build", "--emptyOutDir", "--watch"]
-    depends_on:
-      - traefik
-    environment:
-      NODE_ENV: development
-    volumes:
-      - <<: *services-volume
-
-  # Database Containers .......................................................
   mysql:
     container_name: platform_database
     <<: *env
@@ -96,7 +52,66 @@ services:
     volumes:
       - ./.infrastructure/volume_data/redis/data:/data
 
-  # Infrastructure Containers .................................................
+  docs:
+    container_name: platform_docs
+    <<: *env
+    command: ["pnpm",  "--filter", "@platform/docs", "run", "docs:dev", "--port=${DOCKER_PORT_DOCS}","--host"]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.docs.rule=Host(`${DOCKER_URL_DOCS}`)"
+      - "traefik.http.routers.docs.entrypoints=websecure"
+      - "traefik.http.routers.docs.tls=true"
+      - "traefik.http.services.docs.loadbalancer.server.port=${DOCKER_PORT_DOCS}"
+      - "traefik.http.services.docs.loadbalancer.server.scheme=http"
+    volumes:
+      - <<: *services-volume
+    networks:
+      - development
+
+  web:
+    container_name: platform_frontend
+    <<: *env
+    build:
+      context: .
+      target: frontend
+    command: ["pnpm",  "--filter", "@platform/web", "run", "build", "--emptyOutDir", "--watch"]
+    depends_on:
+      - traefik
+    environment:
+      NODE_ENV: development
+    volumes:
+      - <<: *services-volume
+
+  application:
+    container_name: platform_application
+    <<: *env
+    build:
+      target: development
+      args:
+        USER_ID: ${SPIN_USER_ID}
+        GROUP_ID: ${SPIN_GROUP_ID}
+    depends_on:
+      - traefik
+    environment:
+      - NGINX_WEBROOT="${DOCKER_PATH_WEBROOT}"
+      - PHP_FPM_POOL_NAME="application-php-pool"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.application.rule=Host(`${DOCKER_URL}`)"
+      - "traefik.http.routers.application.entrypoints=websecure"
+      - "traefik.http.routers.application.tls=true"
+      - "traefik.http.services.application.loadbalancer.server.port=${DOCKER_PORT_APP}"
+      - "traefik.http.services.application.loadbalancer.server.scheme=http"
+    networks:
+      - development
+    ports:
+      - "${DOCKER_PORT_APP}:80"
+    volumes:
+      - <<: *services-volume
+    working_dir: ${DOCKER_PATH_APP}
+
+
+
 
   # horizon:
   #   <<: *basephp
@@ -149,17 +164,7 @@ services:
   #   depends_on:
   #     - traefik
 
-  # docs:
-  #   <<: *basefront
-  #   container_name: platform_docs
-  #   command: "pnpm --filter @platform/docs run docs:dev --port=${DOCKER_DOCS_PORT} --host"
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.docs.rule=Host(`${DOCKER_DOCS_URL}`)"
-  #     - "traefik.http.routers.docs.entrypoints=websecure"
-  #     - "traefik.http.routers.docs.tls=true"
-  #     - "traefik.http.services.docs.loadbalancer.server.port=${DOCKER_DOCS_PORT}"
-  #     - "traefik.http.services.docs.loadbalancer.server.scheme=http"
+
 
   # design:
   #   <<: *basefront

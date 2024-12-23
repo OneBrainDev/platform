@@ -22,6 +22,11 @@ tasks:
     cmds:
       - spin up --build --detach
 
+  start-nodetach:
+    desc: Start docker without detaching it
+    cmds:
+      - spin up --build
+
   stop:
     desc: Stop the container
     cmds:

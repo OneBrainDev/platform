@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/', function (Request $r) {
-
         // $userData = UserData::fromRequest($r);
         // $service = UserIndexService::make(
         //   UserData::fromRequest($r->validated()
