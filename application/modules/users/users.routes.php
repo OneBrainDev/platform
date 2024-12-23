@@ -4,8 +4,9 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('user')->name('user.')->group(function () {
+Route::prefix('users')->name('user.')->group(function () {
     Route::get('/', function (Request $r) {
+        echo "hello";
         // $userData = UserData::fromRequest($r);
         // $service = UserIndexService::make(
         //   UserData::fromRequest($r->validated()

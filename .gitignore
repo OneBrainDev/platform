@@ -27,6 +27,7 @@ cypress/screenshots/
 cypress/videos/
 dist
 dist-ssr
+build
 docs/.vitepress/cache
 docs/.vitepress/dist
 Homestead.json
