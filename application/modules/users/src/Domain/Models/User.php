@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 #[ModelProperties(
-    id: ['is:primary|fillable','auto-increment' => false],
+    id: ['uuid' => 'is:primary|fillable','auto-increment' => false],
     email: ['is:fillable'],
     remember_token: ['is:hidden'],
     email_verified_at: ['datetime'],

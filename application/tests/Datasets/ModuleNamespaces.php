@@ -2,6 +2,6 @@
 
 dataset('modulenamespaces', function () {
     return collect(glob('modules/*'))
-      ->map(fn ($dir, $key) => ucfirst(str_replace('modules/', '', $dir)))
+      ->map(fn (string $dir, int $key): string => ucfirst(str_replace('modules/', '', $dir)))
       ->toArray();
 });

@@ -1,6 +1,19 @@
 {
+  "name": "@platform/docs",
   "devDependencies": {
     "vitepress": "^1.5.0"
+  },
+  "pnpm": {
+    "supportedArchitectures": {
+      "os": [
+        "darwin",
+        "linux"
+      ],
+      "cpu": [
+        "x64",
+        "arm64"
+      ]
+    }
   },
   "scripts": {
     "docs:dev": "vitepress dev",

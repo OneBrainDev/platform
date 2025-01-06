@@ -27,6 +27,7 @@ cypress/screenshots/
 cypress/videos/
 dist
 dist-ssr
+build
 docs/.vitepress/cache
 docs/.vitepress/dist
 Homestead.json
@@ -49,4 +50,4 @@ yarn-error.log
 yarn-error.log*
 .infrastruture/volume_data/
 .infrastruture/traefik/
-
+_ide_helper*

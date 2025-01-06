@@ -3,6 +3,7 @@
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Foundation\Console\ModelMakeCommand;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMake;
 use Platform\Shared\Console\ModuleCommands\Traits\OverrideMatchingTest;
@@ -85,6 +86,6 @@ final class ModelMakeModuleCommand extends ModelMakeCommand
 
     protected function getNameInput()
     {
-        return config('module-commands.namespaces.model') ."\\". $this->argument('name');
+        return Config::string('modules.namespaces.model') ."\\". $this->argument('name');
     }
 }

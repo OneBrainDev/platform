@@ -1,51 +1,55 @@
 version: "3"
 
 tasks:
-  clean:
-    desc: Flush all the dependencies
-    cmds:
-      - rm -Rf vendor
+   clean:
+      desc: Flush all the dependencies
+      cmds:
+         - rm -Rf vendor
 
-  dump:
-    desc: A composer dump
-    cmds:
-      - composer du
+   dump:
+      desc: A composer dump
+      cmds:
+         - composer du
 
-  format:
-    desc: Formats application code with Pint
-    cmds:
-      - pint
+   format:
+      desc: Formats application code with Pint
+      cmds:
+         - pint
 
-  install:
-    desc: Install all the packages for the application
-    cmds:
-      - composer install
+   install:
+      desc: Install all the packages for the application
+      cmds:
+         - composer install
 
-  lint:
-    disc: Runs PHPStan over backend
-    cmds:
-      - ./vendor/bin/phpstan analyse --memory-limit=2G
+   lint:
+      disc: Runs PHPStan over backend
+      cmds:
+         - ./vendor/bin/phpstan analyse --memory-limit=2G
 
-  migrate:
-    desc: Run database migrations
-    cmds:
-      - php artisan migrate
+   list:
+      disc: Runs artisan route list but excludes vendor routes
+      cmds:
+         - php artisan route:list --except-vendor
+   migrate:
+      desc: Run database migrations
+      cmds:
+         - php artisan migrate
 
-  run:
-    cmds:
-      - php artisan {{.CLI_ARGS}}
+   run:
+      cmds:
+         - php artisan {{.CLI_ARGS}}
 
-  seed:
-    desc: Run database seeders
-    cmds:
-      - php artisan db:seed
+   seed:
+      desc: Run database seeders
+      cmds:
+         - php artisan db:seed
 
-  test:
-    desc: Run all the tests
-    cmds:
-      - php artisan test --parallel
+   test:
+      desc: Run all the tests
+      cmds:
+         - php artisan test --parallel
 
-  update:
-    desc: Update laravel dependencies
-    cmds:
-      - composer update
+   update:
+      desc: Update laravel dependencies
+      cmds:
+         - composer update

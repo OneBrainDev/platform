@@ -95,3 +95,7 @@ On the way back with data...
 ## Actions and Services
 
 In this context a `Service` is really what laravel calls a Job. The service can either `dispatch` or `handle` or `defer` the service. Handle means it will execute now dispatch will add to a queue, and defer will handle after the request goes to the browser but in the same context.
+
+## Multitenant Multidatabase Concepts in Action
+
+Platform is a multtenant/multidatabase system and that comes with a bunch of challanges.

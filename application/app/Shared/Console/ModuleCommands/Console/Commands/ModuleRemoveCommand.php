@@ -7,6 +7,7 @@ namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 use Composer\Factory;
 use Composer\Json\JsonFile;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Console\GeneratorCommand;
 
 final class ModuleRemoveCommand extends GeneratorCommand
@@ -20,7 +21,7 @@ final class ModuleRemoveCommand extends GeneratorCommand
         $this->module = strtolower($this->argument('name'));
 
         if ($this->confirm("This will remove {$this->module} files and entries from composer, are you sure?")) {
-            $this->files->deleteDirectory(config('module-commands.moduleFolderName').'/'.$this->module);
+            $this->files->deleteDirectory(Config::string('modules.module_folder').'/'.$this->module);
             $this->updateMainComposer();
         }
 
@@ -38,7 +39,7 @@ final class ModuleRemoveCommand extends GeneratorCommand
         $json_file = new JsonFile(Factory::getComposerFile());
         $definition = $json_file->read();
 
-        $composerName = Str::lower(config('module-commands.rootNamespace')).'/'.$this->module;
+        $composerName = Str::lower(Config::string('modules.root_namespace')).'/'.$this->module;
 
         unset($definition['require']["{$composerName}"]);
 

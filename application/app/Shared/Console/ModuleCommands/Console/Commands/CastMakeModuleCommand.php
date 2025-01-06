@@ -13,6 +13,6 @@ final class CastMakeModuleCommand extends CastMakeCommand
 
     protected function configNamespace(): string
     {
-        return 'cast';
+        return 'casts';
     }
 }
