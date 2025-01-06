@@ -1,24 +1,24 @@
 {
-  "name": "platform/users",
-  "description": "",
-  "type": "library",
-  "version": "1.0",
-  "license": "proprietary",
-  "require": {},
-  "autoload": {
-    "psr-4": {
-      "Platform\\Users\\": "src/",
-      "Platform\\Users\\tests\\": "tests/",
-      "Platform\\Users\\Database\\Factories\\": "database/factories/",
-      "Platform\\Users\\Database\\Seeders\\": "database/seeders/"
-    }
-  },
-  "minimum-stability": "stable",
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Platform\\Users\\Providers\\UsersServiceProvider"
-      ]
-    }
-  }
+   "name": "platform/users",
+   "description": "",
+   "type": "library",
+   "version": "1.0",
+   "license": "proprietary",
+   "require": {},
+   "autoload": {
+      "psr-4": {
+         "Platform\\Users\\": "src/",
+         "Platform\\Users\\Tests\\": "tests/",
+         "Platform\\Users\\Database\\Factories\\": "database/factories/",
+         "Platform\\Users\\Database\\Seeders\\": "database/seeders/"
+      }
+   },
+   "minimum-stability": "stable",
+   "extra": {
+      "laravel": {
+         "providers": [
+            "Platform\\Users\\Providers\\UsersServiceProvider"
+         ]
+      }
+   }
 }

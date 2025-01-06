@@ -8,8 +8,12 @@ class WorkspacesServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__.'/../..//database/migrations');
-        $this->loadRoutesFrom(__DIR__.'/../../workspaces.routes.php');
+        $this->loadMigrationsFrom(base_path('modules/workspaces/database/migrations'));
+        $this->loadRoutesFrom(base_path('modules/workspaces/routes/web.php'));
+        $this->mergeConfigFrom(
+            base_path('modules/workspaces/config/workspaces.php'),
+            'workspaces'
+        );
     }
 
     public function register(): void {}

@@ -37,12 +37,11 @@ final class AnyMakeCommand extends GeneratorCommand
 
         return file_exists($customPath)
             ? $customPath
-            : __DIR__.'/../../../../../../stubs/'.$stub;
+            : base_path('stubs/'.$stub);
     }
 
     protected function buildClass($name)
     {
-
         $stub = $this->files->get($this->getStub());
         $stub = $this->replaceTokens($stub, (array) $this->argument('tokens'));
 

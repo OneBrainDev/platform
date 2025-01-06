@@ -8,6 +8,7 @@ use Composer\Factory;
 use Composer\Json\JsonFile;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Console\GeneratorCommand;
 
 final class ModuleMakeCommand extends GeneratorCommand
@@ -19,8 +20,8 @@ final class ModuleMakeCommand extends GeneratorCommand
     public function handle()
     {
         $this->module = strtolower($this->argument('name'));
-        $structure = config('module-commands.structure');
-        $path = config('module-commands.moduleFolderName').'/'.$this->module;
+        $structure = Config::array('modules.structure');
+        $path = Config::string('modules.module_folder').'/'.$this->module;
 
         $this->line('Writing folder structure: '.$path);
         $this->buildStructure($structure, $path);
@@ -39,6 +40,7 @@ final class ModuleMakeCommand extends GeneratorCommand
 
         $this->line('Updating the main composer.json ');
         $this->updateMainComposer();
+
         $this->line('Done.');
         $this->info('you should now run composer update');
 
@@ -58,10 +60,10 @@ final class ModuleMakeCommand extends GeneratorCommand
             'module' => $this->module,
             '--src' => false,
             'tokens' => [
-                '{{namespace}}' => strtolower(config('module-commands.rootNamespace')),
+                '{{namespace}}' => strtolower(Config::string('modules.root_namespace')),
                 '{{module}}' => $this->module,
-                '{{ModuleRootNamespace}}' => config('module-commands.rootNamespace'),
-                '{{ServiceProviderNamespace}}' => Str::replace('\\', '\\\\', (string) config('module-commands.namespaces.provider')),
+                '{{ModuleRootNamespace}}' => Config::string('modules.root_namespace'),
+                '{{ServiceProviderNamespace}}' => Str::replace('\\', '\\\\', Config::string('modules.namespaces.provider')),
                 '{{ModuleName}}' => Str::ucfirst($this->argument('name')),
                 '{{TestName}}' => '',
                 '{{src}}' => '',
@@ -72,7 +74,7 @@ final class ModuleMakeCommand extends GeneratorCommand
     private function buildConfig(): void
     {
         $this->call('make:any', [
-            'name' => 'config.php',
+            'name' => "config/{$this->module}.php",
             'stub' => 'module.config.stub',
             'module' => $this->module,
             '--src' => false,
@@ -80,16 +82,12 @@ final class ModuleMakeCommand extends GeneratorCommand
                 '{{module}}' => $this->argument('name'),
             ],
         ]);
-
-        $path = config('module-commands.moduleFolderName').'/'.$this->module;
-
-        $this->files->move("$path/config.php", "$path/$this->module.config.php");
     }
 
     private function buildRoutes(string $path): void
     {
         $this->call('make:any', [
-            'name' => 'routes.php',
+            'name' => 'routes/web.php',
             'stub' => 'module.routes.stub',
             'module' => $this->module,
             '--src' => false,
@@ -98,7 +96,6 @@ final class ModuleMakeCommand extends GeneratorCommand
             ],
         ]);
 
-        $this->files->move("$path/routes.php", "$path/$this->module.routes.php");
     }
 
     private function buildServiceProvider(): void
@@ -106,17 +103,17 @@ final class ModuleMakeCommand extends GeneratorCommand
         $providerName = Str::ucfirst($this->argument('name')).'ServiceProvider';
 
         $this->call('make:any', [
-            'name' => config('module-commands.namespaces.provider').'\\'.$providerName,
+            'name' => Config::string('modules.namespaces.provider').'\\'.$providerName,
             'stub' => 'module.serviceprovider.stub',
             'module' => $this->module,
             '--src' => true,
             'tokens' => [
-                '{{namespace}}' => config('module-commands.rootNamespace').'\\'.Str::ucfirst($this->argument('name')).config('module-commands.namespaces.provider'),
+                '{{namespace}}' => Config::string('modules.root_namespace').'\\'.Str::ucfirst($this->argument('name')).Config::string('modules.namespaces.provider'),
                 '{{class}}' => $providerName,
                 '{{moduleName}}' => $this->module,
-                '{{migrationPath}}' => Str::replace('\\', '/', (string) config('module-commands.namespaces.migration')),
-                '{{routePath}}' => Str::replace('\\', '/', (string) config('module-commands.namespaces.route')),
-                '{{configPath}}' => Str::replace('\\', '/', (string) config('module-commands.namespaces.config')),
+                '{{migrationPath}}' => Str::replace('\\', '/', Config::string('modules.namespaces.migration')),
+                '{{routePath}}' => Str::replace('\\', '/', Config::string('modules.namespaces.route')),
+                '{{configPath}}' => Str::replace('\\', '/', Config::string('modules.namespaces.config')),
             ],
         ]);
     }
@@ -127,7 +124,7 @@ final class ModuleMakeCommand extends GeneratorCommand
     private function buildStructure(array $structure, string $path): mixed
     {
         return collect($structure)->each(function ($v, $k) use ($path): string|Collection {
-            $k = str_replace('{{src}}', (string) config('module-commands.srcFolderName'), (string) $k);
+            $k = str_replace('{{src}}', Config::string('modules.src_folder'), (string) $k);
             $path .= "/$k";
             if (is_array($v) && count($v) > 0) {
                 return $this->buildStructure($v, $path);
@@ -145,15 +142,7 @@ final class ModuleMakeCommand extends GeneratorCommand
         $json_file = new JsonFile(Factory::getComposerFile());
         $definition = $json_file->read();
 
-        $module_config = [
-            'type' => 'path',
-            'url' => strtolower(config('module-commands.module_namespace').'/*'),
-            'options' => [
-                'symlink' => true,
-            ],
-        ];
-
-        $composerName = Str::lower(config('module-commands.rootNamespace')).'/'.$this->module;
+        $composerName = Str::lower(Config::string('modules.root_namespace')).'/'.$this->module;
         $definition['require']["{$composerName}"] = '*';
         $json_file->write($definition);
     }

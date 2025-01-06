@@ -2,6 +2,7 @@
 
 namespace Platform\Shared\Console\ModuleCommands\Console\Commands;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Console\Migrations\BaseCommand;
 
 final class MigrationMakeModuleCommand extends BaseCommand
@@ -15,7 +16,7 @@ final class MigrationMakeModuleCommand extends BaseCommand
         $this->call('make:migration', [
             'name' => $this->argument('name'),
             '--table' => $this->option('table'),
-            '--path' => 'modules/'.$this->argument('module').'/'.config('module-commands.namespaces.migration'),
+            '--path' => 'modules/'.$this->argument('module').'/'.Config::string('modules.namespaces.migration'),
         ]);
     }
 }

@@ -8,7 +8,7 @@
     "autoload": {
         "psr-4": {
             "{{ModuleRootNamespace}}\\{{ModuleName}}\\": "src/",
-            "{{ModuleRootNamespace}}\\{{ModuleName}}\\tests\\": "tests/",
+            "{{ModuleRootNamespace}}\\{{ModuleName}}\\Tests\\": "tests/",
             "{{ModuleRootNamespace}}\\{{ModuleName}}\\Database\\Factories\\": "database/factories/",
             "{{ModuleRootNamespace}}\\{{ModuleName}}\\Database\\Seeders\\": "database/seeders/"
         }

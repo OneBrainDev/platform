@@ -20,7 +20,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid('id')->primary();
             $table->boolean('is_active')->default(true);
             $table->string('stripe_id')->nullable()->index();
             $table->string('pm_type')->nullable();
@@ -30,8 +30,8 @@ return new class () extends Migration {
         });
 
         Schema::create('subscriptions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('account_id');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('account_id')->index()->constrained();
             $table->string('type');
             $table->string('stripe_id')->unique();
             $table->string('stripe_status');
@@ -45,8 +45,8 @@ return new class () extends Migration {
         });
 
         Schema::create('subscription_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('subscription_id');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('subscription_id')->index()->constrained();
             $table->string('stripe_id')->unique();
             $table->string('stripe_product');
             $table->string('stripe_price');

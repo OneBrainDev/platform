@@ -7,7 +7,7 @@
     <testsuites>
         <testsuite name="Platform Shared Tests">
             <directory>tests/Architecture</directory>
-            <directory>tests/Integration</directory>
+            <directory>tests/Feature</directory>
         </testsuite>
         <testsuite name="Module Unit Tests">
             <directory>modules/**/tests/Unit</directory>

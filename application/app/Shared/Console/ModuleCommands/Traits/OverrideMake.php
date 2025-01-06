@@ -3,6 +3,7 @@
 namespace Platform\Shared\Console\ModuleCommands\Traits;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
 use Symfony\Component\Console\Input\InputArgument;
 
 trait OverrideMake
@@ -29,7 +30,11 @@ trait OverrideMake
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace.config('module-commands.namespaces.'.$this->configNamespace());
+        $namespace = $this->configNamespace() !== ''
+            ? Config::string('modules.namespaces.'.$this->configNamespace())
+            : '';
+
+        return $rootNamespace.$namespace;
     }
 
     /**
@@ -38,7 +43,11 @@ trait OverrideMake
      */
     protected function getPath($name)
     {
-        $name = Str::replaceFirst($this->rootNamespace(), '', $name);
+        $namespaces = explode('\\', $this->rootNamespace());
+        foreach ($namespaces as $namespace) {
+            $name = Str::replaceFirst($namespace . '\\', '', $name);
+        }
+
         $extension = pathinfo($name, PATHINFO_EXTENSION);
         $moduleFolder = strtolower($this->argument('module'));
         $srcPath = $this->getSrcPath($moduleFolder);
@@ -57,10 +66,10 @@ trait OverrideMake
     protected function getSrcPath($moduleName)
     {
         $srcFolder = $this->useSrcPath()
-            ? config('module-commands.srcFolderName')
+            ? '/'.Config::string('modules.src_folder')
             : '';
 
-        return config('module-commands.moduleFolderName')."/$moduleName/$srcFolder";
+        return Config::string('modules.module_folder')."/{$moduleName}{$srcFolder}";
     }
 
     /**
@@ -68,7 +77,7 @@ trait OverrideMake
      */
     protected function rootNamespace()
     {
-        return config('module-commands.rootNamespace').'\\'.$this->argument('module');
+        return Config::string('modules.root_namespace').'\\'.Str::ucfirst($this->argument('module'));
     }
 
     /**
@@ -76,7 +85,7 @@ trait OverrideMake
      */
     protected function setConfigNamespace()
     {
-        return config('module-commands.namespaces.'.$this->configNamespace());
+        return Config::string('modules.namespaces.'.$this->configNamespace());
     }
 
     protected function useSrcPath(): bool

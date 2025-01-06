@@ -18,14 +18,14 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create('teams', function (Blueprint $table) {
-            $table->uuid();
-            $table->foreignUuid('user_id')->index();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->index()->constrained();
             $table->string('name');
             $table->timestamps();
         });
 
         Schema::create('team_user', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignUuid('team_id');
             $table->foreignUuid('user_id');
             $table->string('role')->nullable();
@@ -35,7 +35,7 @@ return new class () extends Migration {
         });
 
         Schema::create('team_invitations', function (Blueprint $table) {
-            $table->uuid();
+            $table->uuid('id');
             $table->foreignUuid('team_id')->constrained()->cascadeOnDelete();
             $table->string('email');
             $table->string('role')->nullable();

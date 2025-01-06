@@ -2,10 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('{{module}}')->name('{{module}}.')->group(function () {
+Route::prefix('{{module}}')->group(function () {
     Route::get('/', function () {
         echo "hello";
-    })->name('index');
+    })->name('{{module}}.index');
 });
 
 

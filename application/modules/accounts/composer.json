@@ -1,24 +1,24 @@
 {
-    "name": "platform/accounts",
-    "description": "",
-    "type": "library",
-    "version": "1.0",
-    "license": "proprietary",
-    "require": {},
-    "autoload": {
-        "psr-4": {
-            "Platform\\Accounts\\": "src/",
-            "Platform\\Accounts\\tests\\": "tests/",
-            "Platform\\Accounts\\Database\\Factories\\": "database/factories/",
-            "Platform\\Accounts\\Database\\Seeders\\": "database/seeders/"
-        }
-    },
-    "minimum-stability": "stable",
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Platform\\Accounts\\Providers\\AccountsServiceProvider"
-            ]
-        }
-    }
+   "name": "platform/accounts",
+   "description": "",
+   "type": "library",
+   "version": "1.0",
+   "license": "proprietary",
+   "require": {},
+   "autoload": {
+      "psr-4": {
+         "Platform\\Accounts\\": "src/",
+         "Platform\\Accounts\\Tests\\": "tests/",
+         "Platform\\Accounts\\Database\\Factories\\": "database/factories/",
+         "Platform\\Accounts\\Database\\Seeders\\": "database/seeders/"
+      }
+   },
+   "minimum-stability": "stable",
+   "extra": {
+      "laravel": {
+         "providers": [
+            "Platform\\Accounts\\Providers\\AccountsServiceProvider"
+         ]
+      }
+   }
 }

@@ -9,7 +9,13 @@ final class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void {}
+    public function boot(): void
+    {
+
+        $this->commands([
+            \Platform\Shared\Console\MultiTenantCommands\Console\MultiTenantMigrateCommand::class,
+        ]);
+    }
 
     /**
      * Register any application services.

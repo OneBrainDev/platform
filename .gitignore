@@ -50,4 +50,4 @@ yarn-error.log
 yarn-error.log*
 .infrastruture/volume_data/
 .infrastruture/traefik/
-
+_ide_helper*
