@@ -1,5 +1,27 @@
 # Changelog
 
+## v2025.01.06.014742 - 2025-01-06
+
+### What's Changed
+
+### New Features
+
+- #30: feature: add baseline modules and multitenant things
+- #24: feature: updates all the composer post scripts
+- #22: feature: add in example env files
+- #20: feature: arch tests and a basic template for a users module
+- #19: feature: update composer dependencies
+
+### Bug Fixes
+
+- #23: fix: adds the example files
+- #21: fix: removes old envs
+
+### General Updates
+
+- #26: chore: update all dependencies
+- #25: refactor: move frontend prettier, eslint, and taskfiles
+
 ## v2024.12.02.022924 - 2024-12-02
 
 ### What's Changed
