@@ -74,7 +74,7 @@ services:
     build:
       context: .
       target: frontend
-    command: ["pnpm",  "--filter", "@platform/ds", "run", "watch",]
+    command: ["pnpm",  "--filter", "@platform/ds", "run", "build", "--watch"]
     environment:
       NODE_ENV: development
     volumes:
@@ -86,7 +86,7 @@ services:
     build:
       context: .
       target: frontend
-    command: ["pnpm",  "--filter", "@platform/web", "run", "build", "--emptyOutDir", "--watch"]
+    command: ["pnpm",  "--filter", "@platform/web", "run", "build", "--watch", "--emptyOutDir"]
     depends_on:
       - traefik
       - ds
