@@ -7,7 +7,10 @@ use Platform\Accounts\Http\Controllers\IndexAccountsController;
 use Platform\Accounts\Http\Controllers\StoreRegisterController;
 use Platform\Accounts\Http\Controllers\UpdateAccountsController;
 
-Route::middleware('guest')->group(function () {
+Route::middleware('guest')->domain("{subdomain}".".".Config::string('app.url'))->group(function () {
+    // Route::get('/register', function () {
+    //     echo "hi";
+    // });
     Route::inertia('/register', 'Accounts/CreateRegister')->name('register.create');
     Route::post('/register', StoreRegisterController::class)->name('register.store');
 });

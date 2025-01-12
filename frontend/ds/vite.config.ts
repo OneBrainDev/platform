@@ -1,10 +1,17 @@
-import { defineConfig } from 'vitest/config';
-import { sveltekit } from '@sveltejs/kit/vite';
+import { fileURLToPath, URL } from 'node:url'
+
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
-	plugins: [sveltekit()],
-
-	test: {
-		include: ['src/**/*.{test,spec}.{js,ts}']
-	}
-});
+   plugins: [vue(), vueDevTools()],
+   server: {
+      host: '0.0.0.0',
+   },
+   resolve: {
+      alias: {
+         '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+   },
+})

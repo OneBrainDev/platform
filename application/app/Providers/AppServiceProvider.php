@@ -2,6 +2,7 @@
 
 namespace Platform\Providers;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
 final class AppServiceProvider extends ServiceProvider
@@ -11,6 +12,7 @@ final class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Route::pattern('subdomain', "[0-9A-Za-z\-]+");
 
         $this->commands([
             \Platform\Shared\Console\MultiTenantCommands\Console\MultiTenantMigrateCommand::class,

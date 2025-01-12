@@ -35,19 +35,19 @@ ARG GROUP_ID
 
 USER root
 RUN docker-php-serversideup-set-id www-data $USER_ID:$GROUP_ID  && \
-  docker-php-serversideup-set-file-permissions --owner $USER_ID:$GROUP_ID --service nginx
+    docker-php-serversideup-set-file-permissions --owner $USER_ID:$GROUP_ID --service nginx
 
 USER www-data
 
 # Base Frontend Image ..........................................................
-FROM node:21-slim AS frontend
+FROM node:22-slim AS frontend
 ARG WORKDIR
 ARG PACKAGES
 WORKDIR ${WORKDIR}
 RUN npm install -g pnpm
 COPY ${PACKAGES}/package.json ./
 COPY ${PACKAGES}/pnpm-lock.yaml ./
-RUN pnpm install
+RUN pnpm install --recursive
 COPY . .
 
 # Ensure PHP-FPM gracefully stops
