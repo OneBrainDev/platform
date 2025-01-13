@@ -1,5 +1,13 @@
 # Changelog
 
+## v2025.01.13.200205 - 2025-01-13
+
+### What's Changed
+
+### New Features
+
+- #31: feature: now with Vue3
+
 ## v2025.01.06.014742 - 2025-01-06
 
 ### What's Changed
