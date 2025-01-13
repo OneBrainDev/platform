@@ -52,31 +52,44 @@ services:
     volumes:
       - ./.infrastructure/volume_data/redis/data:/data
 
-  docs:
-    container_name: platform_docs
-    <<: *env
-    command: ["pnpm",  "--filter", "@platform/docs", "run", "docs:dev", "--port=${DOCKER_PORT_DOCS}","--host"]
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.docs.rule=Host(`${DOCKER_URL_DOCS}`)"
-      - "traefik.http.routers.docs.entrypoints=websecure"
-      - "traefik.http.routers.docs.tls=true"
-      - "traefik.http.services.docs.loadbalancer.server.port=${DOCKER_PORT_DOCS}"
-      - "traefik.http.services.docs.loadbalancer.server.scheme=http"
-    volumes:
-      - <<: *services-volume
-    networks:
-      - development
+#   docs:
+#     container_name: platform_docs
+#     <<: *env
+#     command: ["pnpm",  "--filter", "@platform/docs", "run", "docs:dev", "--port=${DOCKER_PORT_DOCS}","--host"]
+#     labels:
+#       - "traefik.enable=true"
+#       - "traefik.http.routers.docs.rule=Host(`${DOCKER_URL_DOCS}`)"
+#       - "traefik.http.routers.docs.entrypoints=websecure"
+#       - "traefik.http.routers.docs.tls=true"
+#       - "traefik.http.services.docs.loadbalancer.server.port=${DOCKER_PORT_DOCS}"
+#       - "traefik.http.services.docs.loadbalancer.server.scheme=http"
+#     volumes:
+#       - <<: *services-volume
+#     networks:
+#       - development
 
-  web:
-    container_name: platform_frontend
+  ds:
+    container_name: platform_ds
     <<: *env
     build:
       context: .
       target: frontend
-    command: ["pnpm",  "--filter", "@platform/web", "run", "build", "--emptyOutDir", "--watch"]
+    command: ["pnpm",  "--filter", "@platform/ds", "run", "build", "--watch"]
+    environment:
+      NODE_ENV: development
+    volumes:
+      - <<: *services-volume
+
+  web:
+    container_name: platform_web
+    <<: *env
+    build:
+      context: .
+      target: frontend
+    command: ["pnpm",  "--filter", "@platform/web", "run", "build", "--watch", "--emptyOutDir"]
     depends_on:
       - traefik
+      - ds
     environment:
       NODE_ENV: development
     volumes:
@@ -97,7 +110,7 @@ services:
       - PHP_FPM_POOL_NAME="application-php-pool"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.application.rule=Host(`${DOCKER_URL}`)"
+      - "traefik.http.routers.application.rule=HostRegexp(`^(.+\\.)?${DOCKER_URL}$`)"
       - "traefik.http.routers.application.entrypoints=websecure"
       - "traefik.http.routers.application.tls=true"
       - "traefik.http.services.application.loadbalancer.server.port=${DOCKER_PORT_APP}"
@@ -106,6 +119,7 @@ services:
       - development
     ports:
       - "${DOCKER_PORT_APP}:80"
+      - "3000:3000"
     volumes:
       - <<: *services-volume
     working_dir: ${DOCKER_PATH_APP}
@@ -164,12 +178,6 @@ services:
   #   depends_on:
   #     - traefik
 
-
-
-  # design:
-  #   <<: *basefront
-  #   container_name: platform_design
-  #   command: "pnpm --filter @platform/design run dev"
 
   # design-storybook:
   #   <<: *basefront
