@@ -8,17 +8,14 @@
       "build": "run-p type-check \"build-only {@}\" --",
       "preview": "vite preview",
       "test:unit": "vitest",
-      "test:e2e": "playwright test",
       "build-only": "vite build",
       "type-check": "vue-tsc --build",
       "lint": "eslint . --fix",
       "format": "prettier --write src/"
    },
-   "devDependencies": {
-      "@playwright/test": "^1.49.1",
-      "eslint-plugin-playwright": "^2.1.0"
-   },
+   "devDependencies": {},
    "dependencies": {
+      "@platform/ds": "workspace:*",
       "@inertiajs/vue3": "^2.0.0",
       "laravel-vite-plugin": "^1.1.1"
    }

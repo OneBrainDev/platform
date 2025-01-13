@@ -13,22 +13,18 @@
       "lint": "eslint . --fix",
       "format": "prettier --write src/"
    },
-   "files": [
-      "dist",
-      "!dist/**/*.test.*",
-      "!dist/**/*.spec.*"
-   ],
-   "module": "./dist/index.js",
-   "sideEffects": [
-      "**/*.css"
-   ],
-   "main": "./dist/index.js",
-   "types": "./dist/index.d.ts",
    "exports": {
       ".": {
          "types": "./dist/index.d.ts",
          "import": "./dist/index.js"
-      }
+      },
+      "./dist/*": "./dist/*"
    },
+   "files": [
+      "dist"
+   ],
+   "main": "./dist/index.js",
+   "module": "./dist/index.js",
+   "types": "./dist/index.d.ts",
    "devDependencies": {}
 }
