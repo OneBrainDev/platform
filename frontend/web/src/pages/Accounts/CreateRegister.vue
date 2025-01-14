@@ -1,13 +1,13 @@
 <script setup lang="ts">
-    import {DSGroup} from '@platform/ds'
+import { DsGroup } from '@platform/ds'
 </script>
 
 <template>
-    <DSGroup>
+    <ds-group>
         <h1>Really</h1>
-    </DSGroup>
+        <h2>This is</h2>
+        <p>a test</p>
+    </ds-group>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
