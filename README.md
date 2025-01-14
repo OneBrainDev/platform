@@ -64,8 +64,8 @@ The platform has several `.env` files in it: the main one is located in the root
 # What's in the box
 
 - Laravel 11+
-- Inertia + Svelte
-- Svelte Design System
+- Inertia + Vue3
+- Vue3 Design System
 - Storybook
 - Docker
 - Vitepress for system documentation
