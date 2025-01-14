@@ -48,7 +48,7 @@ services:
     networks:
       - development
     ports:
-      - "${DOCKER_PORT_REDIS}:6379"
+      - "6379:6379"
     volumes:
       - ./.infrastructure/volume_data/redis/data:/data
 
@@ -124,23 +124,23 @@ services:
       - <<: *services-volume
     working_dir: ${DOCKER_PATH_APP}
 
-#   horizon:
-#    <<: *env
-#     container_name: platform_horizon
-#     command: "php artisan horizon"
-#     environment:
-#       - PHP_FPM_POOL_NAME="horizon-php-pool"
-#     stop_signal: SIGTERM
-#     labels:
-#       - "traefik.enable=true"
-#       - "traefik.http.routers.horizon.rule=Host(`${DOCKER_URL_HORIZON}`)"
-#       - "traefik.http.routers.horizon.entrypoints=websecure"
-#       - "traefik.http.routers.horizon.tls=true"
-#       - "traefik.http.services.horizon.loadbalancer.server.port=${DOCKER_PORT_APP}"
-#       - "traefik.http.services.horizon.loadbalancer.server.scheme=http"
-#     depends_on:
-#       - redis
-#       - api
+  horizon:
+    <<: *env
+    container_name: platform_horizon
+    build:
+      target: development
+      args:
+        USER_ID: ${SPIN_USER_ID}
+        GROUP_ID: ${SPIN_GROUP_ID}
+    command: "php artisan horizon"
+    environment:
+      - PHP_FPM_POOL_NAME="horizon-php-pool"
+    networks:
+      - development
+    stop_signal: SIGTERM
+    volumes:
+      - <<: *services-volume
+    working_dir: ${DOCKER_PATH_APP}
 
   storage:
     container_name: platform_storage
