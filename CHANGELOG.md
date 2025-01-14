@@ -1,5 +1,19 @@
 # Changelog
 
+## v2025.01.14.213740 - 2025-01-14
+
+### What's Changed
+
+### New Features
+
+- #35: feature: add laravel horizon to docker
+- #33: feature: turn on minIO and mailpit
+- #32: feature: ds-components now load and can be tested
+
+### Bug Fixes
+
+- #34: fix: docker env example updated
+
 ## v2025.01.13.200205 - 2025-01-13
 
 ### What's Changed
