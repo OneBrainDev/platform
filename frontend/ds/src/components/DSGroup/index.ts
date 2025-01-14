@@ -1,3 +1,2 @@
-import DSGroup from './DSGroup.vue'
-
-export { DSGroup }
+export { default as DsGroup } from './DsGroup.vue'
+export type { GroupProps, GroupType } from './types'

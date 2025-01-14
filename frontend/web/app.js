@@ -1,7 +1,6 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 
-import './src/assets/main.css'
 import '@platform/ds/dist/index.css'
 
 createInertiaApp({
