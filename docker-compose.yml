@@ -43,12 +43,13 @@ services:
       - redis
       - mysql
 
-  # # horizon:
-  # #   build:
-  # #     context: .
-  # #     target: base
-  # #   depends_on:
-  # #     - app
+  horizon:
+    build:
+      context: .
+      target: base
+    depends_on:
+      - redis
+      - application
 
 
 

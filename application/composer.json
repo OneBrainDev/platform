@@ -14,9 +14,10 @@
       "laravel/horizon": "^5.27",
       "laravel/pennant": "^1.14",
       "laravel/tinker": "^2.9",
+      "platform/accounts": "*",
       "platform/users": "*",
       "platform/workspaces": "*",
-      "platform/accounts": "*"
+      "predis/predis": "^2.3"
    },
    "require-dev": {
       "barryvdh/laravel-ide-helper": "^3.4",
