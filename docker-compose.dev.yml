@@ -124,59 +124,63 @@ services:
       - <<: *services-volume
     working_dir: ${DOCKER_PATH_APP}
 
+#   horizon:
+#    <<: *env
+#     container_name: platform_horizon
+#     command: "php artisan horizon"
+#     environment:
+#       - PHP_FPM_POOL_NAME="horizon-php-pool"
+#     stop_signal: SIGTERM
+#     labels:
+#       - "traefik.enable=true"
+#       - "traefik.http.routers.horizon.rule=Host(`${DOCKER_URL_HORIZON}`)"
+#       - "traefik.http.routers.horizon.entrypoints=websecure"
+#       - "traefik.http.routers.horizon.tls=true"
+#       - "traefik.http.services.horizon.loadbalancer.server.port=${DOCKER_PORT_APP}"
+#       - "traefik.http.services.horizon.loadbalancer.server.scheme=http"
+#     depends_on:
+#       - redis
+#       - api
 
+  storage:
+    container_name: platform_storage
+    image: 'minio/minio:latest'
+    environment:
+        MINIO_ROOT_USER: ${DOCKER_STORAGE_USERNAME}
+        MINIO_ROOT_PASSWORD: ${DOCKER_STORAGE_PASSWORD}
+    ports:
+        - '${DOCKER_PORT_STORAGE:-9000}:${DOCKER_PORT_STORAGE:-9000}'
+        - '${DOCKER_PORT_STORAGE_CONSOLE:-8900}:${DOCKER_PORT_STORAGE_CONSOLE:-8900}'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.storage.rule=Host(`${DOCKER_URL_STORAGE}`)"
+      - "traefik.http.routers.storage.entrypoints=websecure"
+      - "traefik.http.routers.storage.tls=true"
+      - "traefik.http.services.storage.loadbalancer.server.port=${DOCKER_PORT_STORAGE:-9000}"
+      - "traefik.http.services.storage.loadbalancer.server.scheme=http"
+    volumes:
+        - ./.infrastructure/volume_data/storage/data:/data
+    networks:
+        - development
+    command: minio server /data/minio --console-address ":${DOCKER_PORT_STORAGE_CONSOLE}"
 
-
-  # horizon:
-  #   <<: *basephp
-  #   container_name: platform_horizon
-  #   command: "php artisan horizon"
-  #   environment:
-  #     - PHP_FPM_POOL_NAME="horizon-php-pool"
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.horizon.rule=Host(`${DOCKER_HORIZON_URI}`)"
-  #     - "traefik.http.routers.horizon.entrypoints=websecure"
-  #     - "traefik.http.routers.horizon.tls=true"
-  #     - "traefik.http.services.horizon.loadbalancer.server.port=${DOCKER_HORIZON_PORT}"
-  #     - "traefik.http.services.horizon.loadbalancer.server.scheme=http"
-  #   depends_on:
-  #     - redis
-  #     - api
-
-  # minio:
-  #   container_name: platform_storage
-  #   image: 'minio/minio:latest'
-  #   ports:
-  #       - '${DOCKER_STORAGE_API_PORT}:${DOCKER_STORAGE_API_PORT}'
-  #       - '${DOCKER_STORAGE_DISPLAY_PORT}:${DOCKER_STORAGE_DISPLAY_PORT}'
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.minio.rule=Host(`${DOCKER_STORAGE_URI}`)"
-  #     - "traefik.http.routers.minio.entrypoints=websecure"
-  #     - "traefik.http.routers.minio.tls=true"
-  #     - "traefik.http.services.minio.loadbalancer.server.port=${DOCKER_STORAGE_API_PORT}"
-  #     - "traefik.http.services.minio.loadbalancer.server.scheme=http"
-  #   volumes:
-  #       - ./.infrastructure/volume_data/minio/data:/data
-  #   networks:
-  #       - development
-  #   command: minio server /data/minio --console-address ":${DOCKER_STORAGE_API_PORT}"
-
-  # mailpit:
-  #   container_name: platform_email
-  #   image: axllent/mailpit
-  #   networks:
-  #     - development
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.mailpit.rule=Host(`${DOCKER_MAIL_URI}`)"
-  #     - "traefik.http.routers.mailpit.entrypoints=websecure"
-  #     - "traefik.http.routers.mailpit.tls=true"
-  #     - "traefik.http.services.mailpit.loadbalancer.server.port=${DOCKER_MAIL_PORT}"
-  #     - "traefik.http.services.mailpit.loadbalancer.server.scheme=http"
-  #   depends_on:
-  #     - traefik
+  mailpit:
+    container_name: platform_email
+    image: axllent/mailpit
+    networks:
+      - development
+    ports:
+        - '${DOCKER_PORT_EMAIL:-1025}:1025'
+        - '${DOCKER_PORT_EMAIL_DASHBOARD:-8025}:8025'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailpit.rule=Host(`${DOCKER_URL_EMAIL}`)"
+      - "traefik.http.routers.mailpit.entrypoints=websecure"
+      - "traefik.http.routers.mailpit.tls=true"
+      - "traefik.http.services.mailpit.loadbalancer.server.port=${DOCKER_PORT_EMAIL_DASHBOARD}"
+      - "traefik.http.services.mailpit.loadbalancer.server.scheme=http"
+    depends_on:
+      - traefik
 
 
   # design-storybook:
