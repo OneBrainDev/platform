@@ -1,0 +1,8 @@
+export type ThemeVariants = 'primary' | 'secondary' | 'outline' | 'text-only'
+export type ThemeSizes = 'none' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
+export type ThemeType = 'light' | 'dark'
+export type ThemePositions = 'start' | 'middle' | 'end'
+export type InlinePosition = ThemePositions | 'around' | 'between' | 'evenly'
+export type BlockPosition = ThemePositions | 'full' | 'baseline'
+export type FormInputType = 'text' | 'email' | 'number' | 'password' | 'checkbox' | 'radio'
+export type ButtonThemeVariants = ThemeVariants | 'circular' | 'circular-primary'

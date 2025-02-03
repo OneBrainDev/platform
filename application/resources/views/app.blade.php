@@ -13,7 +13,9 @@
         ? $appjs['file']
         : throw new \Exception("manifest file does not have filename set");
 
-    $stylesheets = $appjs ? $appjs['css'] : [];
+    $stylesheets = array_key_exists('css', $appjs)
+        ? $appjs['css']
+        : [];
 @endphp
 <!DOCTYPE html>
 <html>

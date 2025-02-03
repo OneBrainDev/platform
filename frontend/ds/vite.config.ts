@@ -3,10 +3,20 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
+import dts  from 'vite-plugin-dts'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
-   plugins: [vue(), vueDevTools()],
+   plugins: [
+      vue(),
+      dts({
+         rollupTypes: true,
+         insertTypesEntry: true,
+         // tsconfigPath: resolve(__dirname, 'tsconfig.json'),
+         exclude: ['node_modules/**', 'src/test/**', 'src/**/docs/**', 'src/**/*.stories.ts'],
+     }),
+      vueDevTools()
+   ],
    server: {
       host: '0.0.0.0',
    },
@@ -18,6 +28,8 @@ export default defineConfig({
          entry: {
             index: resolve(__dirname, 'src/index.ts'),
          },
+         fileName: 'ds',
+         name: 'ds',
          formats: ['es'],
       },
       rollupOptions: {

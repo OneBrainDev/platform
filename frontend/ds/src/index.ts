@@ -1,7 +1,32 @@
-import '@/assets/styles/main.css'
+import '../public/assets/styles/main.css'
 
-import type { BlockPlacement, InlinePlacement, NamedSize, Placement } from './types'
+import type {
+   BlockPosition,
+   ButtonThemeVariants,
+   FormInputType,
+   InlinePosition,
+   ThemePositions,
+   ThemeSizes,
+   ThemeType,
+   ThemeVariants,
+} from './types/global'
 
-import { DsGroup } from './components'
+import {
+   type GroupProps,
+   type GroupType,
+   DsGroup
+} from './components'
 
-export { type BlockPlacement, type InlinePlacement, type NamedSize, type Placement, DsGroup }
+export {
+    type BlockPosition,
+    type ButtonThemeVariants,
+    type FormInputType,
+    type GroupProps,
+    type GroupType,
+    type InlinePosition,
+    type ThemePositions,
+    type ThemeSizes,
+    type ThemeType,
+    type ThemeVariants,
+    DsGroup,
+}
