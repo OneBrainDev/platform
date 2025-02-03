@@ -3,17 +3,14 @@
 commit_msg="${1}"
 commit_msg_lines=()
 error_msg="[COMMIT FAILED]"
-allowed_subject_verbs=('build:' 'chore:' 'ci:' 'docs:' 'feature:' 'fix:' 'refactor:' 'revert:' 'style:')
+allowed_subject_verbs=('bc:' 'feature:' 'fix:' 'update:' 'chore:' 'security:')
 allowed_subject_defs=(
-'build: does something to clean up the build process'
-'chore: updates the allowed subject verbs script for commit messages'
-'ci: updates the ci tooling'
-'docs: updates all the inline docs'
-'feature: adds a new page to the backend for something'
-'fix: fixes bug that was causing the page to crash'
-'refactor: cleans up the code in the .infrastructure folder'
-'revert: reverts the prior commit due to production bug'
-'style: runs formatting over evertyhing'
+'bc: breaking changes, including reverting'
+'chore: minor changes, doc updates'
+'feature: new thing'
+'fix: logic or bug fixes'
+'security: dependabot or security upgrades'
+'update: changes how something works, or adds something new'
 )
 
 # Splits the commit msg into separate lines and adds them to an array
@@ -82,17 +79,3 @@ validate_commit_msg() {
 }
 
 validate_commit_msg
-
-# sed -i.bak '/^\;/ d' $1
-# sed -i.bak '/^#/ d' $1
-
-# sed -i.bak -e :a -e '/^\n*$/{$d;N;ba' -e '}' $1
-
-# branch="$(git symbolic-ref --short HEAD)"
-# if [[ -z "${branch}" ]]; then
-#     echo "${error_msg} Could not determine the branch name"
-#     exit 1
-# fi
-
-# ticket=$(echo "$branch" | sed 's/\-.*//')
-# sed -i.bak -e "1s/^/#$ticket /" $1
