@@ -1,5 +1,13 @@
 # Changelog
 
+## v2025.02.03.030825 - 2025-02-03
+
+### What's Changed
+
+### New Features
+
+- #36: feature: linking the DS to the Web
+
 ## v2025.01.14.213740 - 2025-01-14
 
 ### What's Changed
