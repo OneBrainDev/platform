@@ -1,22 +1,21 @@
 categories:
-  - labels:
-      - "breaking-change"
-    title: "Important Update or Changes"
-  - labels:
-      - "feature"
-    title: "New Features"
-  - labels:
-      - "fix"
-    title: "Bug Fixes"
-  - labels:
-      - "update"
-      - "chore"
-      - "refactor"
-      - "security"
-    title: "General Updates"
+   - labels:
+        - "breaking-change"
+     title: "Important Update or Changes"
+   - labels:
+        - "feature"
+     title: "New Features"
+   - labels:
+        - "fix"
+     title: "Bug Fixes"
+   - labels:
+        - "update"
+        - "chore"
+        - "refactor"
+        - "security"
+     title: "General Updates"
 
 change-template: "- #$NUMBER: $TITLE"
 template: |
-  ## What's Changed
 
-  $CHANGES
+   $CHANGES
