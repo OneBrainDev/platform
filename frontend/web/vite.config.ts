@@ -1,11 +1,11 @@
 import { fileURLToPath, URL } from 'node:url'
 import laravel from 'laravel-vite-plugin'
 import { defineConfig } from 'vite'
+import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 export default defineConfig({
-   envDir: '../../application',
    build: {
       cssCodeSplit: true,
       manifest: true,
@@ -29,8 +29,8 @@ export default defineConfig({
          publicDirectory: '../../application/public',
       }),
       vue(),
-      vueDevTools(),
    ],
+
    resolve: {
       alias: {
          '@': fileURLToPath(new URL('./src', import.meta.url)),
