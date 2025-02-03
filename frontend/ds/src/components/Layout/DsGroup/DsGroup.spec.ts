@@ -12,7 +12,7 @@ describe('DSGroup', () => {
             inline: 'start',
             block: 'start',
             wrap: false,
-         }
+         },
       })
       expect(wrapper.classes()).toContain('ds-group')
       expect(wrapper.classes()).toContain('stack')
@@ -28,8 +28,8 @@ describe('DSGroup', () => {
             wrap: false,
          },
          slots: {
-            default: "Main Content"
-         }
+            default: 'Main Content',
+         },
       })
 
       expect(wrapper.html()).toContain('Main Content')
@@ -43,7 +43,7 @@ describe('DSGroup', () => {
             inline: 'start',
             block: 'start',
             wrap: false,
-         }
+         },
       })
       expect(wrapper.classes()).toContain('ds-group')
       expect(wrapper.classes()).toContain('cluster')

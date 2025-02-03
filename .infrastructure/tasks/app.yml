@@ -30,6 +30,7 @@ tasks:
       disc: Runs artisan route list but excludes vendor routes
       cmds:
          - php artisan route:list --except-vendor
+
    migrate:
       desc: Run database migrations
       cmds:
