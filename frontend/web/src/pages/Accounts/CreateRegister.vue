@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { DsGroup  } from '@platform/ds'
-
-
+import { DsGroup } from '@platform/ds'
 </script>
 
 <template>

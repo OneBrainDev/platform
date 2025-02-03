@@ -9,10 +9,6 @@ includes:
       taskfile: ./.infrastructure/tasks/docs.yml
       dir: ./docs
 
-   ds:
-      taskfile: ./.infrastructure/tasks/ds.yml
-      dir: ./frontend/ds
-
    front:
       taskfile: ./.infrastructure/tasks/front.yml
       dir: ./frontend
@@ -21,22 +17,7 @@ includes:
       taskfile: ./.infrastructure/tasks/platform.yml
       dir: ./
 
-   web:
-      taskfile: ./.infrastructure/tasks/web.yml
-      dir: ./frontend/web
-
 tasks:
-   clean:
-      desc: Delete all dependencies and build folders and start again
-      prompt: This will delete all node_modules, dist folders and vendor folders...are you sure you want to do this?
-      cmds:
-         - task: app:clean
-         - task: app:env
-         - task: ds:clean
-         - task: docs:clean
-         - task: web:clean
-         - task: front:clean
-
    init:
       desc: Install everything and start docker
       cmds:
