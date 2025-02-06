@@ -10,8 +10,11 @@ export default defineConfig({
    plugins: [
       vue(),
       dts({
+         tsconfigPath: './tsconfig.json',
          rollupTypes: true,
          insertTypesEntry: true,
+         strictOutput: true,
+         outDir: './dist',
          exclude: [
             'node_modules/**',
             'src/test/**',

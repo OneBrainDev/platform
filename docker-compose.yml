@@ -25,6 +25,9 @@ services:
       args:
         - WORKDIR=/platform/frontend
         - PACKAGES=frontend
+    depends_on:
+      - traefik
+      - application
 
   web:
     build:
@@ -33,6 +36,9 @@ services:
       args:
         - WORKDIR=/platform/frontend
         - PACKAGES=frontend
+    depends_on:
+      - traefik
+      - ds
 
   application:
     build:

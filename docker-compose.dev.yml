@@ -162,6 +162,10 @@ services:
         - ./.infrastructure/volume_data/storage/data:/data
     networks:
         - development
+    depends_on:
+       - traefik
+       - application
+
     command: minio server /data/minio --console-address ":${DOCKER_PORT_STORAGE_CONSOLE}"
 
   mailpit:
@@ -181,19 +185,6 @@ services:
       - "traefik.http.services.mailpit.loadbalancer.server.scheme=http"
     depends_on:
       - traefik
-
-
-  # design-storybook:
-  #   <<: *basefront
-  #   container_name: platform_storybook
-  #   command: "pnpm --filter @platform/design run storybook --no-open --disable-telemetry"
-  #   labels:
-  #     - "traefik.enable=true"
-  #     - "traefik.http.routers.design-storybook.rule=Host(`${DOCKER_DESIGN_URL}`)"
-  #     - "traefik.http.routers.design-storybook.entrypoints=websecure"
-  #     - "traefik.http.routers.design-storybook.tls=true"
-  #     - "traefik.http.services.design-storybook.loadbalancer.server.port=${DOCKER_DESIGN_PORT}"
-  #     - "traefik.http.services.design-storybook.loadbalancer.server.scheme=http"
 
 networks:
   development:
