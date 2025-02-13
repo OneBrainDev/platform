@@ -45,8 +45,18 @@ ARG WORKDIR
 ARG PACKAGES
 WORKDIR ${WORKDIR}
 RUN npm install -g pnpm
+
+FROM frontend AS build
+ARG WORKDIR
+ARG PACKAGES
+WORKDIR ${WORKDIR}
 COPY ${PACKAGES}/package.json ./
 COPY ${PACKAGES}/pnpm-lock.yaml ./
+
+FROM build AS dev
+ARG WORKDIR
+ARG PACKAGES
+WORKDIR ${WORKDIR}
 RUN pnpm install --recursive
 COPY . .
 

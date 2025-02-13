@@ -28,7 +28,7 @@
     @endforeach
     <link rel="modulepreload" href="/build/{{ $file }}">
     <script type="module" src="/build/{{ $file }}"></script>
-
+    {{-- @vite('app.js') --}}
     @inertiaHead
   </head>
   <body>
