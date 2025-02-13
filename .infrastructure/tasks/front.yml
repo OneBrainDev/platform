@@ -7,7 +7,7 @@ tasks:
 
    clean:
       cmds:
-         - rm -Rf node_modules pnpm-lock.yaml dist ds/node_modules ds/pnpm-lock.yaml ds/dist web/node_modules web/pnpm-lock.yaml web/dist
+         - rm -Rf node_modules pnpm-lock.yaml dist blank/node_modules blank/pnpm-lock.yaml blank/dist web/node_modules web/pnpm-lock.yaml web/dist
 
    lint:
       cmds:
@@ -19,7 +19,7 @@ tasks:
 
    test:
       cmds:
-         - pnpm --filter=@platform/ds test:unit
+         - pnpm --filter=@platform/blank test:unit
 
    update:
       desc: Update all dependencies

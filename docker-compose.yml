@@ -18,7 +18,7 @@ services:
   #   depends_on:
   #     - traefik
 
-  ds:
+  blank:
     build:
       context: .
       target: frontend
@@ -38,7 +38,7 @@ services:
         - PACKAGES=frontend
     depends_on:
       - traefik
-      - ds
+      - blank
 
   application:
     build:

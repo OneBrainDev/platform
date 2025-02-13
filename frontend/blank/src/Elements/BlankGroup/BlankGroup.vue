@@ -1,29 +1,39 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { GroupProps } from '.'
+import { POSITION_MAP, SIZE_MAP } from '@/types'
+import { GroupProps, GROUP_MAP } from './types'
 
 const {
-    type = 'stack',
-    gap = 'xsmall',
-    inline = 'start',
-    block = 'start',
+    stack = true,
+    cluster = false,
+    gap = SIZE_MAP.SMALL,
+    inline = POSITION_MAP.START,
+    block = POSITION_MAP.START,
     wrap = false,
 } = defineProps<GroupProps>()
 
 const wrapper = computed(() => {
     return wrap ? 'wrapper' : ''
 })
+
+const type = computed(() => {
+    if (stack && !cluster) {
+        return GROUP_MAP.STACK
+    }
+
+    return GROUP_MAP.CLUSTER
+})
 </script>
 
 <template>
-    <div :class="`ds-group ${type} inline-${inline} block-${block} gap-${gap} ${wrapper}`">
+    <div :class="`blank-group ${type} inline-${inline} block-${block} gap-${gap} ${wrapper}`">
         <slot></slot>
     </div>
 </template>
 
 <style scoped>
 @layer component {
-    .ds-group {
+    .blank-group {
         &.stack {
             display: flex;
             flex-direction: column;

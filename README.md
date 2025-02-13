@@ -1,6 +1,6 @@
 # Welcome to The Platform
 
-This is my full stack Laravel/Svelte platform. It takes all the best practices, architecture principles, and battle tested concepts that I've been using for 20 years and puts them into one neat package.
+This is my full stack Laravel/Vue platform. It takes all the best practices, architecture principles, and battle tested concepts that I've been using for 20 years and puts them into one neat package.
 
 ## Disclaimer
 
@@ -57,6 +57,8 @@ The platform has several `.env` files in it: the main one is located in the root
 # What's in the box
 
 - Laravel 11+
+- Redis
+- MySql
 - Inertia + Vue3
 - Vue3 Design System
 - Docker

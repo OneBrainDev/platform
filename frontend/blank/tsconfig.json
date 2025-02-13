@@ -3,6 +3,7 @@
    "include": ["src", "public"],
    "exclude": ["src/**/*.spec.ts"],
    "compilerOptions": {
+      "outDir": "./dist",
       "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
       "paths": {
          "@/*": ["./src/*"]

@@ -1,6 +1,6 @@
 {
-   "name": "@platform/ds",
-   "version": "0.0.0",
+   "name": "@platform/blank",
+   "version": "0.0.1",
    "private": true,
    "type": "module",
    "scripts": {
@@ -9,16 +9,14 @@
       "preview": "vite preview",
       "test:unit": "vitest --run",
       "build-only": "vite build",
-      "type-check": "vue-tsc --build",
-      "lint": "eslint . --fix",
-      "format": "prettier --write src/"
+      "type-check": "vue-tsc --build"
    },
    "exports": {
       ".": {
-         "types": "./dist/index.d.ts",
-         "import": "./dist/ds.js"
+         "types": "./dist/types.d.ts",
+         "import": "./dist/blank.js"
       },
-      "./bits.css": "./dist/bits.css",
+      "./bits.css": "./dist/blank.css",
       "./fonts.css": "./dist/assets/styles/fonts.css",
       "./assets/fonts/*": "./dist/assets/fonts/*",
       "./assets/icons/*": "./dist/assets/icons/*",
@@ -28,12 +26,9 @@
    "files": [
       "dist"
    ],
-   "main": "./dist/ds.js",
-   "module": "./dist/ds.js",
-   "types": "./dist/index.d.ts",
-   "dependencies": {
-      "vue": "^3.5.13"
-   },
+   "main": "./dist/blank.js",
+   "module": "./dist/blank.js",
+   "types": "./dist/types.d.ts",
    "devDependencies": {
       "vite-plugin-dts": "^4.5.0"
    }

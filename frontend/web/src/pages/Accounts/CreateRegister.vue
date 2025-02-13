@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { DsGroup } from '@platform/ds'
+import { DsGroup, DsInput } from '@platform/blank'
 </script>
 
 <template>
     <ds-group>
-        <h1>Really</h1>
-        <h2>This is</h2>
-        <p>a test</p>
+        <ds-input type="email" label="Enter email address:" error="Error Message Here" />
+        <ds-input type="password" label="Enter your password dawg" />
+
+        <button type="submit">Hello there</button>
     </ds-group>
 </template>
 

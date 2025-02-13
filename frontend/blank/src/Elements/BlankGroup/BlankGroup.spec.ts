@@ -1,27 +1,29 @@
 import { describe, it, expect } from 'vitest'
 
 import { mount } from '@vue/test-utils'
-import DsGroup from './DsGroup.vue'
+import BlankGroup from './BlankGroup.vue'
 
-describe('DSGroup', () => {
+describe('BlankGroup', () => {
    it('renders a default stack', () => {
-      const wrapper = mount(DsGroup, {
+      const wrapper = mount(BlankGroup, {
          props: {
-            type: 'stack',
+            stack: true,
+            cluster: false,
             gap: 'xsmall',
             inline: 'start',
             block: 'start',
             wrap: false,
          },
       })
-      expect(wrapper.classes()).toContain('ds-group')
+      expect(wrapper.classes()).toContain('blank-group')
       expect(wrapper.classes()).toContain('stack')
    })
 
    it('renders the main slot', () => {
-      const wrapper = mount(DsGroup, {
+      const wrapper = mount(BlankGroup, {
          props: {
-            type: 'stack',
+            stack: true,
+            cluster: false,
             gap: 'xsmall',
             inline: 'start',
             block: 'start',
@@ -36,16 +38,17 @@ describe('DSGroup', () => {
    })
 
    it('renders a cluster', () => {
-      const wrapper = mount(DsGroup, {
+      const wrapper = mount(BlankGroup, {
          props: {
-            type: 'cluster',
+            stack: false,
+            cluster: true,
             gap: 'xsmall',
             inline: 'start',
             block: 'start',
             wrap: false,
          },
       })
-      expect(wrapper.classes()).toContain('ds-group')
+      expect(wrapper.classes()).toContain('blank-group')
       expect(wrapper.classes()).toContain('cluster')
       expect(wrapper.classes()).not.toContain('stack')
    })

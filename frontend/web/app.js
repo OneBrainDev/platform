@@ -1,7 +1,7 @@
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 
-import '@platform/ds/dist/index.css'
+// import '@platform/blank/dist/index.css'
 
 createInertiaApp({
    resolve: (name) => {

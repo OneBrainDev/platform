@@ -33,19 +33,27 @@ export default defineConfig({
       cssCodeSplit: true,
       manifest: true,
       sourcemap: true,
+      outDir: './dist',
       lib: {
          entry: {
             index: resolve(__dirname, 'src/index.ts'),
          },
-         fileName: 'ds',
-         name: 'ds',
+         fileName: 'blank',
+         name: 'blank',
          formats: ['es'],
       },
       rollupOptions: {
          external: ['vue'],
          output: {
+            assetFileNames: (assetInfo) => {
+               if (assetInfo.name == 'blank.css' || assetInfo.name == 'index.css') {
+                  return 'blank.css'
+               }
+
+               return assetInfo.name
+            },
             globals: {
-               Vue: 'vue',
+               vue: 'Vue',
             },
          },
       },

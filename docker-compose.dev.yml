@@ -68,13 +68,15 @@ services:
 #     networks:
 #       - development
 
-  ds:
-    container_name: platform_ds
+  blank:
+    container_name: platform_blank
     <<: *env
     build:
       context: .
-      target: frontend
-    command: ["pnpm",  "--filter", "@platform/ds", "run", "build", "--watch"]
+      target: dev
+   #  command: ["pnpm",  "--filter", "@platform/blank", "run", "build", "--watch"]
+   #  command: "pnpm start"
+    entrypoint: ["tail", "-f", "/dev/null"]
     environment:
       NODE_ENV: development
     volumes:
@@ -85,11 +87,16 @@ services:
     <<: *env
     build:
       context: .
-      target: frontend
-    command: ["pnpm",  "--filter", "@platform/web", "run", "build", "--watch", "--emptyOutDir"]
+      target: dev
+   #  command: ["pnpm",  "--filter", "@platform/web", "run", "build", "--watch"]
+   #  command: "pnpm start"
+    entrypoint: ["tail", "-f", "/dev/null"]
     depends_on:
-      - traefik
-      - ds
+      traefik:
+         condition: service_started
+      blank:
+         condition: service_started
+         restart: true
     environment:
       NODE_ENV: development
     volumes:
@@ -113,13 +120,13 @@ services:
       - "traefik.http.routers.application.rule=HostRegexp(`^(.+\\.)?${DOCKER_URL}$`)"
       - "traefik.http.routers.application.entrypoints=websecure"
       - "traefik.http.routers.application.tls=true"
-      - "traefik.http.services.application.loadbalancer.server.port=${DOCKER_PORT_APP}"
+      - "traefik.http.services.application.loadbalancer.server.port=${DOCKER_PORT_APP:-8080}"
       - "traefik.http.services.application.loadbalancer.server.scheme=http"
     networks:
       - development
     ports:
-      - "${DOCKER_PORT_APP}:80"
-      - "3000:3000"
+      - "${DOCKER_PORT_APP:-8080}:80"
+      - "${DOCKER_PORT_VITE:-3000}:3000"
     volumes:
       - <<: *services-volume
     working_dir: ${DOCKER_PATH_APP}
