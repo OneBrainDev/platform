@@ -17,6 +17,10 @@ final class AppServiceProvider extends ServiceProvider
         $this->commands([
             \Platform\Shared\Console\MultiTenantCommands\Console\MultiTenantMigrateCommand::class,
         ]);
+
+        if ($this->app->environment('local')) {
+            \URL::forceScheme('https');
+        }
     }
 
     /**

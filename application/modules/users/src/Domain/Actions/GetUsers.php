@@ -2,10 +2,11 @@
 
 namespace Platform\Users\Actions;
 
-use Platform\Users\Domain\Models\User;
 use Platform\Shared\Traits\Actionable;
+use Platform\Users\Domain\Models\User;
+use Platform\Shared\Contracts\ActionContract;
 
-final class GetUsers
+final class GetUsers implements ActionContract
 {
     use Actionable;
 
@@ -13,7 +14,6 @@ final class GetUsers
 
     public function handle(): void
     {
-
         // return $this->model()->where('active', true)->get();
     }
 }

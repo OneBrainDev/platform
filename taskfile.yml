@@ -29,3 +29,8 @@ tasks:
       cmds:
          - task: app:update
          - task: front:update
+
+   start:
+      cmds:
+         - task: platform:start
+         - task: front:start

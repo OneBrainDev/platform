@@ -19,6 +19,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->trustHosts(at: ['platform.test']);
+
         $middleware->api(prepend: []);
 
         $middleware->web(append: [HandleInertiaRequests::class]);

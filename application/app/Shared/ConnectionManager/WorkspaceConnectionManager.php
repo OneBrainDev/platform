@@ -57,7 +57,7 @@ class WorkspaceConnectionManager
 
     public function isConnected(?string $name = null): bool
     {
-        return  match ($name) {
+        return match ($name) {
             null => trim(Config::string('database.connections.workspace.database')) !== '',
             default => $this->getWorkspaceName($name) === Config::string('database.connections.workspace.database'),
         };

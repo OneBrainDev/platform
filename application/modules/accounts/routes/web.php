@@ -1,23 +1,32 @@
 <?php declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Platform\Accounts\Http\Controllers\EditAccountsController;
-use Platform\Accounts\Http\Controllers\ShowAccountsController;
-use Platform\Accounts\Http\Controllers\IndexAccountsController;
-use Platform\Accounts\Http\Controllers\StoreRegisterController;
-use Platform\Accounts\Http\Controllers\UpdateAccountsController;
+use Platform\Accounts\Http\Controllers\EditsAccountController;
+use Platform\Accounts\Http\Controllers\ShowsAccountController;
+use Platform\Accounts\Http\Controllers\StoresAccountController;
+use Platform\Accounts\Http\Controllers\CreatesAccountController;
+use Platform\Accounts\Http\Controllers\IndexesAccountController;
+use Platform\Accounts\Http\Controllers\UpdatesAccountController;
 
-Route::middleware('guest')->domain("{subdomain}".".".Config::string('app.url'))->group(function () {
-    // Route::get('/register', function () {
-    //     echo "hi";
-    // });
-    Route::inertia('/register', 'Accounts/CreateRegister')->name('register.create');
-    Route::post('/register', StoreRegisterController::class)->name('register.store');
+/**
+ * GET  /register
+ * POST /register
+ */
+Route::middleware('guest')->domain(Config::string('app.url'))->group(function () {
+    Route::get('/register', CreatesAccountController::class)->name('accounts.create');
+    Route::post('/register', StoresAccountController::class)->name('accounts.store');
 });
 
-Route::middleware('auth')->prefix('accounts')->group(function () {
-    Route::get('/', IndexAccountsController::class)->name('accounts.index');
-    Route::get('/{accountID}', ShowAccountsController::class)->name('accounts.show');
-    Route::get('/{accountID}/edit', EditAccountsController::class)->name('accounts.edit');
-    Route::patch('/{accountID}', UpdateAccountsController::class)->name('accounts.update');
+/**
+ * GET      /accounts
+ * GET      /accounts/{id}
+ * GET      /accounts/{id}/edit
+ * PATCH    /accounts/{id}
+ * DELETE   /accounts/{id}
+ */
+Route::middleware('auth')->domain("{subdomain}".".".Config::string('app.url'))->group(function () {
+    Route::get('accounts/', IndexesAccountController::class)->name('accounts.index');
+    Route::get('accounts/{id}', ShowsAccountController::class)->name('accounts.show');
+    Route::get('accounts/{id}/edit', EditsAccountController::class)->name('accounts.edit');
+    Route::patch('accounts/{id}', UpdatesAccountController::class)->name('accounts.update');
 });

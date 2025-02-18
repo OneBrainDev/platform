@@ -4,7 +4,7 @@ namespace Platform\Accounts\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-final class StoreRegisterController
+final class EditsAccountController
 {
     public function __invoke(Request $request): void
     {

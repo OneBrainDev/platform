@@ -1,36 +1,44 @@
 <?php declare(strict_types=1);
 
 arch('Module Actions', function (string $module) {
-    expect("Platform\\{$module}\\Actions")
+    expect("Platform\\{$module}\\Domain\\Actions")
       ->classes()
       ->toBeFinal()
       ->toUseTrait('Platform\Shared\Traits\Actionable')
+      ->toImplement('Platform\Shared\Contracts\ActionContract')
       ->not->toHavePublicMethodsBesides('handle')
       ->not->toHaveProtectedMethods()
-      ->toImplementNothing()
       ->toExtendNothing();
 })->with('modulenamespaces');
 
 arch('Module Contracts', function (string $module) {
     expect("Platform\\{$module}\\Contracts")
-      ->toBeInterfaces();
+        ->toBeInterfaces();
 })->with('modulenamespaces');
 
-arch('Module DTOs', function (string $module) {
-    expect("Platform\\{$module}\\Domain\\DTOs")
+arch('Module DataObjects', function (string $module) {
+    expect("Platform\\{$module}\\Domain\\DataObjects")
+      ->classes()
       ->toBeFinal()
-      ->toBeReadonly()
-      ->toOnlyImplement("Platform\\Shared\\Contracts\\BaseDTOContract");
+      ->toBeReadOnly()
+      ->toOnlyImplement("Platform\\Shared\\Contracts\\DataObjectContract")
+      ->toHaveConstructor()
+      ->not->toHavePrivateMethodsBesides(['__construct'])
+      ->toHaveSuffix('Data');
 })->with('modulenamespaces');
 
 arch('Module Domain Collections', function (string $module) {
     expect("Platform\\{$module}\\Domain\\Collections");
 })->with('modulenamespaces');
 
-arch('DataObjects', function (string $module) {
-    expect("Platform\\{$module}\\Domain\\DataObjects")
+arch('Module ValueObjects', function (string $module) {
+    expect("Platform\\{$module}\\Domain\\ValueObjects")
       ->classes()
-      ->toExtend('Bag\\Bag');
+      ->toBeFinal()
+      ->toBeReadOnly()
+      ->toImplement('Platform\Shared\Contracts\ValueObjectContract')
+      ->toExtend('Bag\\Bag')
+      ->toHaveSuffix('Object');
 })->with('modulenamespaces');
 
 
@@ -45,6 +53,7 @@ arch('Controllers', function (string $module) {
       ->toBeFinal()
       ->toBeInvokable()
       ->toOnlyBeUsedIn("Platform\\{$module}\\Http\Controllers")
+      ->not->toHavePublicMethodsBesides(['__invoke', '__construct'])
       ->toHaveSuffix('Controller');
 })->with('modulenamespaces');
 
@@ -58,15 +67,5 @@ arch('Services', function (string $module) {
       ->classes()
       ->toImplement('Illuminate\Contracts\Queue\ShouldQueue')
       ->toBeFinal()
-      ->toBeReadonly()
       ->toHaveSuffix('Service');
 })->with('modulenamespaces');
-
-
-
-
-
-// arch('DTOs', function (string $module) {
-//   expect("Platform\\{$module}\\Domain\\DataObjects")
-//     ->classes();
-// })->with('modulenamespaces');

@@ -1,9 +1,13 @@
 version: "3"
 
 tasks:
+   start:
+      cmds:
+         - pnpm dev:watch
+
    clear:
       cmds:
-         - rm -Rf dist ds/dist web/dist
+         - rm -Rf dist blank/dist web/dist
 
    clean:
       cmds:

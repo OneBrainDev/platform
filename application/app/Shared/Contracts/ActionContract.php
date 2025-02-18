@@ -2,4 +2,7 @@
 
 namespace Platform\Shared\Contracts;
 
-interface DTOContract {}
+interface ActionContract
+{
+    //
+}
