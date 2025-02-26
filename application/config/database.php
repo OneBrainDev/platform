@@ -31,21 +31,21 @@ return [
 
     'connections' => [
         'metadata' => [
-            'central' => [
-                'name' => env('DB_CENTRAL_NAME', 'central'),
-                'prefix' => env('DB_CENTRAL_PREFIX', ''),
-                'connection' => env('DB_CENTRAL_CONNECTION_NAME', 'central'),
-                'migration_path' => env('DB_CENTRAL_MIGRATION_PATH', 'database/migrations/central'),
-                'module_migration_path' => 'modules/%s/database/migrations/central',
-                'schema_path' => env('DB_CENTRAL_SCHEMA_PATH', 'database/schema/central-schema.dump'),
+            'primary' => [
+                'name' => env('DB_PRIMARY_NAME', 'primary'),
+                'prefix' => env('DB_PRIMARY_PREFIX', ''),
+                'connection_name' => env('DB_PRIMARY_CONNECTION_NAME', 'primary'),
+                'migration_path' => env('DB_PRIMARY_MIGRATION_PATH', 'database/migrations/primary'),
+                'module_migration_path' => 'modules/%s/database/migrations/primary',
+                'schema_path' => env('DB_PRIMARY_SCHEMA_PATH', 'database/schema/primary-schema.dump'),
             ],
-            'workspace' => [
-                'name' => env('DB_WORKSPACE_NAME', ''),
-                'prefix' => env('DB_WORKSPACE_PREFIX', 'workspace_'),
-                'connection' => env('DB_WORKSPACE_CONNECTION_NAME', 'workspace'),
-                'migration_path' => env('DB_WORKSPACE_MIGRATION_PATH', 'database/migrations/workspace'),
-                'module_migration_path' => 'modules/%s/database/migrations/workspace',
-                'schema_path' => env('DB_WORKSPACE_SCHEMA_PATH', 'database/schema/workspace-schema.dump'),
+            'tenant' => [
+                'name' => env('DB_TENANT_NAME', ''),
+                'prefix' => env('DB_TENANT_PREFIX', 'tenant_'),
+                'connection_name' => env('DB_TENANT_CONNECTION_NAME', 'tenant'),
+                'migration_path' => env('DB_TENANT_MIGRATION_PATH', 'database/migrations/tenant'),
+                'module_migration_path' => 'modules/%s/database/migrations/tenant',
+                'schema_path' => env('DB_TENANT_SCHEMA_PATH', 'database/schema/tenant-schema.dump'),
             ]
         ],
 
@@ -57,7 +57,7 @@ return [
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
-        'central' => [
+        'primary' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
@@ -77,7 +77,7 @@ return [
             ]) : [],
         ],
 
-        'workspace' => [
+        'tenant' => [
             'driver' => 'mysql',
             'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),

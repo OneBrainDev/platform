@@ -117,7 +117,9 @@ declare module 'ziggy-js' {
             "name": "id",
             "required": true
         }
-    ]
+    ],
+    "clinics.index": [],
+    "users.index": []
 }
 }
 export {};

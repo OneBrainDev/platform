@@ -21,7 +21,11 @@ class ModuleHelper
         $modules = !!glob($this->modulePath . '/*') ? glob($this->modulePath . '/*') : [];
 
         return collect($modules)
-            ->map(fn (string|false $dir): string => !!$dir ? ucfirst(str_replace($this->modulePath . '/', '', $dir)) : '')
+            ->map(
+                fn (string|false $dir): string => !!$dir
+                    ? str_replace($this->modulePath . '/', '', $dir)
+                    : ''
+            )
             ->toArray();
     }
 

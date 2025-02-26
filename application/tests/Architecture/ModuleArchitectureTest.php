@@ -17,7 +17,7 @@ arch('Module Contracts', function (string $module) {
 })->with('modulenamespaces');
 
 arch('Module DataObjects', function (string $module) {
-    expect("Platform\\{$module}\\Domain\\DataObjects")
+    expect("Platform\\{$module}\\DataObjects")
       ->classes()
       ->toBeFinal()
       ->toBeReadOnly()
@@ -28,7 +28,10 @@ arch('Module DataObjects', function (string $module) {
 })->with('modulenamespaces');
 
 arch('Module Domain Collections', function (string $module) {
-    expect("Platform\\{$module}\\Domain\\Collections");
+    expect("Platform\\{$module}\\Domain\\Collections")
+        ->classes()
+        ->toExtend('Illuminate\Database\Eloquent\Collection')
+        ->toHaveSuffix('Collection');
 })->with('modulenamespaces');
 
 arch('Module ValueObjects', function (string $module) {
@@ -41,29 +44,32 @@ arch('Module ValueObjects', function (string $module) {
       ->toHaveSuffix('Object');
 })->with('modulenamespaces');
 
-
 arch('Models', function (string $module) {
     expect("Platform\\{$module}\\Domain\\Models")
-      ->classes();
+      ->classes()
+      ->toExtend('Illuminate\Database\Eloquent\Model');
 })->with('modulenamespaces');
 
 arch('Controllers', function (string $module) {
-    expect("Platform\\{$module}\\Http\Controllers")
+    expect("Platform\\{$module}\\Presentation\\Http\Controllers")
       ->classes()
       ->toBeFinal()
       ->toBeInvokable()
-      ->toOnlyBeUsedIn("Platform\\{$module}\\Http\Controllers")
+      ->toOnlyBeUsedIn("Platform\\{$module}\\Presentation\\Http\Controllers")
       ->not->toHavePublicMethodsBesides(['__invoke', '__construct'])
       ->toHaveSuffix('Controller');
 })->with('modulenamespaces');
 
 arch('Requests', function (string $module) {
-    expect("Platform\\{$module}\\Http\\Requests")
-      ->classes();
+    expect("Platform\\{$module}\\Presentation\\Http\\Requests")
+      ->classes()
+      ->toExtend('Illuminate\Foundation\Http\FormRequest')
+      ->toUseTrait('Platform\Shared\Traits\RequestToDto')
+      ->toHaveSuffix('Request');
 })->with('modulenamespaces');
 
 arch('Services', function (string $module) {
-    expect("Platform\\{$module}\\Services")
+    expect("Platform\\{$module}\\Services\\Jobs")
       ->classes()
       ->toImplement('Illuminate\Contracts\Queue\ShouldQueue')
       ->toBeFinal()

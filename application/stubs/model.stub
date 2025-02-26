@@ -1,0 +1,18 @@
+<?php declare(strict_types=1);
+
+namespace {{ namespace }};
+
+{{ factoryImport }}
+use Illuminate\Database\Eloquent\Model;
+use JoeCianflone\ModelProperties\ModelProperties;
+use Illuminate\Database\Eloquent\Attributes\CollectedBy;
+use JoeCianflone\ModelProperties\Concerns\HasModelProperties;
+
+
+#[ModelProperties()]
+#[CollectedBy({{class}}Collection::class)]
+class {{ class }} extends Model
+{
+    {{ factory }}
+    use HasModelProperties;
+}

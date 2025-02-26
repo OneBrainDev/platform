@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Platform\Accounts\Domain\Models\Account;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,14 +11,20 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class AccountFactory extends Factory
 {
     /**
-     * Define the model's default state.
-     *
+     * @var class-string<\Platform\Accounts\Domain\Models\Account>
+     */
+    protected $model = Account::class;
+
+    /**
      * @return array<string, mixed>
      */
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->company(),
+            'subdomain' => fake()->unique()->domainWord(),
+            'tenant_name' => fake()->unique()->word(),
+            'is_active' => true,
         ];
     }
 }

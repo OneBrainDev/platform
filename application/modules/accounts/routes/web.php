@@ -1,12 +1,13 @@
 <?php declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
-use Platform\Accounts\Http\Controllers\EditsAccountController;
-use Platform\Accounts\Http\Controllers\ShowsAccountController;
-use Platform\Accounts\Http\Controllers\StoresAccountController;
-use Platform\Accounts\Http\Controllers\CreatesAccountController;
-use Platform\Accounts\Http\Controllers\IndexesAccountController;
-use Platform\Accounts\Http\Controllers\UpdatesAccountController;
+use Illuminate\Support\Facades\Config;
+use Platform\Accounts\Presentation\Http\Controllers\EditsAccountController;
+use Platform\Accounts\Presentation\Http\Controllers\ShowsAccountController;
+use Platform\Accounts\Presentation\Http\Controllers\StoresAccountController;
+use Platform\Accounts\Presentation\Http\Controllers\CreatesAccountController;
+use Platform\Accounts\Presentation\Http\Controllers\IndexesAccountController;
+use Platform\Accounts\Presentation\Http\Controllers\UpdatesAccountController;
 
 /**
  * GET  /register
@@ -24,7 +25,7 @@ Route::middleware('guest')->domain(Config::string('app.url'))->group(function ()
  * PATCH    /accounts/{id}
  * DELETE   /accounts/{id}
  */
-Route::middleware('auth')->domain("{subdomain}".".".Config::string('app.url'))->group(function () {
+Route::middleware(['tenant', 'auth'])->domain("{subdomain}".".".Config::string('app.url'))->group(function () {
     Route::get('accounts/', IndexesAccountController::class)->name('accounts.index');
     Route::get('accounts/{id}', ShowsAccountController::class)->name('accounts.show');
     Route::get('accounts/{id}/edit', EditsAccountController::class)->name('accounts.edit');
