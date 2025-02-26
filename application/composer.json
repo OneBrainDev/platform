@@ -6,11 +6,11 @@
    "license": "MIT",
    "require": {
       "php": "^8.3",
-      "dshafik/bag": "^1.3",
+      "dshafik/bag": "^2.3.0",
       "inertiajs/inertia-laravel": "^2.0.0",
-      "joecianflone/modelproperties": "^1.0",
+      "joecianflone/modelproperties": "^2.0",
       "laravel/cashier": "^15.6",
-      "laravel/framework": "^11.9",
+      "laravel/framework": "^12.0",
       "laravel/horizon": "^5.27",
       "laravel/pennant": "^1.14",
       "laravel/tinker": "^2.9",
@@ -28,8 +28,8 @@
       "laravel/pint": "^1.13",
       "mockery/mockery": "^1.6",
       "nunomaduro/collision": "^8.0",
-      "pestphp/pest": "^3.0",
-      "pestphp/pest-plugin-laravel": "^3.0",
+      "pestphp/pest": "^3.1",
+      "pestphp/pest-plugin-laravel": "^3.1",
       "yamadashy/phpstan-friendly-formatter": "^1.1"
    },
    "autoload": {

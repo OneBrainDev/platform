@@ -29,6 +29,7 @@ class TenantManager
     {
         $name = $this->getTenantName($subdomain);
 
+
         $isDBReady = DB::table('workspaces')
           ->where('subdomain', $subdomain)
           ->where('deleted_on', '>', now())
