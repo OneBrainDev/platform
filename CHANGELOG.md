@@ -1,5 +1,11 @@
 # Changelog
 
+## v2025.03.17.205945 - 2025-03-17
+
+### Bug Fixes
+
+- #44: fix: missing files and remove that are not needed
+
 ## v2025.03.17.205420 - 2025-03-17
 
 ### New Features
