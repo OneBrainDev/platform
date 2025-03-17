@@ -1,0 +1,17 @@
+<?php declare(strict_types=1);
+
+namespace {{ namespace }};
+
+/**
+ * @method void action(string $on, mixed ...$data)
+ * @method \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Database\Eloquent\Model> all()
+ * @method void deleteById(string|\Ramsey\Uuid\Uuid|int $id)
+ * @method \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Database\Eloquent\Model> getById(string|\Ramsey\Uuid\Uuid|int $id)
+ * @method \Illuminate\Database\Eloquent\Model getFirstById(string|\Ramsey\Uuid\Uuid|int $id)
+ * @method void persist(\Platform\Shared\Contracts\ValueObjectContract $vo)
+ * @method \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Database\Eloquent\Model>|\Illuminate\Database\Eloquent\Model query(string $on, mixed ...$data)
+ * @method void updateById(string|\Ramsey\Uuid\Uuid|int $id, \Platform\Shared\Contracts\ValueObjectContract $vo)
+ *
+ * @see \Platform\Shared\Abstractions\Repository
+ */
+interface {{ class }} {}

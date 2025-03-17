@@ -1,0 +1,18 @@
+<?php declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Platform\Shared\Traits\HasEloquentModel;
+use Platform\Shared\Contracts\ActionContract;
+
+final class {{ class }} implements ActionContract
+{
+    use HasEloquentModel;
+
+    public string $modeling = {{model}}::class;
+
+    public function handle(): void
+    {
+        //
+    }
+}

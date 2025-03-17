@@ -1,0 +1,17 @@
+<?php declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Platform\Shared\Traits\CanMakeArray;
+use Platform\Shared\Traits\LateStaticMake;
+use Platform\Shared\Contracts\DataObjectContract;
+
+final readonly class {{ class }} implements DataObjectContract
+{
+    use CanMakeArray;
+    use LateStaticMake;
+
+    private function __construct(
+        //
+    ) {}
+}
