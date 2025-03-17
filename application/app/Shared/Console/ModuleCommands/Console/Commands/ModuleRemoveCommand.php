@@ -25,7 +25,7 @@ final class ModuleRemoveCommand extends GeneratorCommand
             $this->updateMainComposer();
         }
 
-        return true;
+        return null;
     }
 
     protected function getStub(): string

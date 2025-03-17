@@ -3,26 +3,26 @@ import laravel from 'laravel-vite-plugin'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
-import fs from 'fs'
+import path from 'node:path'
 
 export default defineConfig({
+   envDir: '.',
    build: {
       cssCodeSplit: true,
       manifest: true,
       sourcemap: true,
+      emptyOutDir: true,
    },
    server: {
-      host: process.env.VITE_URL,
+      host: 'platform.test',
       https: {
-         key: fs.readFileSync(
-            '../../.infrastructure/conf/traefik/dev/certificates/local-dev-key.pem',
-         ),
-         cert: fs.readFileSync('../../.infrastructure/conf/traefik/dev/certificates/local-dev.pem'),
+         key: '../../.infrastructure/conf/traefik/dev/certificates/local-dev-key.pem',
+         cert: '../../.infrastructure/conf/traefik/dev/certificates/local-dev.pem',
       },
       cors: true,
-      port: parseInt(process.env.VITE_PORT ? process.env.VITE_PORT : '3000'),
+      port: 3000,
       hmr: {
-         host: process.env.VITE_DOMAIN,
+         host: 'https://platform.test',
       },
       watch: {
          usePolling: true,
@@ -30,7 +30,7 @@ export default defineConfig({
    },
    plugins: [
       laravel({
-         detectTls: process.env.VITE_DOMAIN,
+         detectTls: 'https://platform.test',
          input: 'app.js',
          refresh: true,
          publicDirectory: '../../application/public',
@@ -38,10 +38,10 @@ export default defineConfig({
       vue(),
       vueDevTools(),
    ],
-
    resolve: {
       alias: {
          '@': fileURLToPath(new URL('./src', import.meta.url)),
+         'ziggy-js': path.resolve('../../application/vendor/tightenco/ziggy'),
       },
    },
 })

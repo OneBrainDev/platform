@@ -6,7 +6,7 @@ x-env: &env
 x-services-volume: &services-volume
   type: bind
   source: ./
-  target: /platform
+  target: ${DOCKER_PATH_ROOT}
 
 services:
   traefik:
@@ -17,8 +17,8 @@ services:
         aliases:
           - ${DOCKER_URL}
     ports:
-      - "80:80"
-      - "443:443"
+      - "${DDOCKER_PORT}:80"
+      - "${DOCKER_PORT_SSL}:443"
     volumes:
       - <<: *services-volume
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -48,7 +48,7 @@ services:
     networks:
       - development
     ports:
-      - "6379:6379"
+      - "${DOCKER_PORT_REDIS}:6379"
     volumes:
       - ./.infrastructure/volume_data/redis/data:/data
 

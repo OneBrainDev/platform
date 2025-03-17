@@ -5,11 +5,6 @@ arch('Shared Contracts', function (string $module) {
       ->toBeInterfaces();
 });
 
-arch('Shared DomainObjects', function (string $module) {
-    expect("Platform\\Shared\\DomainObjects")
-      ->classes();
-});
-
 arch('Shared Enums', function (string $module) {
     expect("Platform\\Shared\\Enums")
       ->toBeEnums();

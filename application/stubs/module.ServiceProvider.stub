@@ -2,18 +2,44 @@
 
 namespace {{namespace}};
 
+use Database\Seeders\DatabaseSeeder;
+use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use Platform\Shared\Abstractions\Repository;
+use {{importSeeder}};
+use {{importModel}};
+use {{importRepository}};
 
-class {{class}} extends ServiceProvider
+class {{class}} extends ServiceProvider implements DeferrableProvider
 {
     public function boot(): void
     {
         $this->loadMigrationsFrom(base_path('modules/{{moduleName}}/database/migrations'));
         $this->loadRoutesFrom(base_path('modules/{{moduleName}}/routes/web.php'));
+        $this->loadTranslationsFrom(base_path('modules/{{moduleName}}/resources/lang'));
+        $this->loadJsonTranslationsFrom(base_path('modules/{{moduleName}}/resources/lang'));
+
+        $this->callAfterResolving(DatabaseSeeder::class, function ($seeder) {
+            $seeder->call([{{seederName}}::class]);
+        });
+
         $this->mergeConfigFrom(
             base_path('modules/{{moduleName}}/config/{{moduleName}}.php'),
             '{{moduleName}}'
         );
+
+        $this->app->singleton({{repositoryName}}::class, function (Application $app) {
+            return new Repository(app({{model}}::class));
+        });
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    public function provides(): array
+    {
+        return [{{repositoryName}}::class];
     }
 
     public function register(): void

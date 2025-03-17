@@ -18,6 +18,12 @@ includes:
       dir: ./
 
 tasks:
+   env:
+      desc: Update the .env files
+      dir: ./application
+      cmds:
+         - php artisan generate:env
+
    init:
       desc: Install everything and start docker
       cmds:
@@ -29,3 +35,8 @@ tasks:
       cmds:
          - task: app:update
          - task: front:update
+
+   start:
+      cmds:
+         - task: platform:start
+         - task: front:start

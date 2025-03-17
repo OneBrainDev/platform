@@ -2,11 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest')->group(function () {
-    // Route::inertia('/login', 'Users/Login')->name('auth.login');
-    // Route::post('/login', StoreAuthSessionController::class);
+Route::prefix('users')->group(function () {
+    Route::get('/', function () {
+        echo "module {{ module }}";
+    })->name('users.index');
 });
-
-// Route::middleware('auth')->group(function () {
-//  Route::destroy('/logout', DestroyAuthSessionController::class);
-// });

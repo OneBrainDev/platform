@@ -2,73 +2,45 @@
 
 namespace Platform\Shared\ConnectionManager;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 
 class DomainManager
 {
-    private string $host;
-
     /** @var array<int, string>  */
-    private array $hostParts;
+    private array $domain;
 
-    private string $path;
+    public function __construct(
+        private string $host
+    ) {
 
-    public function __construct(string $host, string $path)
-    {
-        $this->host = $host;
-        $this->hostParts = explode('.', $host);
-        $this->path = ltrim($path, '/');
+        $domainSections = ['topLevel', 'secondLevel', 'subdomain'];
+        $hostParts = array_reverse(explode('.', $this->host));
+
+        $this->domain = collect($hostParts)
+            ->flatMap(fn ($item, $key) => [
+                $domainSections[$key] => $item
+            ])->toArray();
     }
 
     public function getDomain(): string
     {
-        if (count($this->hostParts) <= 2) {
-            return $this->host;
-        }
-
-        // shift off www if they have it because we don't need it
-        $hostArr = $this->hostParts;
-        if ('www' === Str::lower($this->hostParts[0])) {
-            array_shift($hostArr);
-        }
-
-        return implode('.', $hostArr);
+        return Arr::get($this->domain, 'secondLevel') . "." . Arr::get($this->domain, 'topLevel');
     }
 
-    /**
-     * @return array<int, string>
-     */
-    public function getPath(): array
+    public function getSubdomain(): string|null
     {
-        return explode('/', $this->path);
-    }
+        $sub = Arr::get($this->domain, 'subdomain');
 
-    public function getSub(): string|null
-    {
-        if ($this->isOnOurDomain()) {
-            return null;
-        }
-
-        return $this->hostParts[0];
-    }
-
-    public function getURL(): string
-    {
-        if ($this->isCustomDomain()) {
-            return 'https://'.$this->getDomain();
-        }
-
-        return 'https://'.$this->getSub().'.'.Config::string('app.domain');
+        return (!$sub || $sub === 'www')
+            ? null
+            : $sub;
     }
 
     public function isCustomDomain(): bool
     {
-        return count($this->hostParts) <= 2 || Str::startsWith('www', $this->host);
-    }
-
-    public function isOnOurDomain(): bool
-    {
-        return $this->isCustomDomain() && Str::endsWith($this->host, Config::string('app.domain'));
+        return $this->getDomain() !== Config::string('app.domain')
+            ? true
+            : false;
     }
 }

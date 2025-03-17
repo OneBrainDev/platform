@@ -19,6 +19,18 @@ final class ModelMakeModuleCommand extends ModelMakeCommand
 
     protected bool $useSrcFolder = true;
 
+    protected function buildClass($name)
+    {
+        $ns = Config::string('modules.root_namespace')."\\".Str::ucfirst($this->argument('module'));
+
+        $stub = $this->files->get($this->getStub());
+        $stub = $this->replaceTokens($stub, [
+            "{{ factoryImport }}" => "use {$ns}". Config::string('modules.namespaces.factory')."\\".Str::ucfirst($this->argument('name'))."Factory;",
+            "{{ collectionImport }}" =>  "use {$ns}".Config::string('modules.namespaces.collection')."\\".Str::ucfirst($this->argument('name'))."Collection;",
+        ]);
+
+        return $this->replaceNamespace($stub, $name)->replaceClass($stub, $name);
+    }
 
     protected function createController()
     {

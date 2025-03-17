@@ -5,10 +5,10 @@
    "type": "module",
    "scripts": {
       "format": "prettier --write .",
-      "lint": "eslint .",
+      "lint": "eslint . --fix",
       "dev:blank": "pnpm --filter=@platform/blank run build-only --watch",
       "dev:web": "pnpm --filter=@platform/web run build-only --watch",
-      "watch": "pnpm run /^dev:.*/"
+      "dev:watch": "run-p \"dev:blank\" \"dev:web\""
    },
    "pnpm": {
       "supportedArchitectures": {
@@ -38,6 +38,7 @@
       "eslint": "^9.20.0",
       "eslint-plugin-vue": "^9.32.0",
       "jsdom": "^26.0.0",
+      "npm-run-all2": "^7.0.2",
       "prettier": "^3.5.0",
       "typescript": "~5.7.3",
       "vite": "6.1.0",

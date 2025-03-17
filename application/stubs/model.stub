@@ -1,0 +1,23 @@
+<?php declare(strict_types=1);
+
+namespace {{ namespace }};
+
+{{ factoryImport }}
+{{ collectionImport }}
+use Illuminate\Database\Eloquent\Model;
+use JoeCianflone\ModelProperties\ModelProperties;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\CollectedBy;
+use JoeCianflone\ModelProperties\Concerns\HasModelProperties;
+
+#[ModelProperties(
+    id: ['uuid', 'is:primary', 'auto-increment' => false],
+)]
+#[UseFactory({{ class }}Factory::class)]
+#[CollectedBy({{ class }}Collection::class)]
+class {{ class }} extends Model
+{
+    use HasModelProperties;
+    use HasUuids;
+}

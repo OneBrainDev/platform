@@ -15,4 +15,9 @@ final class SeederMakeModuleCommand extends SeederMakeCommand
     {
         return 'seeder';
     }
+
+    protected function useSrcPath(): bool
+    {
+        return false;
+    }
 }

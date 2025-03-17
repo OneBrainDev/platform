@@ -65,6 +65,25 @@ The platform has several `.env` files in it: the main one is located in the root
 - Vitepress for system documentation
 - Taskfile
 
+# Naming conventions
+
+## Controllers
+All invokable:
+
+Users/
+    StoreUserRequest 
+    StoreUserController 
+    StoreUserService
+    UserRepository
+    StoreUser
+
+- Create<module>Controller -- <module>.create
+- Edit<module>Controller -- <module>.edit
+- Index<module>Controller -- <module>.index
+- Show<module>Controller -- <module>.show
+- Store<module>Controller -- <module>.store
+- Update<module>Controller -- <module>.update
+
 # Laravel Workflow
 
 Generally speaking you can do whatever you want, but upon setup of a new module, you'll have an `Actions` and `Services` folder. This matches the workflow that I use which looks like this:

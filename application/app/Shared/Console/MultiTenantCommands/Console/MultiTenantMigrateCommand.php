@@ -3,159 +3,79 @@
 namespace Platform\Shared\Console\MultiTenantCommands\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Platform\Shared\Helpers\ModuleHelper;
-use Platform\workspaces\Domain\Models\Workspace;
-use Platform\Shared\ConnectionManager\WorkspaceManager;
-use Platform\Shared\ConnectionManager\WorkspaceConnectionManager;
+use Platform\Shared\ConnectionManager\TenantConnectionManager;
 
 final class MultiTenantMigrateCommand extends Command
 {
     protected $signature = 'multi:migrate
-        {module? : run migrations from a single module}
-        {workspace? : run migrations for a single workspace}
-        {--workspaces : run migrations for all the workspaces}
-        {--modules : run migrations from all modules}
-        {--all : run all migrations eveywhere on all workspaces}
-        {--all-shared : run all shared migrations across modules}
-        {--all-workspaces : run all workspace migrations across modules}
+        {tenant? : run migrations for a single tenant}
+        {--tenants : run migrations for all the tenants}
+        {--primary : run all shared migrations across modules}
+        {--all : run all migrations eveywhere on all }
         {--seed : run seeders}';
 
-    private WorkspaceConnectionManager $connection;
-    private ModuleHelper $helper;
-    private WorkspaceManager $manager;
-
-    /**  @var array<int, string> */
-    private array $modules;
-
-    /**  @var array<int, string> */
-    private array $workspaces;
-
     /**
-     * Migrate Shared Central -- multi:migrate
-     * Migrate Shared Workspace -- multi:migrate --workspaces|{workspace}
-     *
-     * Migrate Module Central -- multi:migrate --module|{module}
-     * Migrate Module Workspace -- multi:migrate --module|{module} --workspaces|{workspace}
-     *
-     * Migrate Everything -- multi:migrate --all
-     * Migrate Shared and Module Central -- multi:migrate --all-shared
-     * Migrate Shared and Module Workspace -- multi:migrate --all-workspaces
+     * @var array<int, string>
      */
+    private array $modules = [];
+    private TenantConnectionManager $tenantConnection;
+
     public function handle(): void
     {
-        $this->manager = new WorkspaceManager();
-        $this->helper = new ModuleHelper();
-        $this->connection = new WorkspaceConnectionManager();
+        $this->modules = (new ModuleHelper())->getModuleNames();
+        $this->tenantConnection = new TenantConnectionManager();
 
-        $this->modules = $this->argument('module')
-        ? [$this->argument('module')]
-        : $this->helper->getModuleNames();
+        if ($this->option('primary') || $this->option('all')) {
+            $this->migratePrimaryDatabase();
+        }
 
-        $this->workspaces = $this->argument('workspace')
-        ? [$this->manager->getWorkspaceName($this->argument('workspace'))]
-        : [];
+        if ($this->option('tenants') || $this->option('all')) {
+            $this->migrateTenantsDatabase();
+        }
 
-        $this->workspaces = $this->option('workspaces')
-        ? $this->manager->getWorkspaces() ?? []
-        : array_merge($this->workspaces, []);
-
-        match (true) {
-            $this->option('all') => $this->migrateEverything(),
-            $this->option('all-shared') => $this->migrateAllShared(),
-            $this->option('all-workspaces') => $this->migrateAllWorkspaces(),
-            ! $this->hasWorkspace() && ! $this->hasModule() => $this->migrateSharedCentralTables(),
-            ! $this->hasWorkspace() && $this->hasModule() => $this->migrateModuleCentralTables(),
-            $this->hasWorkspace() && ! $this->hasModule() => $this->migrateSharedWorkspaceTables(),
-            $this->hasWorkspace() && $this->hasModule() => $this->migrateModuleWorkspaceTables(),
-            default => throw new \Exception('Unable to run multi migrate command')
-        };
+        if ($this->argument('tenant')) {
+            $this->migrateTenantsDatabase($this->argument('tenant'));
+        }
     }
 
-    private function hasModule(): bool
-    {
-        return $this->option('modules') || $this->argument('module');
-    }
-
-    private function hasWorkspace(): bool
-    {
-        return $this->option('workspaces') || $this->argument('workspace');
-    }
-
-    private function migrateAllShared(): void
-    {
-        $this->migrateSharedCentralTables();
-        $this->migrateModuleCentralTables();
-
-    }
-
-    private function migrateAllWorkspaces(): void
-    {
-        $this->migrateSharedWorkspaceTables();
-        $this->migrateModuleWorkspaceTables();
-    }
-
-    private function migrateEverything(): void
-    {
-        $this->migrateAllShared();
-        $this->migrateAllWorkspaces();
-    }
-
-
-    private function migrateModuleCentralTables(): void
+    private function migratePrimaryDatabase(): void
     {
         collect($this->modules)->each(function ($module) {
             $this->migration(
                 args: [
-                    '--database' => Config::string('database.connections.metadata.central.connection'),
-                    '--path' => sprintf(Config::string('database.connections.metadata.central.module_migration_path'), $module),
+                    '--database' => config()->string('database.connections.metadata.primary.connection_name'),
+                    '--path' => sprintf(Config::string('database.connections.metadata.primary.module_migration_path'), $module),
                 ],
-                message: "Migrate $module in Central Database",
+                message: "Migrate $module in Primary Database",
             );
         });
     }
 
-    private function migrateModuleWorkspaceTables(): void
+    private function migrateTenant(string $tenant, string $module): void
     {
-        collect($this->modules)->each(function ($module) {
-            collect($this->workspaces)->each(function ($workspace) use ($module) {
-                $this->connection->connect($workspace);
-                $this->migration(
-                    args: [
-                        '--database' => Config::string('database.connections.metadata.workspace.connection'),
-                        '--path' => sprintf(Config::string('database.connections.metadata.workspace.module_migration_path'), $module),
-                    ],
-                    message: "Migrate $module in Workspace $workspace Database"
-                );
-                $this->connection->disconnect();
-            });
-        });
-    }
-
-    private function migrateSharedCentralTables(): void
-    {
+        $this->tenantConnection->connect($tenant);
         $this->migration(
-            args:[
-                '--database' => Config::string('database.connections.metadata.central.connection'),
-                '--path' => Config::string('database.connections.metadata.central.migration_path'),
+            args: [
+                '--database' => Config::string('database.connections.metadata.tenant.connection_name'),
+                '--path' => sprintf(Config::string('database.connections.metadata.tenant.module_migration_path'), $module),
             ],
-            message: "Migrate Shared in Cental Database"
+            message: "Migrate $module in Workspace $tenant Database"
         );
+        $this->tenantConnection->disconnect();
     }
 
-    private function migrateSharedWorkspaceTables(): void
+    private function migrateTenantsDatabase(?string $tenant = null): void
     {
-        collect($this->modules)->each(function (string $module) {
-            collect($this->workspaces)->each(function (string $workspace) use ($module) {
-                $this->connection->connect($workspace);
-                $this->migration(
-                    args: [
-                        '--database' => Config::string('database.connections.metadata.central.connection'),
-                        '--path' => sprintf(Config::string('database.connections.metadata.central.module_migration_path'), $module),
-                    ],
-                    message: "Migrate Shared $module in Workspace $workspace Database"
-                );
-                $this->connection->disconnect();
+        $tenants = $tenant
+            ? [$tenant]
+            : DB::select("SHOW DATABASES LIKE 'tenant_%s'");
+
+        collect($this->modules)->each(function ($module) use ($tenants) {
+            collect($tenants)->each(function ($tenant) use ($module) {
+                $this->migrateTenant($tenant, $module);
             });
         });
     }
@@ -169,6 +89,7 @@ final class MultiTenantMigrateCommand extends Command
             '--step' => true,
             '--force' => true,
             '--no-interaction' => true,
+            '--seed' => $this->option('seed') ? true : false,
         ], $args);
 
         if ($message) {

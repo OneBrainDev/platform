@@ -4,8 +4,8 @@ namespace Platform\Shared\Traits;
 
 trait LateStaticMake
 {
-    public static function make(mixed ...$params): static
+    public static function make(mixed ...$props): static
     {
-        return new static(...$params);
+        return new static(...$props);
     }
 }

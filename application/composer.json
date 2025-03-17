@@ -6,18 +6,17 @@
    "license": "MIT",
    "require": {
       "php": "^8.3",
-      "dshafik/bag": "^1.3",
+      "dshafik/bag": "^2.3.0",
       "inertiajs/inertia-laravel": "^2.0.0",
-      "joecianflone/modelproperties": "^1.0",
+      "joecianflone/modelproperties": "^2.0",
       "laravel/cashier": "^15.6",
-      "laravel/framework": "^11.9",
+      "laravel/framework": "^12.0",
       "laravel/horizon": "^5.27",
       "laravel/pennant": "^1.14",
       "laravel/tinker": "^2.9",
-      "platform/accounts": "*",
-      "platform/users": "*",
-      "platform/workspaces": "*",
-      "predis/predis": "^2.3"
+      "predis/predis": "^2.3",
+      "tightenco/ziggy": "^2.5",
+      "platform/users": "*"
    },
    "require-dev": {
       "barryvdh/laravel-ide-helper": "^3.4",
@@ -27,8 +26,8 @@
       "laravel/pint": "^1.13",
       "mockery/mockery": "^1.6",
       "nunomaduro/collision": "^8.0",
-      "pestphp/pest": "^3.0",
-      "pestphp/pest-plugin-laravel": "^3.0",
+      "pestphp/pest": "^3.1",
+      "pestphp/pest-plugin-laravel": "^3.1",
       "yamadashy/phpstan-friendly-formatter": "^1.1"
    },
    "autoload": {
@@ -46,19 +45,18 @@
    "scripts": {
       "post-autoload-dump": [
          "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-         "@php artisan package:discover --ansi"
+         "@php artisan package:discover --ansi",
+         "task env",
+         "@php artisan ziggy:generate --types"
       ],
       "post-update-cmd": [
-         "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-         "task platform:env"
+         "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
       ],
       "post-root-package-install": [
-         "@php -r \"file_exists('.infrastructure/environment/app.env') || copy('.infrastructure/environment/app.env.example', '.infrastructure/environment/app.env');\"",
-         "@php -r \"file_exists('.infrastructure/environment/docker.env') || copy('.infrastructure/environment/docker.env.example', '.infrastructure/environment/docker.env');\"",
-         "task platform:env"
+         "task env"
       ],
       "post-create-project-cmd": [
-         "task platform:env",
+         "task env",
          "@php artisan migrate --graceful --ansi"
       ]
    },
