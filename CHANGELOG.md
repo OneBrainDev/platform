@@ -1,5 +1,19 @@
 # Changelog
 
+## v2025.03.17.205420 - 2025-03-17
+
+### New Features
+
+- #42: feature: more configurable, more commands
+- #41: feature: add blank design system to core project
+
+### General Updates
+
+- #40: chore: update dependencies and minor lint update
+- #39: chore: update all dependencies and some readme text
+- #38: update: clean taskfiles and add more commands to lefthook
+- #37: update: clean github workflow labels and messages up
+
 ## v2025.02.03.030825 - 2025-02-03
 
 ### What's Changed
