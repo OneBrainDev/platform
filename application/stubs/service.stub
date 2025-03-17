@@ -1,0 +1,21 @@
+<?php declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use Platform\Shared\Traits\HasRepository;
+use Platform\Shared\Contracts\ServiceContract;
+use Platform\Shared\Contracts\DataObjectContract;
+use {{ modelNamespace }};
+
+final class {{ class }} implements ServiceContract
+{
+    use HasRepository;
+
+    private string $repo = {{ model }}Repository::class;
+
+    public function handle(DataObjectContract $dto): mixed
+    {
+        //
+        return true;
+    }
+}
