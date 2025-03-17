@@ -79,47 +79,7 @@ declare module 'ziggy-js' {
             "name": "view",
             "required": false
         }
-    ],
-    "accounts.create": [],
-    "accounts.store": [],
-    "accounts.index": [
-        {
-            "name": "subdomain",
-            "required": true
-        }
-    ],
-    "accounts.show": [
-        {
-            "name": "subdomain",
-            "required": true
-        },
-        {
-            "name": "id",
-            "required": true
-        }
-    ],
-    "accounts.edit": [
-        {
-            "name": "subdomain",
-            "required": true
-        },
-        {
-            "name": "id",
-            "required": true
-        }
-    ],
-    "accounts.update": [
-        {
-            "name": "subdomain",
-            "required": true
-        },
-        {
-            "name": "id",
-            "required": true
-        }
-    ],
-    "clinics.index": [],
-    "users.index": []
+    ]
 }
 }
 export {};

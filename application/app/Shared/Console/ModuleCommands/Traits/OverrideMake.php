@@ -8,6 +8,17 @@ use Symfony\Component\Console\Input\InputArgument;
 
 trait OverrideMake
 {
+    /**
+     * Build the class with the given name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    protected function buildClass($name)
+    {
+        return parent::buildClass($name);
+    }
+
     protected function configNamespace(): string
     {
         return '';
@@ -70,6 +81,18 @@ trait OverrideMake
             : '';
 
         return Config::string('modules.module_folder')."/{$moduleName}{$srcFolder}";
+    }
+
+    /**
+     * @param  array<string|int, string>  $tokens
+     */
+    protected function replaceTokens(string $stub, array $tokens): string
+    {
+        foreach ($tokens as $key => $value) {
+            $stub = str_replace((string) $key, $value, $stub);
+        }
+
+        return $stub;
     }
 
     /**

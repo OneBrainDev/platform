@@ -4,5 +4,5 @@ namespace Platform\Shared\Contracts;
 
 interface ServiceContract
 {
-    //
+    public function handle(DataObjectContract $data): mixed;
 }

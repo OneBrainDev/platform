@@ -35,6 +35,26 @@ final class ModuleMakeCommand extends GeneratorCommand
         $this->line('Writing composer file ');
         $this->buildComposer();
 
+        $this->line('Writing Model file ');
+        $this->call('module:model', [
+            'name' => Str::ucfirst(Str::singular($this->argument('name'))),
+            'module' => $this->module,
+            '--factory' => true,
+            '--seed' => true,
+        ]);
+
+        $this->line('Writing Repository file ');
+        $this->call('module:repository', [
+            'name' => Str::ucfirst(Str::singular($this->argument('name')))."Repository",
+            'module' => $this->module,
+        ]);
+
+        $this->line('Writing Collection file ');
+        $this->call('module:collection', [
+            'name' => Str::ucfirst(Str::singular($this->argument('name')))."Collection",
+            'module' => $this->module,
+        ]);
+
         $this->line('Writing module service provider ');
         $this->buildServiceProvider();
 
@@ -44,7 +64,7 @@ final class ModuleMakeCommand extends GeneratorCommand
         $this->line('Done.');
         $this->info('you should now run composer update');
 
-        return true;
+        return null;
     }
 
     protected function getStub(): string
@@ -101,6 +121,8 @@ final class ModuleMakeCommand extends GeneratorCommand
     private function buildServiceProvider(): void
     {
         $providerName = Str::ucfirst($this->argument('name')).'ServiceProvider';
+        $moduleName = Str::ucfirst($this->module);
+        $singularModuleName = Str::singular($moduleName);
 
         $this->call('make:any', [
             'name' => Config::string('modules.namespaces.provider').'\\'.$providerName,
@@ -111,6 +133,12 @@ final class ModuleMakeCommand extends GeneratorCommand
                 '{{namespace}}' => Config::string('modules.root_namespace').'\\'.Str::ucfirst($this->argument('name')).Config::string('modules.namespaces.provider'),
                 '{{class}}' => $providerName,
                 '{{moduleName}}' => $this->module,
+                '{{model}}' => $singularModuleName,
+                '{{repositoryName}}' => $singularModuleName."Repository",
+                '{{seederName}}' => $singularModuleName."Seeder",
+                '{{importModel}}' => Config::string('modules.root_namespace').'\\'.Str::ucfirst($this->argument('name')) . Config::string('modules.namespaces.model').'\\'.$singularModuleName,
+                '{{importRepository}}' => Config::string('modules.root_namespace').'\\'.Str::ucfirst($this->argument('name')) . Config::string('modules.namespaces.repositories').'\\'.$singularModuleName."Repository",
+                '{{importSeeder}}' =>  Config::string('modules.root_namespace').'\\'.Str::ucfirst($this->argument('name')) . Config::string('modules.namespaces.seeder') .'\\'.$singularModuleName."Seeder",
                 '{{migrationPath}}' => Str::replace('\\', '/', Config::string('modules.namespaces.migration')),
                 '{{routePath}}' => Str::replace('\\', '/', Config::string('modules.namespaces.route')),
                 '{{configPath}}' => Str::replace('\\', '/', Config::string('modules.namespaces.config')),

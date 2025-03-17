@@ -3,9 +3,9 @@
 namespace Platform\Shared\Console\MultiTenantCommands\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
 use Platform\Shared\Helpers\ModuleHelper;
-use Platform\Shared\ConnectionManager\TenantManager;
 use Platform\Shared\ConnectionManager\TenantConnectionManager;
 
 final class MultiTenantMigrateCommand extends Command
@@ -22,12 +22,10 @@ final class MultiTenantMigrateCommand extends Command
      */
     private array $modules = [];
     private TenantConnectionManager $tenantConnection;
-    private TenantManager $tenantManager;
 
     public function handle(): void
     {
         $this->modules = (new ModuleHelper())->getModuleNames();
-        $this->tenantManager = new TenantManager();
         $this->tenantConnection = new TenantConnectionManager();
 
         if ($this->option('primary') || $this->option('all')) {
@@ -73,7 +71,7 @@ final class MultiTenantMigrateCommand extends Command
     {
         $tenants = $tenant
             ? [$tenant]
-            : $this->tenantManager->getTenants();
+            : DB::select("SHOW DATABASES LIKE 'tenant_%s'");
 
         collect($this->modules)->each(function ($module) use ($tenants) {
             collect($tenants)->each(function ($tenant) use ($module) {

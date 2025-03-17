@@ -14,10 +14,8 @@
       "laravel/horizon": "^5.27",
       "laravel/pennant": "^1.14",
       "laravel/tinker": "^2.9",
-      "platform/accounts": "*",
       "predis/predis": "^2.3",
       "tightenco/ziggy": "^2.5",
-      "platform/clinics": "*",
       "platform/users": "*"
    },
    "require-dev": {
@@ -48,19 +46,17 @@
       "post-autoload-dump": [
          "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
          "@php artisan package:discover --ansi",
-         "task platform:env",
+         "task env",
          "@php artisan ziggy:generate --types"
       ],
       "post-update-cmd": [
-         "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-         "task platform:env",
-         "@php artisan ziggy:generate --types"
+         "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
       ],
       "post-root-package-install": [
-         "task platform:env-init"
+         "task env"
       ],
       "post-create-project-cmd": [
-         "task platform:env-init",
+         "task env",
          "@php artisan migrate --graceful --ansi"
       ]
    },

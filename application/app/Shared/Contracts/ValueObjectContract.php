@@ -4,9 +4,13 @@ namespace Platform\Shared\Contracts;
 
 interface ValueObjectContract
 {
-    // /**
-    //  * @return array<\Illuminate\Contracts\Validation\ValidationRule|string>
-    //  */
-    // public static function rules(): array;
+    /**
+     * @return array<int, \Illuminate\Contracts\Validation\ValidationRule|string>
+     */
+    public static function rules(): array;
 
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(): array;
 }

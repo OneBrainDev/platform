@@ -4,6 +4,15 @@ namespace Platform\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Platform\Shared\Console\MakeCommands\Console\QueryMakeCommand;
+use Platform\Shared\Console\MakeCommands\Console\ActionMakeCommand;
+use Platform\Shared\Console\MakeCommands\Console\ServiceMakeCommand;
+use Platform\Shared\Console\MakeCommands\Console\CollectionMakeCommand;
+use Platform\Shared\Console\MakeCommands\Console\DataObjectMakeCommand;
+use Platform\Shared\Console\MakeCommands\Console\RepositoryMakeCommand;
+use Platform\Shared\Console\MakeCommands\Console\ValueObjectMakeCommand;
+use Platform\Shared\Console\PlatformCommands\Console\GenerateEnvCommand;
+use Platform\Shared\Console\MultiTenantCommands\Console\MultiTenantMigrateCommand;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -15,7 +24,15 @@ final class AppServiceProvider extends ServiceProvider
         Route::pattern('subdomain', "[0-9A-Za-z\-]+");
 
         $this->commands([
-            \Platform\Shared\Console\MultiTenantCommands\Console\MultiTenantMigrateCommand::class,
+            ActionMakeCommand::class,
+            CollectionMakeCommand::class,
+            DataObjectMakeCommand::class,
+            GenerateEnvCommand::class,
+            MultiTenantMigrateCommand::class,
+            QueryMakeCommand::class,
+            RepositoryMakeCommand::class,
+            ServiceMakeCommand::class,
+            ValueObjectMakeCommand::class,
         ]);
 
         if ($this->app->environment('local')) {

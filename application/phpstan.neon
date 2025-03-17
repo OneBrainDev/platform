@@ -1,17 +1,19 @@
 includes:
-    - ./vendor/larastan/larastan/extension.neon
-    - ./vendor/yamadashy/phpstan-friendly-formatter/extension.neon
+	- ./vendor/larastan/larastan/extension.neon
+	- ./vendor/yamadashy/phpstan-friendly-formatter/extension.neon
 
 parameters:
-    errorFormat: friendly
+	errorFormat: friendly
 
-    paths:
-        - app/
-        - modules/
+	ignoreErrors:
+		- '#Trait [a-zA-Z0-9\\_]+ is used zero times and is not analysed#'
 
-    level: 8
+	paths:
+		- app/
+		- modules/
 
-    excludePaths:
-        - ./app/tests/*
-        - ./modules/*/tests/*
+	level: 8
 
+	excludePaths:
+		- ./app/tests/*
+		- ./modules/*/tests/*

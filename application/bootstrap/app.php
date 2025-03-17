@@ -10,9 +10,11 @@ use Platform\Accounts\Presentation\Http\Middleware\FindTenantAccount;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: [
+            __DIR__.'/../routes/web.php',
             ...glob(__DIR__.'/../modules/*/routes/web.php'),
         ],
         api: [
+            __DIR__.'/../routes/api.php',
             ...glob(__DIR__.'/../modules/*/routes/api.php'),
         ],
         commands: __DIR__.'/../routes/console.php',

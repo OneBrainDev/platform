@@ -75,3 +75,14 @@ arch('Services', function (string $module) {
       ->toBeFinal()
       ->toHaveSuffix('Service');
 })->with('modulenamespaces');
+
+arch('Repositories', function (string $module) {
+    expect("Platform\\{$module}\\Domain\\Repositories")
+      ->classes()
+      ->toExtend('Platform\Shared\Abstractions\Repository')
+      ->toBeFinal()
+      ->not->toHavePrivateMethods()
+      ->not->toHavePublicMethods()
+      ->not->toHaveProtectedMethods()
+      ->toHaveSuffix('Repository');
+})->with('modulenamespaces');

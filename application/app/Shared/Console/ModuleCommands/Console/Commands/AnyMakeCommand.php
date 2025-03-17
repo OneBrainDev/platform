@@ -58,18 +58,6 @@ final class AnyMakeCommand extends GeneratorCommand
         ]);
     }
 
-    /**
-     * @param  array<string|int, string>  $tokens
-     */
-    protected function replaceTokens(string $stub, array $tokens): string
-    {
-        foreach ($tokens as $find => $replace) {
-            $stub = str_replace((string) $find, $replace, $stub);
-        }
-
-        return $stub;
-    }
-
     protected function useSrcPath(): bool
     {
         return (bool) $this->option('src');
