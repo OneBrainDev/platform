@@ -1,0 +1,47 @@
+import { fileURLToPath, URL } from 'node:url'
+import laravel from 'laravel-vite-plugin'
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueDevTools from 'vite-plugin-vue-devtools'
+import path from 'node:path'
+
+export default defineConfig({
+   envDir: '.',
+   build: {
+      cssCodeSplit: true,
+      manifest: true,
+      sourcemap: true,
+      emptyOutDir: true,
+   },
+   server: {
+      host: '#{{DOCKER_URL}}#',
+      https: {
+         key: '../../#{{DOCKER_LOCAL_CERT_KEY}}#',
+         cert: '../../#{{DOCKER_LOCAL_CERT}}#',
+      },
+      cors: true,
+      port: #{{DOCKER_PORT_VITE}}#,
+      hmr: {
+         host: 'https://#{{DOCKER_URL}}#',
+      },
+      watch: {
+         usePolling: true,
+      },
+   },
+   plugins: [
+      laravel({
+         detectTls: 'https://#{{DOCKER_URL}}#',
+         input: 'app.js',
+         refresh: true,
+         publicDirectory: '../..#{{DOCKER_PATH_WEBROOT_RELATIVE}}#',
+      }),
+      vue(),
+      vueDevTools(),
+   ],
+   resolve: {
+      alias: {
+         '@': fileURLToPath(new URL('./src', import.meta.url)),
+         'ziggy-js': path.resolve('../../#{{DOCKER_PATH_ZIGGY}}#'),
+      },
+   },
+})
