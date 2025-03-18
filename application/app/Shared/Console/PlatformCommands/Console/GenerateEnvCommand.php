@@ -22,7 +22,7 @@ class GenerateEnvCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'generate:env';
+    protected $signature = 'generate:env {--oldNamespace=} {--newNamespace=}';
 
     /**
      * @param array<string, string>  $config
@@ -37,6 +37,8 @@ class GenerateEnvCommand extends Command
     public function handle(): int
     {
         $this->config = $this->getConfig();
+
+        $this->replaceNamespace($this->option('oldNamespace'), $this->option('newNamespace'));
 
         // top
         $this->replaceEnv('/../.env.example', '/../.env');
@@ -77,5 +79,17 @@ class GenerateEnvCommand extends Command
         $stub = str_replace(array_keys($this->config), array_values($this->config), $stub);
 
         $this->files->put(base_path($filepath), $stub);
+    }
+
+    private function replaceNamespace(?string $oldNamespace = null, ?string $newNamespace = null): void
+    {
+        if ($oldNamespace && $newNamespace) {
+            $this->info("Updating Namespace: $oldNamespace to $newNamespace");
+
+            // "egrep -rl 'Joe\\' ./ | xargs -I@ sed -i '' 's/Joe\\/Platform\\/g' @"
+            // dd("egrep -rl '$oldNamespace\\\\' ./ | xargs -I@ sed -i '' 's/$oldNamespace\\\\/$newNamespace\\\\/g' @");
+
+            shell_exec("egrep -rl '$oldNamespace\\\\' ./ | xargs -I@ sed -i '' 's/$oldNamespace\\\\/$newNamespace\\\\/g' @");
+        }
     }
 }
