@@ -14,15 +14,15 @@ export default defineConfig({
       emptyOutDir: true,
    },
    server: {
-      host: '#{{DOCKER_URL}}#',
+      host: '#{{URL}}#',
       https: {
-         key: '../../#{{DOCKER_LOCAL_CERT_KEY}}#',
-         cert: '../../#{{DOCKER_LOCAL_CERT}}#',
+         key: '../../#{{LOCAL_CERT_KEY}}#',
+         cert: '../../#{{LOCAL_CERT}}#',
       },
       cors: true,
-      port: #{{DOCKER_PORT_VITE}}#,
+      port: #{{PORT_VITE}}#,
       hmr: {
-         host: 'https://#{{DOCKER_URL}}#',
+         host: 'https://#{{URL}}#',
       },
       watch: {
          usePolling: true,
@@ -30,10 +30,10 @@ export default defineConfig({
    },
    plugins: [
       laravel({
-         detectTls: 'https://#{{DOCKER_URL}}#',
+         detectTls: 'https://#{{URL}}#',
          input: 'app.js',
          refresh: true,
-         publicDirectory: '../..#{{DOCKER_PATH_WEBROOT_RELATIVE}}#',
+         publicDirectory: '../..#{{PATH_WEBROOT_RELATIVE}}#',
       }),
       vue(),
       vueDevTools(),
@@ -41,7 +41,7 @@ export default defineConfig({
    resolve: {
       alias: {
          '@': fileURLToPath(new URL('./src', import.meta.url)),
-         'ziggy-js': path.resolve('../../#{{DOCKER_PATH_ZIGGY}}#'),
+         'ziggy-js': path.resolve('../../#{{PATH_ZIGGY}}#'),
       },
    },
 })

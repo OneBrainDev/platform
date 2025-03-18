@@ -6,7 +6,7 @@ x-env: &env
 x-services-volume: &services-volume
   type: bind
   source: ./
-  target: ${DOCKER_PATH_ROOT}
+  target: ${PATH_ROOT}
 
 services:
   traefik:
@@ -15,10 +15,10 @@ services:
     networks:
       development:
         aliases:
-          - ${DOCKER_URL}
+          - ${URL}
     ports:
-      - "${DDOCKER_PORT}:80"
-      - "${DOCKER_PORT_SSL}:443"
+      - "${PORT}:80"
+      - "${PORT_SSL}:443"
     volumes:
       - <<: *services-volume
       - /var/run/docker.sock:/var/run/docker.sock:ro
@@ -30,14 +30,14 @@ services:
     container_name: platform_database
     <<: *env
     environment:
-      MYSQL_ROOT_PASSWORD: "${DOCKER_DB_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${DOCKER_DB_DATABASE}"
-      MYSQL_USER: "${DOCKER_DB_PASSWORD}"
-      MYSQL_PASSWORD: "${DOCKER_DB_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_PASSWORD}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
     networks:
       - development
     ports:
-      - "${DOCKER_PORT_MYSQL}:3306"
+      - "${PORT_MYSQL}:3306"
     volumes:
       - ./.infrastructure/conf/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./.infrastructure/volume_data/mysql/database_data/:/var/lib/mysql
@@ -48,20 +48,20 @@ services:
     networks:
       - development
     ports:
-      - "${DOCKER_PORT_REDIS}:6379"
+      - "${PORT_REDIS}:6379"
     volumes:
       - ./.infrastructure/volume_data/redis/data:/data
 
 #   docs:
 #     container_name: platform_docs
 #     <<: *env
-#     command: ["pnpm",  "--filter", "@platform/docs", "run", "docs:dev", "--port=${DOCKER_PORT_DOCS}","--host"]
+#     command: ["pnpm",  "--filter", "@platform/docs", "run", "docs:dev", "--port=${PORT_DOCS}","--host"]
 #     labels:
 #       - "traefik.enable=true"
-#       - "traefik.http.routers.docs.rule=Host(`${DOCKER_URL_DOCS}`)"
+#       - "traefik.http.routers.docs.rule=Host(`${URL_DOCS}`)"
 #       - "traefik.http.routers.docs.entrypoints=websecure"
 #       - "traefik.http.routers.docs.tls=true"
-#       - "traefik.http.services.docs.loadbalancer.server.port=${DOCKER_PORT_DOCS}"
+#       - "traefik.http.services.docs.loadbalancer.server.port=${PORT_DOCS}"
 #       - "traefik.http.services.docs.loadbalancer.server.scheme=http"
 #     volumes:
 #       - <<: *services-volume
@@ -113,23 +113,23 @@ services:
     depends_on:
       - traefik
     environment:
-      - NGINX_WEBROOT="${DOCKER_PATH_WEBROOT}"
+      - NGINX_WEBROOT="${PATH_WEBROOT}"
       - PHP_FPM_POOL_NAME="application-php-pool"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.application.rule=HostRegexp(`^(.+\\.)?${DOCKER_URL}$`)"
+      - "traefik.http.routers.application.rule=HostRegexp(`^(.+\\.)?${URL}$`)"
       - "traefik.http.routers.application.entrypoints=websecure"
       - "traefik.http.routers.application.tls=true"
-      - "traefik.http.services.application.loadbalancer.server.port=${DOCKER_PORT_APP:-8080}"
+      - "traefik.http.services.application.loadbalancer.server.port=${PORT_APP:-8080}"
       - "traefik.http.services.application.loadbalancer.server.scheme=http"
     networks:
       - development
     ports:
-      - "${DOCKER_PORT_APP:-8080}:80"
-      - "${DOCKER_PORT_VITE:-3000}:3000"
+      - "${PORT_APP:-8080}:80"
+      - "${PORT_VITE:-3000}:3000"
     volumes:
       - <<: *services-volume
-    working_dir: ${DOCKER_PATH_APP}
+    working_dir: ${PATH_APP}
 
   horizon:
     <<: *env
@@ -147,23 +147,23 @@ services:
     stop_signal: SIGTERM
     volumes:
       - <<: *services-volume
-    working_dir: ${DOCKER_PATH_APP}
+    working_dir: ${PATH_APP}
 
   storage:
     container_name: platform_storage
     image: 'minio/minio:latest'
     environment:
-        MINIO_ROOT_USER: ${DOCKER_STORAGE_USERNAME}
-        MINIO_ROOT_PASSWORD: ${DOCKER_STORAGE_PASSWORD}
+        MINIO_ROOT_USER: ${STORAGE_USERNAME}
+        MINIO_ROOT_PASSWORD: ${STORAGE_PASSWORD}
     ports:
-        - '${DOCKER_PORT_STORAGE:-9000}:${DOCKER_PORT_STORAGE:-9000}'
-        - '${DOCKER_PORT_STORAGE_CONSOLE:-8900}:${DOCKER_PORT_STORAGE_CONSOLE:-8900}'
+        - '${PORT_STORAGE:-9000}:${PORT_STORAGE:-9000}'
+        - '${PORT_STORAGE_CONSOLE:-8900}:${PORT_STORAGE_CONSOLE:-8900}'
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.storage.rule=Host(`${DOCKER_URL_STORAGE}`)"
+      - "traefik.http.routers.storage.rule=Host(`${URL_STORAGE}`)"
       - "traefik.http.routers.storage.entrypoints=websecure"
       - "traefik.http.routers.storage.tls=true"
-      - "traefik.http.services.storage.loadbalancer.server.port=${DOCKER_PORT_STORAGE:-9000}"
+      - "traefik.http.services.storage.loadbalancer.server.port=${PORT_STORAGE:-9000}"
       - "traefik.http.services.storage.loadbalancer.server.scheme=http"
     volumes:
         - ./.infrastructure/volume_data/storage/data:/data
@@ -173,7 +173,7 @@ services:
        - traefik
        - application
 
-    command: minio server /data/minio --console-address ":${DOCKER_PORT_STORAGE_CONSOLE}"
+    command: minio server /data/minio --console-address ":${PORT_STORAGE_CONSOLE}"
 
   mailpit:
     container_name: platform_email
@@ -181,14 +181,14 @@ services:
     networks:
       - development
     ports:
-        - '${DOCKER_PORT_EMAIL:-1025}:1025'
-        - '${DOCKER_PORT_EMAIL_DASHBOARD:-8025}:8025'
+        - '${PORT_EMAIL:-1025}:1025'
+        - '${PORT_EMAIL_DASHBOARD:-8025}:8025'
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.mailpit.rule=Host(`${DOCKER_URL_EMAIL}`)"
+      - "traefik.http.routers.mailpit.rule=Host(`${URL_EMAIL}`)"
       - "traefik.http.routers.mailpit.entrypoints=websecure"
       - "traefik.http.routers.mailpit.tls=true"
-      - "traefik.http.services.mailpit.loadbalancer.server.port=${DOCKER_PORT_EMAIL_DASHBOARD}"
+      - "traefik.http.services.mailpit.loadbalancer.server.port=${PORT_EMAIL_DASHBOARD}"
       - "traefik.http.services.mailpit.loadbalancer.server.scheme=http"
     depends_on:
       - traefik

@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
 return [
-    'root_namespace' => 'Platform',
-    'module_folder' => 'modules',
-    'src_folder' => 'src',
+    'root_namespace' => env('MODULE_NAMESPACE', 'Platform'),
+    'module_folder' => env('MODULE_FOLDER', 'modules'),
+    'src_folder' => env('MODULE_SRC', 'src'),
     'namespaces' => [
         'actions' => '\Domain\Actions',
         'casts' => '\Domain\Casts',
