@@ -15,8 +15,7 @@
       "laravel/pennant": "^1.14",
       "laravel/tinker": "^2.9",
       "predis/predis": "^2.3",
-      "tightenco/ziggy": "^2.5",
-      "platform/users": "*"
+      "tightenco/ziggy": "^2.5"
    },
    "require-dev": {
       "barryvdh/laravel-ide-helper": "^3.4",

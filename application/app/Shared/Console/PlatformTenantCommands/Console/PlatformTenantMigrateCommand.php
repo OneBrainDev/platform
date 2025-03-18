@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Platform\Shared\Console\MultiTenantCommands\Console;
+namespace Platform\Shared\Console\PlatformTenantCommands\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Config;
 use Platform\Shared\Helpers\ModuleHelper;
 use Platform\Shared\ConnectionManager\TenantConnectionManager;
 
-final class MultiTenantMigrateCommand extends Command
+final class PlatformTenantMigrateCommand extends Command
 {
-    protected $signature = 'multi:migrate
+    protected $signature = 'platform:migrate
         {tenant? : run migrations for a single tenant}
         {--tenants : run migrations for all the tenants}
         {--primary : run all shared migrations across modules}

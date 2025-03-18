@@ -12,7 +12,7 @@ use Platform\Shared\Console\MakeCommands\Console\DataObjectMakeCommand;
 use Platform\Shared\Console\MakeCommands\Console\RepositoryMakeCommand;
 use Platform\Shared\Console\MakeCommands\Console\ValueObjectMakeCommand;
 use Platform\Shared\Console\PlatformCommands\Console\GenerateEnvCommand;
-use Platform\Shared\Console\MultiTenantCommands\Console\MultiTenantMigrateCommand;
+use Platform\Shared\Console\PlatformTenantCommands\Console\PlatformTenantMigrateCommand;
 
 final class AppServiceProvider extends ServiceProvider
 {
@@ -28,7 +28,7 @@ final class AppServiceProvider extends ServiceProvider
             CollectionMakeCommand::class,
             DataObjectMakeCommand::class,
             GenerateEnvCommand::class,
-            MultiTenantMigrateCommand::class,
+            PlatformTenantMigrateCommand::class,
             QueryMakeCommand::class,
             RepositoryMakeCommand::class,
             ServiceMakeCommand::class,
