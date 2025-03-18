@@ -35,8 +35,8 @@ return [
                 'name' => env('DB_PRIMARY_NAME', 'primary'),
                 'prefix' => env('DB_PRIMARY_PREFIX', ''),
                 'connection_name' => env('DB_PRIMARY_CONNECTION_NAME', 'primary'),
-                'migration_path' => env('DB_PRIMARY_MIGRATION_PATH', 'database/migrations/primary'),
-                'module_migration_path' => 'modules/%s/database/migrations/primary',
+                'migration_path' => env('DB_PRIMARY_MIGRATION_PATH', 'database/migrations'),
+                'module_migration_path' => 'modules/%s/database/migrations',
                 'schema_path' => env('DB_PRIMARY_SCHEMA_PATH', 'database/schema/primary-schema.dump'),
             ],
             'tenant' => [

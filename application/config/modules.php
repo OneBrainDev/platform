@@ -47,7 +47,6 @@ return [
         'database' => [
             'factories' => [],
             'migrations' => [
-                'primary' => [],
                 'tenant' => [],
             ],
             'seeders' => [],
