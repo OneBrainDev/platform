@@ -38,11 +38,17 @@ class GenerateEnvCommand extends Command
     {
         $this->config = $this->getConfig();
 
+        // Namespace: optional
         $this->replaceNamespace($this->option('oldNamespace'), $this->option('newNamespace'));
 
         // top
         $this->replaceEnv('/../.env.example', '/../.env');
         $this->info('created .env file for docker');
+
+        // docker-compose
+        $this->replaceEnv('/../.infrastructure/stubs/docker-compose.stub', '/../docker-compose.yml');
+        $this->replaceEnv('/../.infrastructure/stubs/docker-compose.dev.stub', '/../docker-compose.dev.yml');
+        $this->info('created docker compose files');
 
         // laravel
         $this->replaceEnv('.env.example', '.env');
@@ -53,11 +59,11 @@ class GenerateEnvCommand extends Command
         $this->info('created .env file for web');
 
         // init db
-        $this->replaceEnv('/../.infrastructure/conf/mysql/init.stub', '/../.infrastructure/conf/mysql/init.sql');
+        $this->replaceEnv('/../.infrastructure/stubs/init.stub', '/../.infrastructure/conf/mysql/init.sql');
         $this->info('created init.db file for mysql');
 
         // vite
-        $this->replaceEnv('/../frontend/web/vite.config.stub', '/../frontend/web/vite.config.ts');
+        $this->replaceEnv('/../.infrastructure/stubs/vite.config.stub', '/../frontend/web/vite.config.ts');
         $this->info('created vite.config.ts file');
 
         return 0;
@@ -85,9 +91,6 @@ class GenerateEnvCommand extends Command
     {
         if ($oldNamespace && $newNamespace) {
             $this->info("Updating Namespace: $oldNamespace to $newNamespace");
-
-            // "egrep -rl 'Joe\\' ./ | xargs -I@ sed -i '' 's/Joe\\/Platform\\/g' @"
-            // dd("egrep -rl '$oldNamespace\\\\' ./ | xargs -I@ sed -i '' 's/$oldNamespace\\\\/$newNamespace\\\\/g' @");
 
             shell_exec("egrep -rl '$oldNamespace\\\\' ./ | xargs -I@ sed -i '' 's/$oldNamespace\\\\/$newNamespace\\\\/g' @");
         }
