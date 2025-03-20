@@ -13,7 +13,7 @@ services:
   #     context: .
   #     target: frontend
   #     args:
-  #       - WORKDIR=/platform/docs
+  #       - WORKDIR=#{{PATH_DOCS}}#
   #       - PACKAGES=docs
   #   depends_on:
   #     - traefik
@@ -23,7 +23,7 @@ services:
       context: .
       target: frontend
       args:
-        - WORKDIR=/platform
+        - WORKDIR=#{{PATH_FRONTEND_ROOT}}#
         - PACKAGES=frontend
     depends_on:
       - traefik
@@ -34,7 +34,7 @@ services:
       context: .
       target: frontend
       args:
-        - WORKDIR=/platform
+        - WORKDIR=#{{PATH_FRONTEND_ROOT}}#
         - PACKAGES=frontend
     depends_on:
       - traefik

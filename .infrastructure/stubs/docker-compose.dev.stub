@@ -10,7 +10,7 @@ x-services-volume: &services-volume
 
 services:
   traefik:
-    container_name: platform_proxy
+    container_name: #{{CONTAINER_PREFIX}}#proxy
     <<: *env
     networks:
       development:
@@ -27,7 +27,7 @@ services:
       - ./.infrastructure/conf/traefik/dev/certificates/:/certificates
 
   mysql:
-    container_name: platform_database
+    container_name: #{{CONTAINER_PREFIX}}#database
     <<: *env
     environment:
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
@@ -43,7 +43,7 @@ services:
       - ./.infrastructure/volume_data/mysql/database_data/:/var/lib/mysql
 
   redis:
-    container_name: platform_redis
+    container_name: #{{CONTAINER_PREFIX}}#redis
     command: "redis-server --appendonly yes"
     networks:
       - development
@@ -53,7 +53,7 @@ services:
       - ./.infrastructure/volume_data/redis/data:/data
 
   #   docs:
-  #     container_name: platform_docs
+  #     container_name: #{{CONTAINER_PREFIX}}#docs
   #     <<: *env
   #     command: ["pnpm",  "--filter", "@platform/docs", "run", "docs:dev", "--port=${PORT_DOCS}","--host"]
   #     labels:
@@ -69,7 +69,7 @@ services:
   #       - development
 
   blank:
-    container_name: platform_blank
+    container_name: #{{CONTAINER_PREFIX}}#blank
     <<: *env
     build:
       context: .
@@ -83,7 +83,7 @@ services:
       - <<: *services-volume
 
   web:
-    container_name: platform_web
+    container_name: #{{CONTAINER_PREFIX}}#web
     <<: *env
     build:
       context: .
@@ -103,7 +103,7 @@ services:
       - <<: *services-volume
 
   application:
-    container_name: platform_application
+    container_name: #{{CONTAINER_PREFIX}}#application
     <<: *env
     build:
       target: development
@@ -133,7 +133,7 @@ services:
 
   horizon:
     <<: *env
-    container_name: platform_horizon
+    container_name: #{{CONTAINER_PREFIX}}#horizon
     build:
       target: development
       args:
@@ -150,7 +150,7 @@ services:
     working_dir: ${PATH_APP}
 
   storage:
-    container_name: platform_storage
+    container_name: #{{CONTAINER_PREFIX}}#storage
     image: 'minio/minio:latest'
     environment:
       MINIO_ROOT_USER: ${STORAGE_USERNAME}
@@ -176,7 +176,7 @@ services:
     command: minio server /data/minio --console-address ":${PORT_STORAGE_CONSOLE}"
 
   mailpit:
-    container_name: platform_email
+    container_name: #{{CONTAINER_PREFIX}}#email
     image: axllent/mailpit
     networks:
       - development

@@ -1,6 +1,7 @@
 {
    "MODULE_NAMESPACE": "Platform",
    "MODULE_FOLDER": "modules",
+   "CONTAINER_PREFIX": "platform_",
    "MODULE_SRC": "src",
    "APP_NAME": "Platform",
    "URL": "platform.test",
@@ -13,6 +14,7 @@
    "PATH_WEBROOT": "/platform/application/public",
    "PATH_ZIGGY": "application/vendor/tightenco/ziggy",
    "PATH_WEBROOT_RELATIVE": "/application/public",
+   "PATH_FRONTEND_ROOT": "/platform",
    "PATH_APP": "/platform/application",
    "PATH_FRONTEND": "/platform/frontend/web",
    "PATH_DS": "/platform/frontend/ds",
