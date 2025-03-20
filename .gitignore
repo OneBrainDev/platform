@@ -21,7 +21,6 @@
 *.sw?
 *.tsbuildinfo
 auth.json
-cache
 coverage
 cypress/screenshots/
 cypress/videos/
