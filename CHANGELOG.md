@@ -1,5 +1,19 @@
 # Changelog
 
+## v2025.04.01.165823 - 2025-04-01
+
+### Bug Fixes
+
+- #50: fix: remove some config files that should be generated
+- #49: fix: generate env generates docker container names
+- #48: fix: laravel bug when the cache folder is not present
+
+### General Updates
+
+- #47: update: make the namespace on the laravel side configurable
+- #46: update: remove the primary database folder in migrations
+- #45: chore: update the main readme
+
 ## v2025.03.17.205945 - 2025-03-17
 
 ### Bug Fixes
