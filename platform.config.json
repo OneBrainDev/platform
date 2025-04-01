@@ -20,6 +20,7 @@
    "PATH_DS": "/platform/frontend/ds",
    "PATH_DOCS": "/platform/docs",
    "PORT": "80",
+   "PORT_XDEBUG": "9003",
    "PORT_VITE": "3000",
    "PORT_SSL": "443",
    "PORT_MYSQL": "3356",
