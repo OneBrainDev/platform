@@ -1,5 +1,12 @@
 # Changelog
 
+## v2025.04.02.182847 - 2025-04-02
+
+### General Updates and Security Fixes
+
+- #52: update: change git message line length to 60 characters
+- #51: update: add some new platform.config values and update some git workflow items
+
 ## v2025.04.01.165823 - 2025-04-01
 
 ### Bug Fixes
