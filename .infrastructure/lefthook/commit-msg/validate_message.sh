@@ -51,8 +51,8 @@ validate_commit_msg() {
         exit 1
     fi
 
-    if [[ "${#subject}" -gt 80 ]]; then
-        echo "${error_msg} Limit the subject line to 80 characters (${#commit_msg_lines[0]} characters used)"
+    if [[ "${#subject}" -gt 60 ]]; then
+        echo "${error_msg} Limit the subject line to 60 characters (${#commit_msg_lines[0]} characters used)"
         exit 1
     fi
 
