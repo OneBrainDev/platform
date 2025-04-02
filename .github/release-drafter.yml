@@ -1,7 +1,7 @@
 categories:
    - labels:
         - "breaking-change"
-     title: "Important Update or Changes"
+     title: "Breaking Changes"
    - labels:
         - "feature"
      title: "New Features"
@@ -10,10 +10,8 @@ categories:
      title: "Bug Fixes"
    - labels:
         - "update"
-        - "chore"
-        - "refactor"
         - "security"
-     title: "General Updates"
+     title: "General Updates and Security Fixes"
 
 change-template: "- #$NUMBER: $TITLE"
 template: |

@@ -3,10 +3,10 @@
 commit_msg="${1}"
 commit_msg_lines=()
 error_msg="[COMMIT FAILED]"
-allowed_subject_verbs=('bc:' 'feature:' 'fix:' 'update:' 'chore:' 'security:')
+allowed_subject_verbs=('bc:' 'feature:' 'fix:' 'update:' 'security:')
 allowed_subject_defs=(
+'subjects are imperitive, first word is a tag, not part of the sentence'
 'bc: breaking changes, including reverting'
-'chore: minor changes, doc updates'
 'feature: new thing'
 'fix: logic or bug fixes'
 'security: dependabot or security upgrades'

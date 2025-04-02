@@ -68,8 +68,8 @@ services:
   #     networks:
   #       - development
 
-  blank:
-    container_name: #{{CONTAINER_PREFIX}}#blank
+  ds:
+    container_name: #{{CONTAINER_PREFIX}}#ds
     <<: *env
     build:
       context: .
@@ -94,7 +94,7 @@ services:
     depends_on:
       traefik:
         condition: service_started
-      blank:
+      ds:
         condition: service_started
         restart: true
     environment:

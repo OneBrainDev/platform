@@ -17,7 +17,7 @@
    "PATH_FRONTEND_ROOT": "/platform",
    "PATH_APP": "/platform/application",
    "PATH_FRONTEND": "/platform/frontend/web",
-   "PATH_DS": "/platform/frontend/ds",
+   "PATH_DS": "/platform/frontend/blank",
    "PATH_DOCS": "/platform/docs",
    "PORT": "80",
    "PORT_XDEBUG": "9003",

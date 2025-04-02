@@ -1,6 +1,5 @@
-"breaking-change": ["bc/*", "revert/*"]
+"breaking-change": ["bc/*"]
 "feature": feature/*
 "fix": fix/*
-"update": ["update/*", "refactor/*"]
-"chore": ["chore/*"]
+"update": ["update/*"]
 "security": ["security/*", "dependabot"]
