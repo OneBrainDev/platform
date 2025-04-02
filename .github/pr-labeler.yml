@@ -1,5 +1,5 @@
 "breaking-change": ["bc/*"]
 "feature": feature/*
 "fix": fix/*
-"update": ["update/*"]
+"update": update/*
 "security": ["security/*", "dependabot"]
