@@ -1,0 +1,9 @@
+[submodule "frontend/blank"]
+	path = frontend/blank
+	url = git@github.com:OneBrainDev/Blank.git
+[submodule "application/tests/Architecture"]
+	path = application/tests/Architecture
+	url = git@github.com:OneBrainDev/PlatformCommonTests.git
+[submodule "application/app/Shared"]
+	path = application/app/Shared
+	url = git@github.com:OneBrainDev/PlatformCommon.git
