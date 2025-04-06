@@ -36,10 +36,10 @@ return Application::configure(basePath: dirname(__DIR__))
             // 'verified' => \Platform\Http\Middleware\EnsureEmailIsVerified::class,
         ]);
 
-        $middleware->group('tenant', [
-            FindTenantAccount::class,
-            ConnectToTenant::class
-        ]);
+        // $middleware->group('tenant', [
+        //     FindTenantAccount::class,
+        //     ConnectToTenant::class
+        // ]);
 
         //
     })
