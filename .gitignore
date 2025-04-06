@@ -40,7 +40,6 @@ pnpm-debug.log*
 public/build
 public/hot
 public/storage
-storage
 storage/*.key
 test-results/
 vendor
@@ -50,3 +49,4 @@ yarn-error.log*
 .infrastruture/volume_data/
 .infrastruture/traefik/
 _ide_helper*
+init.sql
