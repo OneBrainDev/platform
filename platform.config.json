@@ -12,7 +12,6 @@
    "LOCAL_CERT": ".infrastructure/conf/traefik/dev/certificates/local-dev.pem",
    "PATH_ROOT": "/platform",
    "PATH_WEBROOT": "/platform/application/public",
-   "PATH_ZIGGY": "application/vendor/tightenco/ziggy",
    "PATH_WEBROOT_RELATIVE": "/application/public",
    "PATH_FRONTEND_ROOT": "/platform",
    "PATH_APP": "/platform/application",

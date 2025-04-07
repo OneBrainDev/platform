@@ -9,6 +9,11 @@ tasks:
       cmds:
          - rm -Rf dist blank/dist web/dist
 
+   install:
+      cmds:
+         - rm -Rf node_modules pnpm-lock.yaml web/node_modules web/pnpm-lock.yaml web/dist
+         - pnpm install --recursive
+
    clean:
       cmds:
          - rm -Rf node_modules pnpm-lock.yaml dist blank/node_modules blank/pnpm-lock.yaml blank/dist web/node_modules web/pnpm-lock.yaml web/dist
