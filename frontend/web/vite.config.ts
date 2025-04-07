@@ -41,7 +41,8 @@ export default defineConfig({
    resolve: {
       alias: {
          '@': fileURLToPath(new URL('./src', import.meta.url)),
-         'ziggy-js': path.resolve('../../application/vendor/tightenco/ziggy'),
+         "@actions/": fileURLToPath(new URL('./src', import.meta.url)) + "/router/actions",
+         "@routes/": fileURLToPath(new URL('./src', import.meta.url)) + "/router/routes",
       },
    },
 })

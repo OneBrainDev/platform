@@ -19,7 +19,7 @@ includes:
 
 tasks:
    env:
-      desc: Update the .env files
+      desc: Update all .env and generated stub files
       dir: ./application
       cmds:
          - php artisan generate:env
@@ -27,6 +27,7 @@ tasks:
    init:
       desc: Install everything and start docker
       cmds:
+         - task: env
          - task: app:install
          - task: front:install
 

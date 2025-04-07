@@ -11,6 +11,11 @@ tasks:
       cmds:
          - composer du
 
+   routes:
+      desc: Generate routes for the front end
+      cmds:
+         - php artisan wayfinder:generate --path=../frontend/web/src/router
+
    format:
       desc: Formats application code with Pint
       cmds:
@@ -19,6 +24,7 @@ tasks:
    install:
       desc: Install all the packages for the application
       cmds:
+         - rm -Rf vendor composer.lock
          - composer install
 
    lint:
