@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e4eb35ea936e041d6b707a6ca064e4f6",
+    "content-hash": "cbd81f9edd59a0775e5555ffc7d1a014",
     "packages": [
         {
             "name": "brick/math",
@@ -3522,38 +3522,6 @@
                 }
             ],
             "time": "2024-07-20T21:41:07+00:00"
-        },
-        {
-            "name": "platform/accounts",
-            "version": "1.0",
-            "dist": {
-                "type": "path",
-                "url": "modules/accounts",
-                "reference": "a04139a3b535fcc3f17a05c840d9f5ec548ab157"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Platform\\Accounts\\Providers\\AccountsServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Platform\\Accounts\\": "src/",
-                    "Platform\\Accounts\\Tests\\": "tests/",
-                    "Platform\\Accounts\\Database\\Factories\\": "database/factories/",
-                    "Platform\\Accounts\\Database\\Seeders\\": "database/seeders/"
-                }
-            },
-            "license": [
-                "proprietary"
-            ],
-            "transport-options": {
-                "symlink": true,
-                "relative": true
-            }
         },
         {
             "name": "predis/predis",
