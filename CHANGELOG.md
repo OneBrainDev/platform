@@ -1,5 +1,20 @@
 # Changelog
 
+## v2025.04.07.003309 - 2025-04-07
+
+### New Features
+
+- #56: feature: add in wayfinder and removes ziggy
+- #53: feature: add submodules for shared platform code
+
+### Bug Fixes
+
+- #54: fix: add in framework gitignore files
+
+### General Updates and Security Fixes
+
+- #55: update: update package.json and gitignore files
+
 ## v2025.04.02.182847 - 2025-04-02
 
 ### General Updates and Security Fixes
