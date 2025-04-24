@@ -1,66 +1,111 @@
+
 # Welcome to The Platform
 
-This is my full stack Laravel/Vue platform. It takes all the best practices, architecture principles, and battle tested concepts that I've been using for 20 years and puts them into one neat package.
+This is my full-stack Laravel/Vue platform. It combines best practices, solid architecture principles, and battle-tested concepts that I've developed over the past 20 years—all wrapped into one neat package.
 
 ## Disclaimer
 
-You can use this to build nearly anything you want. It gives you a firm base and you're able to adjust and change it as you see fit. It is important to note that I've structured this for what I consider to be a large project and a project that you, or someone else, is going to want/need to maintain for years to come. To that end, if you're looking to play around go for it, but if you've got a sort of throwaway idea you'll find that this adds a lot of weight to your application and it might not be necessary for you.
+You can use this platform to build almost anything. It provides a solid foundation, and you're free to adjust and modify it as needed. However, it's important to note that I've structured it with large, long-term projects in mind—projects that you (or someone else) will need to maintain for years.
+
+If you're just experimenting or working on a throwaway idea, you might find this setup a bit heavy. In such cases, a simpler approach may be more appropriate.
 
 ## Installing
 
-The process of using Platform is pretty straight-forward but you are going to need some things pre-installed on your computer before you can use it. Please note: these are hard requirements. 
+Getting started with The Platform is straightforward, but there are a few prerequisites. These are hard requirements—you'll need them installed before proceeding:
 
-- [Docker](https://docker.com) -- containers and container build tools
-- [Spin](https://serversideup.net/open-source/spin/) -- A tool from ServerSideUp that is used as the basis of our docker install
-- [PNPM](https://pnpm.io/) -- Like NPM but way faster. Platform uses PNPM Workspaces for the frontend so this isn't something you can just swap out for NPM
-- [Taskfile](https://taskfile.dev/) -- Think of it like Make if Make was designed to actually be a taskrunner. Awesome tool.
-- [Lefthook](https://lefthook.dev/) -- A great tool that will help manage your git-hooks.
+- [Docker](https://docker.com) — Containers and build tools
+- [Spin](https://serversideup.net/open-source/spin/) — A tool from ServerSideUp that forms the basis of our Docker setup
+- [PNPM](https://pnpm.io/) — A faster alternative to NPM. Required for frontend PNPM workspaces
+- [Taskfile](https://taskfile.dev/) — Think of it like Make, but designed as a modern task runner
+- [Lefthook](https://lefthook.dev/) — Manages Git hooks for you
 
-### Fork the Repo
+### Repository Structure & Cloning
 
-Don't clone this repo. That really doesn't make any sense, you're not going to be getting updates from here often. You want to fork it and create an `upstream` remote to the main repo here. That way if you want to pull in some updates you can.
+**Important:** This project uses Git submodules, so you'll need a few extra steps to clone everything properly.
 
-### Create your env files
+Why submodules? Because this platform isn't meant to pull regular updates from upstream. You'll likely customize and extend it heavily. That said, submodules are useful for sharing small, reusable pieces of code across projects.
 
-Out of the box Platform has 3 `.env.example` files. One is at the top level, needed for docker, one is in the application folder for laravel, and the last is in the web folder for vue/vite.
-
-Initially, you should run `task generate:env` to have the system generate all the necessary env files for you. This will use the `platform.config.json` file and replace any values in there in their respective env files. You can add to this and regenerate those files any time you'd like, but platform regenerates those files from the .env.example files so if you've changed your .env and not added those changes into the example file, regenerating will cause you to lose that data. 
-
-
-### Hosts
-
-Add the following to your host file:
+To clone the repository:
 
 ```bash
-127.0.0.1 platform.test               # the main website
-127.0.0.1 docs.platform.test          # VitePress documentation site
-127.0.0.1 storage.platform.test       # MinIO setup for local S3 storage
-127.0.0.1 mail.platform.test          # Mailpit
+git clone git@github.com:OneBrainDev/platform.git
+cd platform
+git submodule init
+git submodule update
 ```
-### Installing
 
-Two easy commands to get this whole thing going now:
+You now have all the code locally.
+
+### Environment Setup
+
+Environment setup here differs from a typical Laravel project. This platform separates concerns across multiple environments—Docker, Laravel, and the frontend. If you're adding something like NativePHP later, there may be even more.
+
+We use multiple `.env` files and a shared `platform.config.json` file to help manage them.
+
+Check out `platform.config.json` to see what's included. You can add anything you'd like here—just follow the existing conventions, and your values will be synced to the appropriate `.env` files.
+
+> **Important:** Do **not** include sensitive data in `platform.config.json`. It’s tracked by Git. Sensitive values should always go in the `.env` files themselves.
+
+### Initialization
+
+Run the following:
 
 ```bash
-$ task init
+cd platform
+task init
 ```
 
-This will pull down all the dependencies for the backend and frontend. It's a nice wrapper over over `composer install` and all the various `pnpm` commands.
+This will:
+
+1. Install all Laravel dependencies
+2. Install all frontend dependencies
+3. Generate all required environment and Docker config files
+
+### Hosts File
+
+Add the following entry to your system’s `hosts` file:
 
 ```bash
-$ task platform:start
+127.0.0.1 platform.test
 ```
 
-Once you've got all the dependencies installed you'll be able to start docker up and check everything out. The `--build` is only needed when you want to rebuild your containers so on subsequent starts you don't need it. The `--detach` is so that way you can continue to use your current terminal window. If you'd rather all the output be dumped into your current terminal session you can remove `--detach` too.
+#### Important URLs
 
-# What's in the box
+Platform includes preconfigured MinIO and Mailpit instances. Once your host file is updated and containers are running, you’ll be able to access:
 
-- Laravel 11+
-- Redis
-- MySql
-- Inertia + Vue3
-- Vue3 Design System
-- Docker
-- Vitepress for system documentation
-- Taskfile
+- https://platform.test
+- http://mail.platform.test:8250
+- http://storage.platform.test:9000
+- http://docs.platform.test:8080
 
+### Starting and Stopping the Platform
+
+Once everything is set up, you're ready to go.
+
+> Make sure Docker is running before starting the platform.
+
+To start:
+
+```bash
+cd platform
+task platform:start
+```
+
+Docker will spin up all services. This might take a few minutes, depending on your connection and system performance. The platform runs in detached mode by default, so your terminal will be free once it's loaded.
+
+To shut everything down:
+
+```bash
+task platform:stop
+```
+
+## Workflow
+
+### Frontend
+
+#### Web
+#### Blank
+
+### Backend
+
+## Docs
