@@ -8,15 +8,15 @@ services:
   redis:
     image: redis:7.2
 
-  # docs:
-  #   build:
-  #     context: .
-  #     target: frontend
-  #     args:
-  #       - WORKDIR=/platform/docs
-  #       - PACKAGES=docs
-  #   depends_on:
-  #     - traefik
+  docs:
+    build:
+      context: .
+      target: frontend
+      args:
+        - WORKDIR=/platform/docs
+        - PACKAGES=docs
+    depends_on:
+      - traefik
 
   ds:
     build:

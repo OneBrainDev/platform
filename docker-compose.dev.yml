@@ -52,21 +52,21 @@ services:
     volumes:
       - ./.infrastructure/volume_data/redis/data:/data
 
-  #   docs:
-  #     container_name: platform_docs
-  #     <<: *env
-  #     command: ["pnpm",  "--filter", "@platform/docs", "run", "docs:dev", "--port=${PORT_DOCS}","--host"]
-  #     labels:
-  #       - "traefik.enable=true"
-  #       - "traefik.http.routers.docs.rule=Host(`${URL_DOCS}`)"
-  #       - "traefik.http.routers.docs.entrypoints=websecure"
-  #       - "traefik.http.routers.docs.tls=true"
-  #       - "traefik.http.services.docs.loadbalancer.server.port=${PORT_DOCS}"
-  #       - "traefik.http.services.docs.loadbalancer.server.scheme=http"
-  #     volumes:
-  #       - <<: *services-volume
-  #     networks:
-  #       - development
+  docs:
+    container_name: platform_docs
+    <<: *env
+    command: ["pnpm",  "--filter", "@platform/docs", "run", "docs:dev", "--port=${PORT_DOCS}","--host"]
+    labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.docs.rule=Host(`${URL_DOCS}`)"
+        - "traefik.http.routers.docs.entrypoints=websecure"
+        - "traefik.http.routers.docs.tls=true"
+        - "traefik.http.services.docs.loadbalancer.server.port=${PORT_DOCS}"
+        - "traefik.http.services.docs.loadbalancer.server.scheme=http"
+    volumes:
+        - <<: *services-volume
+    networks:
+        - development
 
   ds:
     container_name: platform_ds
