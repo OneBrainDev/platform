@@ -5,7 +5,7 @@
 
 ARG with_xdebug=nodebug
 
-FROM serversideup/php:8.3-fpm-nginx AS base
+FROM serversideup/php:8.4-fpm-nginx AS base
 
 ## Uncomment if you need to install additional PHP extensions
 
@@ -40,7 +40,7 @@ RUN docker-php-serversideup-set-id www-data $USER_ID:$GROUP_ID  && \
 USER www-data
 
 # Base Frontend Image ..........................................................
-FROM node:22-slim AS frontend
+FROM node:24-slim AS frontend
 ARG WORKDIR
 ARG PACKAGES
 WORKDIR ${WORKDIR}
